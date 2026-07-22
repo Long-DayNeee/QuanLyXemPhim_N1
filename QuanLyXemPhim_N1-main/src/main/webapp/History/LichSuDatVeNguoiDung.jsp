@@ -1,0 +1,86 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/History/LichSuDatVeNguoiDung.css">
+  <title>Lịch sử đặt vé</title>
+</head>
+
+<body>
+  <button type="button" onclick="history.back()" class="btn-back">← Quay lại trang thông tin phim</button>
+  <input type="tel" id="phone" name="phone" placeholder="Nhập SĐT (10 số)" required pattern="0[0-9]{9}">
+  <button id="btn-view" type="button">Xem lịch sử</button>
+  <h2 style="text-align: center;">Lịch sử đặt vé</h2>
+  <div id="history"></div>
+</body>
+
+<script>
+  const histDiv = document.getElementById('history');
+  const justBooked = sessionStorage.getItem('justBooked');
+  const savedPhone = sessionStorage.getItem('phone');
+  let currentPhone = '';
+
+  function fetchHistoryByPhone(phone) {
+    currentPhone = phone;
+    // Thay đổi đường dẫn API trỏ đúng vào Servlet/Controller Java của bạn thay vì file .php
+    fetch(`${pageContext.request.contextPath}/api/history?phone=` + encodeURIComponent(phone))
+      .then(r => r.json())
+      .then(data => {
+        histDiv.innerHTML = data.map(r => {
+          const show = new Date(r.startTime);
+          const canCancel = Date.now() <= show.getTime() - 86400000;
+          return `
+            <div class="booking">
+              <h4>${r.title}</h4>
+              <p>Suất: ${show.toLocaleString('vi-VN')}</p>
+              <p>Ghế: ${r.seats}</p>
+              <p>Số vé: ${r.qty}</p>
+              <button onclick="window.open('${pageContext.request.contextPath}/HoaDon.jsp?group=${r.group}','_blank')">
+                In hóa đơn
+              </button>
+              ${canCancel ? `<button onclick="cancelGroup('${r.group}')">Hủy</button>` : ''}
+            </div>`;
+        }).join('');
+      });
+  }
+
+  async function cancelGroup(group) {
+    if (!confirm('Bạn chắc hủy vé đặt này?')) return;
+    const res = await fetch(`${pageContext.request.contextPath}/api/cancel_booking?group=` + group)
+                      .then(r => r.json());
+    if (res.ok) {
+      alert('Đã hủy vé thành công');
+      fetchHistoryByPhone(currentPhone);
+    } else {
+      alert(res.error);
+    }
+  }
+
+  if (savedPhone) {
+    // vừa book thì auto load
+    fetchHistoryByPhone(savedPhone);
+  }
+
+  document.getElementById('btn-view').addEventListener('click', () => {
+    const phoneInput = document.getElementById('phone');
+    const phone = phoneInput.value.trim();
+    const histDiv = document.getElementById('history');
+
+    if (!phone) {
+      histDiv.innerHTML = '<p>Vui lòng nhập số điện thoại.</p>';
+      return;
+    }
+    if (!phoneInput.checkValidity()) {
+      histDiv.innerHTML = `<p>${phoneInput.validationMessage}</p>`;
+      return;
+    }
+    sessionStorage.setItem('phone', phone);
+    // gọi API bằng phone
+    fetchHistoryByPhone(phone);
+  });
+</script>
+
+</html>
