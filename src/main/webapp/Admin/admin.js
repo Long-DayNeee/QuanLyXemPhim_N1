@@ -239,7 +239,9 @@ document.addEventListener('DOMContentLoaded', () => {
     movieForm.title.value = m.TieuDe;
     movieForm.duration.value = m.ThoiLuong;
     movieForm.ageRate.value = m.DoTuoi;
-    premiereInp.value = m.NgayChieu ? m.NgayChieu.split('T')[0] : '';
+    // FIX: API trả về key "NgayKhoiChieu" (đúng tên cột SQL), không phải "NgayChieu"
+    // -> trước đây luôn undefined, khiến ô ngày khởi chiếu bị trống mỗi lần bấm Sửa
+    premiereInp.value = m.NgayKhoiChieu ? m.NgayKhoiChieu.split('T')[0] : '';
     // premiere.min = new Date().toISOString().split('T')[0];
     movieForm.TheLoai.value = m.TheLoai;
     movieForm.price.value = m.GiaVe;

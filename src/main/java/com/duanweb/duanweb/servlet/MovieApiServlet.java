@@ -4,6 +4,8 @@ import com.duanweb.duanweb.dao.MovieDAO;
 import com.duanweb.duanweb.dao.MovieDAO.MovieData;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,6 +21,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+// FIX 1: servlet này trước đây KHÔNG có @WebServlet nên không được map vào URL nào cả
+// -> mọi request tới /api/movies đều trả 404, "API thêm phim" coi như không tồn tại khi chạy thực tế.
+// FIX 2: thêm @MultipartConfig để req.getPart()/getParts() hoạt động được với FormData (poster upload)
+// từ admin.js, nếu không sẽ ném IllegalStateException ngay khi gọi getFormValue().
+@WebServlet(urlPatterns = "/api/movies")
+@MultipartConfig(
+        maxFileSize = 10 * 1024 * 1024,       // 10MB / file
+        maxRequestSize = 20 * 1024 * 1024,    // 20MB / request
+        fileSizeThreshold = 1024 * 1024       // ghi ra đĩa nếu > 1MB, tránh tràn RAM
+)
 public class MovieApiServlet extends HttpServlet {
     private MovieDAO movieDAO;
 
@@ -123,6 +135,9 @@ public class MovieApiServlet extends HttpServlet {
         data.giaVe = parsePrice(getFormValue(req, "price"));
         data.ngonNgu = getFormValue(req, "language");
         data.daoDien = getFormValue(req, "director");
+        // FIX 3: form JSP (QuanLyPhim.jsp) có <input name="cast"> nhưng trước đây bị bỏ sót,
+        // khiến diễn viên nhập vào không bao giờ được lưu xuống cột DienVien.
+        data.cast = getFormValue(req, "cast");
         data.mieuTa = getFormValue(req, "description");
         data.trailerID = getFormValue(req, "Trailer_ID"); // Khớp với cột TrailerID trong SQL
 
@@ -147,7 +162,10 @@ public class MovieApiServlet extends HttpServlet {
         String original = Paths.get(poster.getSubmittedFileName()).getFileName().toString();
         String fileName = UUID.randomUUID() + "-" + original;
         poster.write(uploadDir.resolve(fileName).toString());
-        return "/DuAnWeb/api/uploads/" + fileName;
+        // FIX 4: context path thật của app là "/duanweb" (khớp <finalName>duanweb</finalName> trong pom.xml
+        // và toàn bộ URL admin.js đang gọi: http://localhost:8080/duanweb/...), không phải "/DuAnWeb".
+        // Dùng req.getContextPath() để không bị lệch nếu sau này đổi context path khi deploy.
+        return req.getContextPath() + "/api/uploads/" + fileName;
     }
 
     private static Part getPartOrNull(HttpServletRequest req, String name) throws ServletException, IOException {
