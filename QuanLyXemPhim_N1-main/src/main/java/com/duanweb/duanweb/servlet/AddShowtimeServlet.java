@@ -3,9 +3,11 @@ package com.duanweb.duanweb.servlet;
 import com.duanweb.duanweb.dao.ShowtimeDAO;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -17,7 +19,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@WebServlet("/api/add-showtime")
 public class AddShowtimeServlet extends HttpServlet {
+
     private static final Pattern JSON_FIELD = Pattern.compile("\\\"([^\\\"]+)\\\"\\s*:\\s*(\\\"([^\\\"]*)\\\"|[-]?\\d+([.]\\d+)?)");
     private ShowtimeDAO dao;
 
@@ -39,34 +43,39 @@ public class AddShowtimeServlet extends HttpServlet {
 
         Map<String, String> body = parseJsonBody(req);
         int movieId = parseInt(body.get("movieId"), 0);
-        
+
         // Thêm roomId (mặc định lấy phòng số 1 nếu client không truyền lên)
-        int roomId = parseInt(body.get("roomId"), 1); 
+        int roomId = parseInt(body.get("roomId"), 1);
         int seats = parseInt(body.get("seats"), 72);
-        
+
         String dateValue = body.getOrDefault("date", "");
         String timeValue = body.getOrDefault("time", "");
 
         if (movieId <= 0 || dateValue.isBlank() || timeValue.isBlank()) {
-            writeJson(resp, HttpServletResponse.SC_BAD_REQUEST, "{\"error\":\"Thiếu movieId hoặc date/time\"}");
+            writeJson(resp, HttpServletResponse.SC_BAD_REQUEST, "{\"ok\":false,\"error\":\"Thiếu movieId hoặc date/time\"}");
             return;
         }
 
         try {
             LocalDate date = LocalDate.parse(dateValue);
             LocalTime time = LocalTime.parse(timeValue);
-            
-            // Tạm tính thời gian kết thúc cách giờ bắt đầu 2 tiếng (ví dụ phim dài 120 phút)
-            LocalTime endTime = time.plusHours(2); 
 
-            // Cập nhật lại lời gọi hàm DAO khớp với cấu trúc bảng Showtime (MovieID, RoomID, ThoiGianBatDau, ThoiGianKetThuc,...)
-            long id = dao.insertFull(movieId, roomId, date, time, endTime, seats);
-            
-            writeJson(resp, HttpServletResponse.SC_OK, "{\"ok\":true,\"id\":" + id + "}");
+            // Thời gian kết thúc cách giờ bắt đầu 2 tiếng (mặc định cho suất chiếu)
+            LocalTime endTime = time.plusHours(2);
+
+            // Gọi hàm DAO thêm suất chiếu
+            long id = dao.insertFull(movieId, roomId, date, time, endTime);
+            if (id > 0) {
+                writeJson(resp, HttpServletResponse.SC_OK, "{\"ok\":true,\"id\":" + id + "}");
+            } else {
+                writeJson(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "{\"ok\":false,\"error\":\"Không thể thêm suất chiếu vào CSDL\"}");
+            }
+
         } catch (DateTimeParseException e) {
-            writeJson(resp, HttpServletResponse.SC_BAD_REQUEST, "{\"error\":\"Định dạng date/time không hợp lệ\"}");
+            writeJson(resp, HttpServletResponse.SC_BAD_REQUEST, "{\"ok\":false,\"error\":\"Định dạng date/time không hợp lệ\"}");
         } catch (SQLException e) {
-            throw new ServletException("Không thể thêm suất chiếu", e);
+            e.printStackTrace();
+            writeJson(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "{\"ok\":false,\"error\":\"Lỗi kết nối CSDL: " + e.getMessage() + "\"}");
         }
     }
 

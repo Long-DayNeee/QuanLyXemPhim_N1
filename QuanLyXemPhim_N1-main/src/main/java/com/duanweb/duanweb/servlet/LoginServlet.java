@@ -10,7 +10,8 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-    private AuthDAO authDAO = new AuthDAO();
+
+    private final AuthDAO authDAO = new AuthDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -21,15 +22,28 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
         String u = request.getParameter("username");
         String p = request.getParameter("password");
 
+        u = (u != null) ? u.trim() : "";
+        p = (p != null) ? p.trim() : "";
+
+        if (u.isBlank() || p.isBlank()) {
+            request.setAttribute("error", "Vui lòng nhập đầy đủ Tên đăng nhập và Mật khẩu!");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+            return;
+        }
+
+        // Gọi DAO kiểm tra đăng nhập
         User user = authDAO.login(u, p);
 
         if (user != null) {
             HttpSession session = request.getSession();
             session.setAttribute("account", user);
-
+            session.setMaxInactiveInterval(3600);
             if ("ADMIN".equalsIgnoreCase(user.getRole())) {
                 response.sendRedirect("Admin/QuanLyPhim.jsp");
             } else {

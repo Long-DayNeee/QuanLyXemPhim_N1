@@ -10,7 +10,7 @@
   <style>
     /* ---- Thiết lập kích thước khổ in 140 × 60 mm ---- */
     @page {
-      size: 140mm 60mm landscape;
+      size: 140mm 60mm ;
       margin: 0;
     }
 

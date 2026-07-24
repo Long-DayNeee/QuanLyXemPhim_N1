@@ -13,14 +13,13 @@
   <url>http://www.example.com</url>
 
   <properties>
-    <!-- encode & Java version -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
   </properties>
 
   <dependencies>
-    <!-- Servlet API for compile only -->
+    <!-- Servlet API (Tomcat 10+) -->
     <dependency>
       <groupId>jakarta.servlet</groupId>
       <artifactId>jakarta.servlet-api</artifactId>
@@ -28,7 +27,21 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- JSTL if using JSP -->
+    <!-- SQL Server JDBC Driver -->
+    <dependency>
+      <groupId>com.microsoft.sqlserver</groupId>
+      <artifactId>mssql-jdbc</artifactId>
+      <version>12.4.2.jre11</version>
+    </dependency>
+
+    <!-- Google Gson (Xử lý JSON cho API) -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.10.1</version>
+    </dependency>
+
+    <!-- JSTL for JSP -->
     <dependency>
       <groupId>jakarta.servlet.jsp.jstl</groupId>
       <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
@@ -36,14 +49,7 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- SQL Server JDBC driver -->
-    <dependency>
-        <groupId>com.microsoft.sqlserver</groupId>
-        <artifactId>mssql-jdbc</artifactId>
-        <version>12.4.2.jre11</version>
-    </dependency>
-
-    <!-- JUnit 5 for unit tests -->
+    <!-- JUnit 5 (Testing) -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
@@ -56,7 +62,6 @@
     <finalName>duanweb</finalName>
 
     <pluginManagement>
-      <!-- lock default plugin versions -->
       <plugins>
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
@@ -94,7 +99,7 @@
     </pluginManagement>
 
     <plugins>
-      <!-- compile with Java 17 -->
+      <!-- Compile với Java 17 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -103,7 +108,7 @@
         </configuration>
       </plugin>
 
-      <!-- run JUnit Jupiter (JUnit 5) tests -->
+      <!-- Run JUnit 5 tests -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -111,5 +116,6 @@
       </plugin>
     </plugins>
   </build>
+
   <packaging>war</packaging>
 </project>

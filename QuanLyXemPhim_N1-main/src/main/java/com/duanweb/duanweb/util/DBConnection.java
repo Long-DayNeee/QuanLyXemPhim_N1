@@ -1,33 +1,23 @@
 package com.duanweb.duanweb.util;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
 public class DBConnection {
-    private static final Properties DB_PROPS = loadProperties();
+    private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=QuanLyPhim;encrypt=false;trustServerCertificate=true;characterEncoding=UTF-8;";
+    private static final String USER = "sa";
+    private static final String PASS = "123";
 
-    private static Properties loadProperties() {
-        Properties props = new Properties();
-        try (InputStream input = DBConnection.class.getClassLoader().getResourceAsStream("db.properties")) {
-            if (input == null) {
-                throw new IllegalStateException("Không tìm thấy file db.properties trong classpath");
-            }
-            props.load(input);
-            Class.forName(props.getProperty("jdbc.driver"));
-            return props;
-        } catch (IOException | ClassNotFoundException e) {
-            throw new ExceptionInInitializerError(e);
+    static {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(
-                DB_PROPS.getProperty("jdbc.url"),
-                DB_PROPS.getProperty("jdbc.username"),
-                DB_PROPS.getProperty("jdbc.password"));
+        return DriverManager.getConnection(URL, USER, PASS);
     }
 }

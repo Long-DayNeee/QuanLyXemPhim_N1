@@ -1,31 +1,17 @@
 package com.duanweb.duanweb.model;
 
-public class User {
-    private int id;
+public class AdminAccount {
+    private int accountID;
     private String username;
     private String password;
     private String fullName;
     private String email;
     private String role;
 
-    // 1. Constructor rỗng
-    public User() {}
-    // 2. Constructor 3 tham số (dùng cho Đăng ký Khách hàng)
-    public User(String username, String password, String fullName) {
-        this.username = username;
-        this.password = password;
-        this.fullName = fullName;
-    }
+    // Constructor rỗng
+    public AdminAccount() {}
 
-    public User(String username, String email, String password, String role) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
-
-    public User(int id, String username, String password, String fullName, String email, String role) {
-        this.id = id;
+    public AdminAccount(String username, String password, String fullName, String email, String role) {
         this.username = username;
         this.password = password;
         this.fullName = fullName;
@@ -33,9 +19,18 @@ public class User {
         this.role = role;
     }
 
-    // ====== GETTERS & SETTERS ======
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public AdminAccount(int accountID, String username, String password, String fullName, String email, String role) {
+        this.accountID = accountID;
+        this.username = username;
+        this.password = password;
+        this.fullName = fullName;
+        this.email = email;
+        this.role = role;
+    }
+
+    // Getters & Setters
+    public int getAccountID() { return accountID; }
+    public void setAccountID(int accountID) { this.accountID = accountID; }
 
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }

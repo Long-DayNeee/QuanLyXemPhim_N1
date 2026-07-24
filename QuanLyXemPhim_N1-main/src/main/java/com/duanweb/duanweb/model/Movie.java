@@ -14,12 +14,34 @@ public class Movie {
     private String doTuoi;
     private Date ngayChieu;
     private BigDecimal giaVe;
-    private String ngonNgu, daoDien, dienVien;
+    private String ngonNgu;
+    private String daoDien;
+    private String dienVien;
 
+    // 1. Constructor rỗng
     public Movie() {
     }
 
-    // Getter / Setter
+    // 2. Constructor đầy đủ tham số (Giúp tạo nhanh đối tượng khi cần)
+    public Movie(int movieID, String tieuDe, String mieuTa, String posterUrl, String trailerId,
+                 String theLoai, int thoiLuong, String doTuoi, Date ngayChieu,
+                 BigDecimal giaVe, String ngonNgu, String daoDien, String dienVien) {
+        this.movieID = movieID;
+        this.tieuDe = tieuDe;
+        this.mieuTa = mieuTa;
+        this.posterUrl = posterUrl;
+        this.trailerId = trailerId;
+        this.theLoai = theLoai;
+        this.thoiLuong = thoiLuong;
+        this.doTuoi = doTuoi;
+        this.ngayChieu = ngayChieu;
+        this.giaVe = giaVe;
+        this.ngonNgu = ngonNgu;
+        this.daoDien = daoDien;
+        this.dienVien = dienVien;
+    }
+
+    // ====== GETTERS & SETTERS ======
     public int getMovieID() {
         return movieID;
     }
@@ -58,6 +80,14 @@ public class Movie {
 
     public void setTrailerId(String trailerId) {
         this.trailerId = trailerId;
+    }
+
+    public String getTheLoai() {
+        return theLoai;
+    }
+
+    public void setTheLoai(String theLoai) {
+        this.theLoai = theLoai;
     }
 
     public int getThoiLuong() {
@@ -114,13 +144,5 @@ public class Movie {
 
     public void setDienVien(String dienVien) {
         this.dienVien = dienVien;
-    }
-
-    public String getTheLoai() {
-    return theLoai;
-    }
-
-    public void setTheLoai(String theLoai) {
-        this.theLoai = theLoai;
     }
 }

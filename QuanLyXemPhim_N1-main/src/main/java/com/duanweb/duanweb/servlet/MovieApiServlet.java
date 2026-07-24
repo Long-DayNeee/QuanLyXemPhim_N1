@@ -4,10 +4,13 @@ import com.duanweb.duanweb.dao.MovieDAO;
 import com.duanweb.duanweb.dao.MovieDAO.MovieData;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
@@ -19,7 +22,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@WebServlet("/api/movies/*")
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10,      // 10MB
+        maxRequestSize = 1024 * 1024 * 50    // 50MB
+)
 public class MovieApiServlet extends HttpServlet {
+
     private MovieDAO movieDAO;
 
     @Override
@@ -47,7 +57,8 @@ public class MovieApiServlet extends HttpServlet {
                 writeJson(resp, HttpServletResponse.SC_OK, toJsonArray(movies));
             }
         } catch (SQLException e) {
-            throw new ServletException("Không thể lấy dữ liệu phim", e);
+            e.printStackTrace();
+            writeJson(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "{\"error\":\"Không thể lấy dữ liệu phim từ CSDL\"}");
         }
     }
 
@@ -79,9 +90,10 @@ public class MovieApiServlet extends HttpServlet {
 
         try {
             movieDAO.delete(movieId);
-            writeJson(resp, HttpServletResponse.SC_OK, "{\"deleted\":" + movieId + "}");
+            writeJson(resp, HttpServletResponse.SC_OK, "{\"ok\":true,\"deleted\":" + movieId + "}");
         } catch (SQLException e) {
-            throw new ServletException("Không thể xóa phim", e);
+            e.printStackTrace();
+            writeJson(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "{\"error\":\"Không thể xóa phim này\"}");
         }
     }
 
@@ -89,9 +101,10 @@ public class MovieApiServlet extends HttpServlet {
         try {
             MovieData data = readMovieData(req, 0);
             long id = movieDAO.insert(data);
-            writeJson(resp, HttpServletResponse.SC_OK, "{\"movieId\":" + id + "}");
+            writeJson(resp, HttpServletResponse.SC_OK, "{\"ok\":true,\"movieId\":" + id + "}");
         } catch (SQLException e) {
-            throw new ServletException("Không thể thêm phim", e);
+            e.printStackTrace();
+            writeJson(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "{\"error\":\"Không thể thêm phim mới\"}");
         }
     }
 
@@ -105,17 +118,22 @@ public class MovieApiServlet extends HttpServlet {
         try {
             MovieData data = readMovieData(req, movieId);
             movieDAO.update(movieId, data);
-            writeJson(resp, HttpServletResponse.SC_OK, "{\"updated\":" + movieId + "}");
+            writeJson(resp, HttpServletResponse.SC_OK, "{\"ok\":true,\"updated\":" + movieId + "}");
         } catch (SQLException e) {
-            throw new ServletException("Không thể cập nhật phim", e);
+            e.printStackTrace();
+            writeJson(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "{\"error\":\"Không thể cập nhật phim\"}");
         }
     }
 
     private MovieData readMovieData(HttpServletRequest req, int existingMovieId) throws ServletException, IOException, SQLException {
         MovieData data = new MovieData();
-        
-        // Map trực tiếp với các thuộc tính đã đồng bộ khớp với cột SQL
-        data.tieuDe = getFormValue(req, "title"); // Hoặc "tieuDe" tùy thuộc vào tên gửi lên từ Form/Client
+
+        // Map thuộc tính gửi lên từ form
+        data.tieuDe = getFormValue(req, "title");
+        if (data.tieuDe.isBlank()) {
+            data.tieuDe = getFormValue(req, "tieuDe");
+        }
+
         data.thoiLuong = parseInt(getFormValue(req, "duration"), 0);
         data.doTuoi = getFormValue(req, "ageRate");
         data.ngayKhoiChieu = normalizeDate(getFormValue(req, "premiere"));
@@ -124,14 +142,14 @@ public class MovieApiServlet extends HttpServlet {
         data.ngonNgu = getFormValue(req, "language");
         data.daoDien = getFormValue(req, "director");
         data.mieuTa = getFormValue(req, "description");
-        data.trailerID = getFormValue(req, "Trailer_ID"); // Khớp với cột TrailerID trong SQL
+        data.trailerID = getFormValue(req, "Trailer_ID");
 
         String uploadedPoster = savePoster(req);
         if (!uploadedPoster.isEmpty()) {
             data.posterUrl = uploadedPoster;
         } else {
             String postedPoster = getFormValue(req, "posterUrl");
-            data.posterUrl = postedPoster.isEmpty() && existingMovieId > 0 ? movieDAO.findPosterUrl(existingMovieId) : postedPoster;
+            data.posterUrl = (postedPoster.isEmpty() && existingMovieId > 0) ? movieDAO.findPosterUrl(existingMovieId) : postedPoster;
         }
         return data;
     }
@@ -142,19 +160,24 @@ public class MovieApiServlet extends HttpServlet {
             return "";
         }
 
-        Path uploadDir = Paths.get(req.getServletContext().getRealPath("/api/uploads"));
+        String realPath = req.getServletContext().getRealPath("/api/uploads");
+        if (realPath == null) {
+            return "";
+        }
+
+        Path uploadDir = Paths.get(realPath);
         Files.createDirectories(uploadDir);
+
         String original = Paths.get(poster.getSubmittedFileName()).getFileName().toString();
         String fileName = UUID.randomUUID() + "-" + original;
         poster.write(uploadDir.resolve(fileName).toString());
-        return "/DuAnWeb/api/uploads/" + fileName;
+
+        return req.getContextPath() + "/api/uploads/" + fileName;
     }
 
     private static Part getPartOrNull(HttpServletRequest req, String name) throws ServletException, IOException {
         try {
             return req.getPart(name);
-        } catch (IllegalStateException e) {
-            throw e;
         } catch (Exception e) {
             return null;
         }

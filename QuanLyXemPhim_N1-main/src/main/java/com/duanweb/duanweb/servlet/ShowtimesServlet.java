@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(urlPatterns = {"/api/showtimes", "/showtimes"}) 
+@WebServlet(urlPatterns = {"/api/showtimes", "/showtimes"})
 public class ShowtimesServlet extends HttpServlet {
     private ShowtimeDAO showtimeDAO;
 
@@ -31,8 +31,9 @@ public class ShowtimesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         prepareJson(resp);
         int movieId = parseInt(req.getParameter("movieId"), 0);
+
         if (movieId <= 0) {
-            writeJson(resp, HttpServletResponse.SC_BAD_REQUEST, "{\"error\":\"movieId không hợp lệ\"}");
+            writeJson(resp, HttpServletResponse.SC_BAD_REQUEST, "{\"error\":\"movieId không hợp lệ hoặc thiếu tham số!\"}");
             return;
         }
 
@@ -40,7 +41,8 @@ public class ShowtimesServlet extends HttpServlet {
             List<Map<String, Object>> showtimes = showtimeDAO.findByMovieId(movieId);
             writeJson(resp, HttpServletResponse.SC_OK, toJsonArray(showtimes));
         } catch (SQLException e) {
-            throw new ServletException("Không thể lấy danh sách suất chiếu", e);
+            e.printStackTrace();
+            writeJson(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "{\"error\":\"Không thể lấy danh sách suất chiếu từ CSDL\"}");
         }
     }
 
@@ -72,6 +74,7 @@ public class ShowtimesServlet extends HttpServlet {
     }
 
     private static String toJsonArray(List<Map<String, Object>> rows) {
+        if (rows == null) return "[]";
         StringBuilder json = new StringBuilder("[");
         for (int i = 0; i < rows.size(); i++) {
             if (i > 0) {
@@ -83,6 +86,7 @@ public class ShowtimesServlet extends HttpServlet {
     }
 
     private static String toJsonObject(Map<String, Object> row) {
+        if (row == null) return "{}";
         StringBuilder json = new StringBuilder("{");
         boolean first = true;
         for (Map.Entry<String, Object> entry : row.entrySet()) {
@@ -106,6 +110,11 @@ public class ShowtimesServlet extends HttpServlet {
     }
 
     private static String escape(String value) {
-        return value.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r");
+        if (value == null) return "";
+        return value.replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\t", "\\t");
     }
 }
