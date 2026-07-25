@@ -1,124 +1,95 @@
 package com.duanweb.duanweb.dao;
 
 import com.duanweb.duanweb.model.Movie;
-import com.duanweb.duanweb.util.DBConnection;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MovieDAO {
-    // Khớp 100% với tên cột trong SQL (MovieID, TieuDe, ThoiLuong, DoTuoi, NgayKhoiChieu, TheLoai, GiaVe, NgonNgu, DaoDien, DienVien, MieuTa, PosterUrl, TrailerID)
-    // Lưu ý: Cần bổ sung cột DienVien (NVARCHAR) vào bảng Movie trong SQL nếu chưa có.
+/**
+ * Chuyen doi tu MovieDAO (JDBC thuan) sang Spring bean dung JdbcTemplate.
+ * Giu nguyen toan bo cau SQL va ten cot de tuong thich voi schema SQL Server hien co.
+ */
+@Repository
+public class MovieDao {
+
     private static final String COLUMNS = "MovieID, TieuDe, ThoiLuong, DoTuoi, NgayKhoiChieu, TheLoai, GiaVe, "
             + "NgonNgu, DaoDien, DienVien, MieuTa, PosterUrl, TrailerID";
 
-    public List<Map<String, Object>> findAllAsMap() throws SQLException {
+    private final JdbcTemplate jdbcTemplate;
+
+    public MovieDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public List<Map<String, Object>> findAllAsMap() {
         String sql = "SELECT " + COLUMNS + " FROM Movie ORDER BY MovieID DESC";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            List<Map<String, Object>> movies = new ArrayList<>();
-            while (rs.next()) {
-                movies.add(toMap(rs));
-            }
-            return movies;
-        }
+        return jdbcTemplate.query(sql, (rs, rowNum) -> toMap(rs));
     }
 
-    public Map<String, Object> findByIdAsMap(int movieId) throws SQLException {
+    public Map<String, Object> findByIdAsMap(int movieId) {
         String sql = "SELECT " + COLUMNS + " FROM Movie WHERE MovieID = ?";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, movieId);
-            try (ResultSet rs = ps.executeQuery()) {
-                return rs.next() ? toMap(rs) : null;
-            }
-        }
+        List<Map<String, Object>> result = jdbcTemplate.query(sql, (rs, rowNum) -> toMap(rs), movieId);
+        return result.isEmpty() ? null : result.get(0);
     }
 
-    public List<Movie> findAll() throws SQLException {
+    public List<Movie> findAll() {
         String sql = "SELECT " + COLUMNS + " FROM Movie ORDER BY MovieID DESC";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            List<Movie> movies = new ArrayList<>();
-            while (rs.next()) {
-                movies.add(toMovie(rs));
-            }
-            return movies;
-        }
+        return jdbcTemplate.query(sql, (rs, rowNum) -> toMovie(rs));
     }
 
-    public Movie findById(int movieId) throws SQLException {
+    public Movie findById(int movieId) {
         String sql = "SELECT " + COLUMNS + " FROM Movie WHERE MovieID = ?";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, movieId);
-            try (ResultSet rs = ps.executeQuery()) {
-                return rs.next() ? toMovie(rs) : null;
-            }
-        }
+        List<Movie> result = jdbcTemplate.query(sql, (rs, rowNum) -> toMovie(rs), movieId);
+        return result.isEmpty() ? null : result.get(0);
     }
 
-    public long insert(Movie movie) throws SQLException {
-        MovieData data = fromMovie(movie);
-        return insert(data);
-    }
-
-    public boolean update(Movie movie) throws SQLException {
-        MovieData data = fromMovie(movie);
-        return update(movie.getMovieID(), data);
-    }
-
-    public long insert(MovieData data) throws SQLException {
+    public long insert(MovieData data) {
         String sql = "INSERT INTO Movie "
                 + "(TieuDe, ThoiLuong, DoTuoi, NgayKhoiChieu, TheLoai, GiaVe, NgonNgu, DaoDien, DienVien, MieuTa, PosterUrl, TrailerID) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update((java.sql.Connection connection) -> {
+            java.sql.PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             bindMovie(ps, data);
-            ps.executeUpdate();
-            try (ResultSet keys = ps.getGeneratedKeys()) {
-                return keys.next() ? keys.getLong(1) : 0;
-            }
-        }
+            return ps;
+        }, keyHolder);
+        Number key = keyHolder.getKey();
+        return key == null ? 0 : key.longValue();
     }
 
-    public boolean update(int movieId, MovieData data) throws SQLException {
+    public boolean update(int movieId, MovieData data) {
         String sql = "UPDATE Movie SET TieuDe=?, ThoiLuong=?, DoTuoi=?, NgayKhoiChieu=?, TheLoai=?, GiaVe=?, "
                 + "NgonNgu=?, DaoDien=?, DienVien=?, MieuTa=?, PosterUrl=?, TrailerID=? WHERE MovieID=?";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            bindMovie(ps, data);
-            ps.setInt(13, movieId);
-            return ps.executeUpdate() > 0;
-        }
+        int rows = jdbcTemplate.update(sql,
+                data.tieuDe, data.thoiLuong, data.doTuoi, Date.valueOf(data.ngayKhoiChieu), data.theLoai, data.giaVe,
+                data.ngonNgu, data.daoDien, data.cast, data.mieuTa, data.posterUrl, data.trailerID, movieId);
+        return rows > 0;
     }
 
-    public boolean delete(int movieId) throws SQLException {
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement("DELETE FROM Movie WHERE MovieID = ?")) {
-            ps.setInt(1, movieId);
-            return ps.executeUpdate() > 0;
-        }
+    public boolean delete(int movieId) {
+        int rows = jdbcTemplate.update("DELETE FROM Movie WHERE MovieID = ?", movieId);
+        return rows > 0;
     }
 
-    public String findPosterUrl(int movieId) throws SQLException {
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement("SELECT PosterUrl FROM Movie WHERE MovieID = ?")) {
-            ps.setInt(1, movieId);
-            try (ResultSet rs = ps.executeQuery()) {
-                return rs.next() ? rs.getString("PosterUrl") : "";
-            }
+    public String findPosterUrl(int movieId) {
+        try {
+            String url = jdbcTemplate.queryForObject(
+                    "SELECT PosterUrl FROM Movie WHERE MovieID = ?", String.class, movieId);
+            return url == null ? "" : url;
+        } catch (EmptyResultDataAccessException e) {
+            return "";
         }
     }
 
@@ -162,7 +133,7 @@ public class MovieDAO {
         movie.setTieuDe(rs.getString("TieuDe"));
         movie.setThoiLuong(rs.getInt("ThoiLuong"));
         movie.setDoTuoi(rs.getString("DoTuoi"));
-        movie.setNgayChieu(rs.getDate("NgayKhoiChieu")); // Khớp setter NgayKhoiChieu chuẩn SQL
+        movie.setNgayChieu(rs.getDate("NgayKhoiChieu"));
         movie.setGiaVe(rs.getBigDecimal("GiaVe"));
         movie.setNgonNgu(rs.getString("NgonNgu"));
         movie.setDaoDien(rs.getString("DaoDien"));
@@ -173,27 +144,7 @@ public class MovieDAO {
         return movie;
     }
 
-    private static MovieData fromMovie(Movie movie) {
-        MovieData data = new MovieData();
-        data.tieuDe = nullToEmpty(movie.getTieuDe());
-        data.thoiLuong = movie.getThoiLuong();
-        data.doTuoi = nullToEmpty(movie.getDoTuoi());
-        data.ngayKhoiChieu = movie.getNgayChieu() == null ? java.time.LocalDate.now().toString() : new Date(movie.getNgayChieu().getTime()).toString();
-        data.theLoai = nullToEmpty(movie.getTheLoai()); // Thêm dòng này nếu Movie có getTheLoai()
-        data.giaVe = movie.getGiaVe() == null ? BigDecimal.ZERO : movie.getGiaVe();
-        data.ngonNgu = nullToEmpty(movie.getNgonNgu());
-        data.daoDien = nullToEmpty(movie.getDaoDien());
-        data.cast = nullToEmpty(movie.getDienVien());
-        data.mieuTa = nullToEmpty(movie.getMieuTa());
-        data.posterUrl = nullToEmpty(movie.getPosterUrl());
-        data.trailerID = nullToEmpty(movie.getTrailerId());
-        return data;
-    }
-
-    private static String nullToEmpty(String value) {
-        return value == null ? "" : value;
-    }
-
+    /** DTO trung gian dung khi nhan du lieu tu form/JSON truoc khi ghi xuong DB. */
     public static class MovieData {
         public String tieuDe = "";
         public int thoiLuong;

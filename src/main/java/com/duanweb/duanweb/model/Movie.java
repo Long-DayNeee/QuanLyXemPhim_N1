@@ -1,7 +1,7 @@
 package com.duanweb.duanweb.model;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Date;
 
 public class Movie {
     private int movieID;
@@ -14,12 +14,13 @@ public class Movie {
     private String doTuoi;
     private Date ngayChieu;
     private BigDecimal giaVe;
-    private String ngonNgu, daoDien, dienVien;
+    private String ngonNgu;
+    private String daoDien;
+    private String dienVien;
 
     public Movie() {
     }
 
-    // Getter / Setter
     public int getMovieID() {
         return movieID;
     }
@@ -117,7 +118,7 @@ public class Movie {
     }
 
     public String getTheLoai() {
-    return theLoai;
+        return theLoai;
     }
 
     public void setTheLoai(String theLoai) {
