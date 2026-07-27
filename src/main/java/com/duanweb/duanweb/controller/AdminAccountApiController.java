@@ -1,6 +1,6 @@
 package com.duanweb.duanweb.controller;
 
-import com.duanweb.duanweb.dao.AuthDao;
+import com.duanweb.duanweb.dao.AuthDAO;
 import com.duanweb.duanweb.model.AdminAccount;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +17,9 @@ import java.util.Map;
 @RequestMapping("/api/admin/account")
 public class AdminAccountApiController {
 
-    private final AuthDao authDAO;
+    private final AuthDAO authDAO;
 
-    public AdminAccountApiController(AuthDao authDAO) {
+    public AdminAccountApiController(AuthDAO authDAO) {
         this.authDAO = authDAO;
     }
 

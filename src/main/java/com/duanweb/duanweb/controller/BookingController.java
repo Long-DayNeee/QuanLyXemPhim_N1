@@ -1,9 +1,9 @@
 package com.duanweb.duanweb.controller;
 
-import com.duanweb.duanweb.dao.BookingDao;
-import com.duanweb.duanweb.dao.BookingDao.BookingResult;
-import com.duanweb.duanweb.dao.BookingDao.InvalidBookingException;
-import com.duanweb.duanweb.dao.BookingDao.SeatTakenException;
+import com.duanweb.duanweb.dao.BookingDAO;
+import com.duanweb.duanweb.dao.BookingDAO.BookingResult;
+import com.duanweb.duanweb.dao.BookingDAO.InvalidBookingException;
+import com.duanweb.duanweb.dao.BookingDAO.SeatTakenException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +25,9 @@ public class BookingController {
 
     private static final Pattern PHONE_PATTERN = Pattern.compile("^0\\d{9}$");
 
-    private final BookingDao bookingDao;
+    private final BookingDAO bookingDao;
 
-    public BookingController(BookingDao bookingDao) {
+    public BookingController(BookingDAO bookingDao) {
         this.bookingDao = bookingDao;
     }
 

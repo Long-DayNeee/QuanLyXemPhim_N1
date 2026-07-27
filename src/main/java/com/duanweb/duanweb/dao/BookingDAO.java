@@ -23,11 +23,12 @@ import java.util.regex.Pattern;
  * conn.setAutoCommit(false)/commit()/rollback() thu cong) - cung mot connection duoc dung
  * xuyen suot phuong thuc nho DataSourceTransactionManager cua Spring Boot.
  *
- * Khoa WITH (UPDLOCK, HOLDLOCK) duoc giu nguyen trong cau SQL de chong 2 khach dat trung
- * ghe cung luc (giu khoa toi khi transaction commit/rollback).
+ * Dung "SELECT ... FOR UPDATE" (cu phap khoa row-level cua PostgreSQL) de chong 2 khach dat trung
+ * ghe cung luc (giu khoa toi khi transaction commit/rollback). Luu y: cu phap cu
+ * "WITH (UPDLOCK, HOLDLOCK)" la cua SQL Server/T-SQL, PostgreSQL khong hieu va se nem loi SQL syntax.
  */
 @Repository
-public class BookingDao {
+public class BookingDAO {
 
     private static final Pattern SEAT_CODE = Pattern.compile("^([A-Za-z]+)(\\d+)$");
 
@@ -58,7 +59,7 @@ public class BookingDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public BookingDao(JdbcTemplate jdbcTemplate) {
+    public BookingDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -112,10 +113,11 @@ public class BookingDao {
 
         // 3) Khoa cac dong lien quan de chong race-condition khi 2 nguoi cung dat 1 ghe cung luc
         String placeholders = String.join(",", seatIds.stream().map(id -> "?").toArray(String[]::new));
-        String sqlCheck = "SELECT s.HangGhe, s.SoGhe FROM BookingSeat bs WITH (UPDLOCK, HOLDLOCK) "
+        String sqlCheck = "SELECT s.HangGhe, s.SoGhe FROM BookingSeat bs "
                 + "JOIN Booking b ON bs.BookingID = b.BookingID "
                 + "JOIN Seat s ON bs.SeatID = s.SeatID "
-                + "WHERE b.ShowTimeID = ? AND b.TrangThai <> 'DaHuy' AND bs.SeatID IN (" + placeholders + ")";
+                + "WHERE b.ShowTimeID = ? AND b.TrangThai <> 'DaHuy' AND bs.SeatID IN (" + placeholders + ") "
+                + "FOR UPDATE OF bs";
         List<Object> checkParams = new ArrayList<>();
         checkParams.add(showtimeId);
         checkParams.addAll(seatIds);
@@ -132,7 +134,11 @@ public class BookingDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         Timestamp now = new Timestamp(System.currentTimeMillis());
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sqlBooking, Statement.RETURN_GENERATED_KEYS);
+            // FIX: chi ro ten cot can lay khoa sinh ra, thay vi dung Statement.RETURN_GENERATED_KEYS
+            // (driver Postgres se tu do PK cua bang; neu bang Booking khong co rang buoc PRIMARY KEY
+            // ro rang tren cot BookingID, driver se tra ve TOAN BO cac cot thay vi chi khoa chinh,
+            // gay loi "current key entry contains multiple keys")
+            PreparedStatement ps = connection.prepareStatement(sqlBooking, new String[]{"bookingid"});
             ps.setInt(1, showtimeId);
             ps.setString(2, customerName);
             ps.setString(3, email);

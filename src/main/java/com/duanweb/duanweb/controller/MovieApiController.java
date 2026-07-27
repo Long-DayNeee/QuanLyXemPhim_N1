@@ -1,7 +1,7 @@
 package com.duanweb.duanweb.controller;
 
-import com.duanweb.duanweb.dao.MovieDao;
-import com.duanweb.duanweb.dao.MovieDao.MovieData;
+import com.duanweb.duanweb.dao.MovieDAO;
+import com.duanweb.duanweb.dao.MovieDAO.MovieData;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,12 +28,12 @@ import java.util.UUID;
 @RequestMapping("/api/movies")
 public class MovieApiController {
 
-    private final MovieDao movieDao;
+    private final MovieDAO movieDao;
 
     @Value("${app.upload-dir}")
     private String uploadDir;
 
-    public MovieApiController(MovieDao movieDao) {
+    public MovieApiController(MovieDAO movieDao) {
         this.movieDao = movieDao;
     }
 

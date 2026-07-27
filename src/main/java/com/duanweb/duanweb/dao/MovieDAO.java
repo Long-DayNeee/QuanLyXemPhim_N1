@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -22,14 +23,14 @@ import java.util.Map;
  * Giu nguyen toan bo cau SQL va ten cot de tuong thich voi schema SQL Server hien co.
  */
 @Repository
-public class MovieDao {
+public class MovieDAO {
 
     private static final String COLUMNS = "MovieID, TieuDe, ThoiLuong, DoTuoi, NgayKhoiChieu, TheLoai, GiaVe, "
             + "NgonNgu, DaoDien, DienVien, MieuTa, PosterUrl, TrailerID";
 
     private final JdbcTemplate jdbcTemplate;
 
-    public MovieDao(JdbcTemplate jdbcTemplate) {
+    public MovieDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -61,7 +62,7 @@ public class MovieDao {
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update((java.sql.Connection connection) -> {
-            java.sql.PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            java.sql.PreparedStatement ps = connection.prepareStatement(sql, new String[]{"movieid"});
             bindMovie(ps, data);
             return ps;
         }, keyHolder);
@@ -78,7 +79,22 @@ public class MovieDao {
         return rows > 0;
     }
 
+    /**
+     * FIX: truoc day chi "DELETE FROM Movie WHERE MovieID = ?" -> luon crash 500 (vi pham khoa ngoai)
+     * neu phim da co Showtime (va Showtime da co Booking). Gio xoa theo dung thu tu tu bang con
+     * (BookingSeat -> Booking -> Showtime) roi moi xoa Movie, tat ca trong 1 transaction de dam bao
+     * toan ven du lieu (neu 1 buoc loi thi rollback het, khong bi xoa dang do).
+     */
+    @Transactional
     public boolean delete(int movieId) {
+        jdbcTemplate.update(
+                "DELETE FROM BookingSeat WHERE BookingID IN ("
+                        + "SELECT b.BookingID FROM Booking b JOIN Showtime s ON b.ShowTimeID = s.ShowTimeID "
+                        + "WHERE s.MovieID = ?)", movieId);
+        jdbcTemplate.update(
+                "DELETE FROM Booking WHERE ShowTimeID IN ("
+                        + "SELECT ShowTimeID FROM Showtime WHERE MovieID = ?)", movieId);
+        jdbcTemplate.update("DELETE FROM Showtime WHERE MovieID = ?", movieId);
         int rows = jdbcTemplate.update("DELETE FROM Movie WHERE MovieID = ?", movieId);
         return rows > 0;
     }

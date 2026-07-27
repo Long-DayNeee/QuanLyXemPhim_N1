@@ -7,11 +7,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class AuthDao {
+public class AuthDAO {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public AuthDao(JdbcTemplate jdbcTemplate) {
+    public AuthDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -66,7 +66,7 @@ public class AuthDao {
     }
 
     public LoginResult authenticate(String username, String password) {
-        String sql = "SELECT MatKhau FROM Admin WHERE TenNguoiDung = ?";
+        String sql = "SELECT MatKhau FROM AdminAccount WHERE TenNguoiDung = ?";
         String storedPassword;
         try {
             storedPassword = jdbcTemplate.queryForObject(sql, String.class, username);

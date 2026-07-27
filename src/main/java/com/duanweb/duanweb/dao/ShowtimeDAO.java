@@ -19,13 +19,13 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class ShowtimeDao {
+public class ShowtimeDAO {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     private final JdbcTemplate jdbcTemplate;
 
-    public ShowtimeDao(JdbcTemplate jdbcTemplate) {
+    public ShowtimeDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -40,7 +40,7 @@ public class ShowtimeDao {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"showtimeid"});
             ps.setInt(1, movieId);
             ps.setInt(2, roomId);
             ps.setTimestamp(3, Timestamp.valueOf(startDateTime));
@@ -54,6 +54,16 @@ public class ShowtimeDao {
     public boolean delete(int showtimeId) {
         int rows = jdbcTemplate.update("DELETE FROM Showtime WHERE ShowTimeID = ?", showtimeId);
         return rows > 0;
+    }
+
+    /** Tra ve mot roomid co that trong bang cinemaroom (id nho nhat), hoac 0 neu chua co phong nao. */
+    public int findAnyExistingRoomId() {
+        try {
+            Integer id = jdbcTemplate.queryForObject("SELECT MIN(RoomID) FROM CinemaRoom", Integer.class);
+            return id == null ? 0 : id;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public List<Map<String, Object>> findByMovieId(int movieId) {
@@ -72,6 +82,9 @@ public class ShowtimeDao {
         showtime.put("dt", formatted);
         showtime.put("date", startTime.toLocalDate().toString());
         showtime.put("startTime", formatted);
+        // FIX: front-end (script.js) doc field "time" de hien thi gio chieu tren nut chon gio,
+        // truoc day API chi tra "dt"/"startTime" nen script.js luon fallback ve "-:-" (khong tim thay field "time")
+        showtime.put("time", formatted);
         return showtime;
     }
 }

@@ -1,0 +1,148 @@
+warning: in the working copy of '.gitattributes', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.mvn/wrapper/maven-wrapper.properties', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.vscode/settings.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'HELP.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'pom.xml', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/DuanwebApplication.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/Entity/Movie.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/Repository/MovieRepository.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/Service/MovieService.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/Service/MovieServiceImpl.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/config/WebConfig.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/controller/AddShowtimeServlet.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/controller/AdminAccountApiController.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/controller/BookingController.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/controller/LoginController.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/controller/MovieApiController.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/controller/MovieController.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/controller/RegisterController.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/controller/ShowtimeController.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/controller/UserApiController.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/dao/AuthDAO.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/dao/BookingDAO.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/dao/MovieDAO.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/dao/ShowtimeDAO.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/model/AdminAccount.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/model/Movie.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/duanweb/duanweb/model/User.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/resources/application.properties', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/resources/static/Admin/QuanLyPhim.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/resources/static/Admin/admin.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/resources/static/Admin/admin.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/resources/static/ChiTietSanPham.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/resources/static/History/LichSuDatVeNguoiDung.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/resources/static/History/LichSuDatVeNguoiDung.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/resources/static/HoaDon.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/resources/static/Home/GioiThieu.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/resources/static/Home/Phim.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/resources/static/Home/index.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/resources/static/Login/login.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/resources/static/Login/register.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/resources/static/script.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/resources/static/styles.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'target/classes/application.properties', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'target/classes/static/Admin/QuanLyPhim.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'target/classes/static/Admin/admin.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'target/classes/static/Admin/admin.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'target/classes/static/ChiTietSanPham.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'target/classes/static/History/LichSuDatVeNguoiDung.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'target/classes/static/History/LichSuDatVeNguoiDung.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'target/classes/static/HoaDon.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'target/classes/static/Home/GioiThieu.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'target/classes/static/Home/Phim.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'target/classes/static/Home/index.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'target/classes/static/Login/login.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'target/classes/static/Login/register.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'target/classes/static/script.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'target/classes/static/styles.css', LF will be replaced by CRLF the next time Git touches it
+src/main/java/com/duanweb/duanweb/controller/AddShowtimeServlet.java
+src/main/java/com/duanweb/duanweb/controller/AdminAccountApiController.java
+src/main/java/com/duanweb/duanweb/controller/BookingController.java
+src/main/java/com/duanweb/duanweb/controller/LoginController.java
+src/main/java/com/duanweb/duanweb/controller/MovieApiController.java
+src/main/java/com/duanweb/duanweb/controller/RegisterController.java
+src/main/java/com/duanweb/duanweb/controller/ShowtimeController.java
+src/main/java/com/duanweb/duanweb/controller/UserApiController.java
+src/main/java/com/duanweb/duanweb/dao/AuthDAO.java
+src/main/java/com/duanweb/duanweb/dao/BookingDAO.java
+src/main/java/com/duanweb/duanweb/dao/MovieDAO.java
+src/main/java/com/duanweb/duanweb/dao/ShowtimeDAO.java
+src/main/resources/application.properties
+"src/main/resources/static/DuLieu/28 N\304\203m Sau H\341\272\255u T\341\272\255n Th\341\272\277/28NamSauHauTanThe.jpg"
+"src/main/resources/static/DuLieu/28 N\304\203m Sau H\341\272\255u T\341\272\255n Th\341\272\277/28NamSauHauTanThe_Nen.jpg"
+"src/main/resources/static/DuLieu/B\303\255 K\303\255p Luy\341\273\207n R\341\273\223ng/BiKipLuyenRong.jpg"
+"src/main/resources/static/DuLieu/B\341\273\231 5 Si\303\252u \304\220\341\272\263ng C\341\272\245p/Bo5SieuDangCap.jpg"
+"src/main/resources/static/DuLieu/Doraemon Nobita V\303\240 Cu\341\273\231c Phi\303\252u L\306\260u V\303\240o Th\341\272\277 Gi\341\273\233i Trong Tranh/Doraemon.jpg"
+"src/main/resources/static/DuLieu/D\306\260\341\273\233i \304\220\303\241y H\341\273\223/DuoiDayHo.png"
+"src/main/resources/static/DuLieu/Elio C\341\272\255u B\303\251 \304\220\341\272\277n T\341\273\253 Tr\303\241i \304\220\341\272\245t/Elio.png"
+"src/main/resources/static/DuLieu/Halabala R\341\273\253ng Ma T\341\272\277 X\303\241c/Halabala.jpg"
+"src/main/resources/static/DuLieu/Ma kh\303\264ng \304\221\341\272\247u/MaKhongDau.jpg"
+"src/main/resources/static/DuLieu/M\306\260\341\273\243n R\306\260\341\273\243u \304\220\341\272\251y K\303\250o/Muon_Ruou_Day_Keo.jpg"
+"src/main/resources/static/DuLieu/Phi V\341\273\245 \304\220\341\273\231ng Tr\341\273\235i 2/PhiVuDongTroi2.jpg"
+"src/main/resources/static/DuLieu/Qu\341\273\267 r\341\272\241ch m\341\272\267t/QuyRachMat.jpg"
+"src/main/resources/static/DuLieu/b\303\263ng ma c\303\265i m\341\272\241ng/BongMaCoiMang.jpg"
+"src/main/resources/static/DuLieu/\303\232t Lan/UtLan.jpg"
+src/main/resources/static/Login/login.html
+src/main/resources/static/Login/register.html
+"src/main/resources/static/PRO230/Phim/28 N\304\203m Sau H\341\272\255u T\341\272\255n Th\341\272\277/28NamSauHauTanThe.jpg"
+"src/main/resources/static/PRO230/Phim/28 N\304\203m Sau H\341\272\255u T\341\272\255n Th\341\272\277/28NamSauHauTanThe_Nen.jpg"
+"src/main/resources/static/PRO230/Phim/B\303\255 K\303\255p Luy\341\273\207n R\341\273\223ng/BiKipLuyenRong.jpg"
+"src/main/resources/static/PRO230/Phim/B\341\273\231 5 Si\303\252u \304\220\341\272\263ng C\341\272\245p/Bo5SieuDangCap.jpg"
+"src/main/resources/static/PRO230/Phim/Doraemon Nobita V\303\240 Cu\341\273\231c Phi\303\252u L\306\260u V\303\240o Th\341\272\277 Gi\341\273\233i Trong Tranh/Doraemon.jpg"
+"src/main/resources/static/PRO230/Phim/D\306\260\341\273\233i \304\220\303\241y H\341\273\223/DuoiDayHo.png"
+"src/main/resources/static/PRO230/Phim/Elio C\341\272\255u B\303\251 \304\220\341\272\277n T\341\273\253 Tr\303\241i \304\220\341\272\245t/Elio.png"
+"src/main/resources/static/PRO230/Phim/Halabala R\341\273\253ng Ma T\341\272\277 X\303\241c/Halabala.jpg"
+"src/main/resources/static/PRO230/Phim/Ma kh\303\264ng \304\221\341\272\247u/MaKhongDau.jpg"
+"src/main/resources/static/PRO230/Phim/M\306\260\341\273\243n R\306\260\341\273\243u \304\220\341\272\251y K\303\250o/Muon_Ruou_Day_Keo.jpg"
+"src/main/resources/static/PRO230/Phim/Phi V\341\273\245 \304\220\341\273\231ng Tr\341\273\235i 2/PhiVuDongTroi2.jpg"
+"src/main/resources/static/PRO230/Phim/Qu\341\273\267 r\341\272\241ch m\341\272\267t/QuyRachMat.jpg"
+"src/main/resources/static/PRO230/Phim/b\303\263ng ma c\303\265i m\341\272\241ng/BongMaCoiMang.jpg"
+"src/main/resources/static/PRO230/Phim/\303\232t Lan/UtLan.jpg"
+target/classes/application.properties
+target/classes/com/duanweb/duanweb/controller/AddShowtimeServlet.class
+target/classes/com/duanweb/duanweb/controller/AdminAccountApiController.class
+target/classes/com/duanweb/duanweb/controller/BookingController$BookingRequest.class
+target/classes/com/duanweb/duanweb/controller/BookingController.class
+target/classes/com/duanweb/duanweb/controller/LoginController.class
+target/classes/com/duanweb/duanweb/controller/MovieApiController.class
+target/classes/com/duanweb/duanweb/controller/RegisterController.class
+target/classes/com/duanweb/duanweb/controller/ShowtimeController.class
+target/classes/com/duanweb/duanweb/controller/UserApiController.class
+target/classes/com/duanweb/duanweb/dao/AuthDao$LoginResult.class
+target/classes/com/duanweb/duanweb/dao/AuthDao.class
+target/classes/com/duanweb/duanweb/dao/BookingDao$BookingResult.class
+target/classes/com/duanweb/duanweb/dao/BookingDao$InvalidBookingException.class
+target/classes/com/duanweb/duanweb/dao/BookingDao$SeatTakenException.class
+target/classes/com/duanweb/duanweb/dao/BookingDao.class
+target/classes/com/duanweb/duanweb/dao/MovieDao$MovieData.class
+target/classes/com/duanweb/duanweb/dao/MovieDao.class
+target/classes/com/duanweb/duanweb/dao/ShowtimeDao.class
+"target/classes/static/DuLieu/28 N\304\203m Sau H\341\272\255u T\341\272\255n Th\341\272\277/28NamSauHauTanThe.jpg"
+"target/classes/static/DuLieu/28 N\304\203m Sau H\341\272\255u T\341\272\255n Th\341\272\277/28NamSauHauTanThe_Nen.jpg"
+"target/classes/static/DuLieu/B\303\255 K\303\255p Luy\341\273\207n R\341\273\223ng/BiKipLuyenRong.jpg"
+"target/classes/static/DuLieu/B\341\273\231 5 Si\303\252u \304\220\341\272\263ng C\341\272\245p/Bo5SieuDangCap.jpg"
+"target/classes/static/DuLieu/Doraemon Nobita V\303\240 Cu\341\273\231c Phi\303\252u L\306\260u V\303\240o Th\341\272\277 Gi\341\273\233i Trong Tranh/Doraemon.jpg"
+"target/classes/static/DuLieu/D\306\260\341\273\233i \304\220\303\241y H\341\273\223/DuoiDayHo.png"
+"target/classes/static/DuLieu/Elio C\341\272\255u B\303\251 \304\220\341\272\277n T\341\273\253 Tr\303\241i \304\220\341\272\245t/Elio.png"
+"target/classes/static/DuLieu/Halabala R\341\273\253ng Ma T\341\272\277 X\303\241c/Halabala.jpg"
+"target/classes/static/DuLieu/Ma kh\303\264ng \304\221\341\272\247u/MaKhongDau.jpg"
+"target/classes/static/DuLieu/M\306\260\341\273\243n R\306\260\341\273\243u \304\220\341\272\251y K\303\250o/Muon_Ruou_Day_Keo.jpg"
+"target/classes/static/DuLieu/Phi V\341\273\245 \304\220\341\273\231ng Tr\341\273\235i 2/PhiVuDongTroi2.jpg"
+"target/classes/static/DuLieu/Qu\341\273\267 r\341\272\241ch m\341\272\267t/QuyRachMat.jpg"
+"target/classes/static/DuLieu/b\303\263ng ma c\303\265i m\341\272\241ng/BongMaCoiMang.jpg"
+"target/classes/static/DuLieu/\303\232t Lan/UtLan.jpg"
+target/classes/static/Login/login.html
+target/classes/static/Login/register.html
+"target/classes/static/PRO230/Phim/28 N\304\203m Sau H\341\272\255u T\341\272\255n Th\341\272\277/28NamSauHauTanThe.jpg"
+"target/classes/static/PRO230/Phim/28 N\304\203m Sau H\341\272\255u T\341\272\255n Th\341\272\277/28NamSauHauTanThe_Nen.jpg"
+"target/classes/static/PRO230/Phim/B\303\255 K\303\255p Luy\341\273\207n R\341\273\223ng/BiKipLuyenRong.jpg"
+"target/classes/static/PRO230/Phim/B\341\273\231 5 Si\303\252u \304\220\341\272\263ng C\341\272\245p/Bo5SieuDangCap.jpg"
+"target/classes/static/PRO230/Phim/Doraemon Nobita V\303\240 Cu\341\273\231c Phi\303\252u L\306\260u V\303\240o Th\341\272\277 Gi\341\273\233i Trong Tranh/Doraemon.jpg"
+"target/classes/static/PRO230/Phim/D\306\260\341\273\233i \304\220\303\241y H\341\273\223/DuoiDayHo.png"
+"target/classes/static/PRO230/Phim/Elio C\341\272\255u B\303\251 \304\220\341\272\277n T\341\273\253 Tr\303\241i \304\220\341\272\245t/Elio.png"
+"target/classes/static/PRO230/Phim/Halabala R\341\273\253ng Ma T\341\272\277 X\303\241c/Halabala.jpg"
+"target/classes/static/PRO230/Phim/Ma kh\303\264ng \304\221\341\272\247u/MaKhongDau.jpg"
+"target/classes/static/PRO230/Phim/M\306\260\341\273\243n R\306\260\341\273\243u \304\220\341\272\251y K\303\250o/Muon_Ruou_Day_Keo.jpg"
+"target/classes/static/PRO230/Phim/Phi V\341\273\245 \304\220\341\273\231ng Tr\341\273\235i 2/PhiVuDongTroi2.jpg"
+"target/classes/static/PRO230/Phim/Qu\341\273\267 r\341\272\241ch m\341\272\267t/QuyRachMat.jpg"
+"target

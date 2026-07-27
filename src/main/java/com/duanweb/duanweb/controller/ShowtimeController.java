@@ -1,12 +1,9 @@
 package com.duanweb.duanweb.controller;
 
-import com.duanweb.duanweb.dao.ShowtimeDao;
+import com.duanweb.duanweb.dao.ShowtimeDAO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -17,9 +14,9 @@ import java.util.Map;
 @RequestMapping("/api")
 public class ShowtimeController {
 
-    private final ShowtimeDao showtimeDao;
+    private final ShowtimeDAO showtimeDao;
 
-    public ShowtimeController(ShowtimeDao showtimeDao) {
+    public ShowtimeController(ShowtimeDAO showtimeDao) {
         this.showtimeDao = showtimeDao;
     }
 
