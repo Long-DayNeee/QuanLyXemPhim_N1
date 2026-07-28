@@ -1,7 +1,7 @@
 package com.duanweb.duanweb.controller;
 
-import com.duanweb.duanweb.dao.MovieDAO;
-import com.duanweb.duanweb.dao.MovieDAO.MovieData;
+import com.duanweb.duanweb.Service.MovieApiService;
+import com.duanweb.duanweb.Service.MovieApiService.MovieData;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,13 +28,13 @@ import java.util.UUID;
 @RequestMapping("/api/movies")
 public class MovieApiController {
 
-    private final MovieDAO movieDao;
+    private final MovieApiService movieApiService;
 
     @Value("${app.upload-dir}")
     private String uploadDir;
 
-    public MovieApiController(MovieDAO movieDao) {
-        this.movieDao = movieDao;
+    public MovieApiController(MovieApiService movieApiService) {
+        this.movieApiService = movieApiService;
     }
 
     @GetMapping
@@ -43,10 +43,10 @@ public class MovieApiController {
                              @RequestParam(value = "id", required = false) Integer idAlt2) {
         int id = firstPositive(movieId, idAlt, idAlt2);
         if (id > 0) {
-            Map<String, Object> movie = movieDao.findByIdAsMap(id);
+            Map<String, Object> movie = movieApiService.findByIdAsMap(id);
             return movie;
         }
-        List<Map<String, Object>> movies = movieDao.findAllAsMap();
+        List<Map<String, Object>> movies = movieApiService.findAllAsMap();
         return movies;
     }
 
@@ -74,13 +74,13 @@ public class MovieApiController {
         if (id <= 0) {
             return ResponseEntity.badRequest().body(Map.of("error", "Missing id"));
         }
-        movieDao.delete(id);
+        movieApiService.delete(id);
         return ResponseEntity.ok(Map.of("deleted", id));
     }
 
     private ResponseEntity<?> createMovie(HttpServletRequest req) throws IOException {
         MovieData data = readMovieData(req, 0);
-        long id = movieDao.insert(data);
+        Integer id = movieApiService.create(data);
         return ResponseEntity.ok(Map.of("movieId", id));
     }
 
@@ -89,34 +89,35 @@ public class MovieApiController {
             return ResponseEntity.badRequest().body(Map.of("error", "Missing id"));
         }
         MovieData data = readMovieData(req, movieId);
-        movieDao.update(movieId, data);
+        movieApiService.update(movieId, data);
         return ResponseEntity.ok(Map.of("updated", movieId));
     }
 
     private MovieData readMovieData(HttpServletRequest req, int existingMovieId) throws IOException {
-        MovieData data = new MovieData();
-        data.tieuDe = value(req, "title");
-        data.thoiLuong = parseInt(req.getParameter("duration"), 0);
-        data.doTuoi = value(req, "ageRate");
-        data.ngayKhoiChieu = normalizeDate(req.getParameter("premiere"));
-        data.theLoai = value(req, "TheLoai");
-        data.giaVe = parsePrice(req.getParameter("price"));
-        data.ngonNgu = value(req, "language");
-        data.daoDien = value(req, "director");
-        data.cast = value(req, "cast");
-        data.mieuTa = value(req, "description");
-        data.trailerID = value(req, "Trailer_ID");
+        String posterUrl;
 
         String uploadedPoster = savePoster(req);
         if (!uploadedPoster.isEmpty()) {
-            data.posterUrl = uploadedPoster;
+            posterUrl = uploadedPoster;
         } else {
             String postedPoster = value(req, "posterUrl");
-            data.posterUrl = postedPoster.isEmpty() && existingMovieId > 0
-                    ? movieDao.findPosterUrl(existingMovieId)
+            posterUrl = postedPoster.isEmpty() && existingMovieId > 0
+                    ? movieApiService.findPosterUrl(existingMovieId)
                     : postedPoster;
         }
-        return data;
+        return new MovieData(
+                value(req, "title"),
+                parseInt(req.getParameter("duration"), 0),
+                value(req, "ageRate"),
+                normalizeDate(req.getParameter("premiere")),
+                value(req, "TheLoai"),
+                parsePrice(req.getParameter("price")),
+                value(req, "language"),
+                value(req, "director"),
+                value(req, "cast"),
+                value(req, "description"),
+                value(req, "Trailer_ID"),
+                posterUrl);
     }
 
     private String savePoster(HttpServletRequest req) throws IOException {
@@ -177,7 +178,7 @@ public class MovieApiController {
         }
     }
 
-    private static String normalizeDate(String value) {
-        return value == null || value.isBlank() ? LocalDate.now().toString() : value.split("T")[0];
+    private static LocalDate normalizeDate(String value) {
+        return value == null || value.isBlank() ? LocalDate.now() : LocalDate.parse(value.split("T")[0]);
     }
 }

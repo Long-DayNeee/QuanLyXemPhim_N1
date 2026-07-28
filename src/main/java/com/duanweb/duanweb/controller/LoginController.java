@@ -1,6 +1,6 @@
 package com.duanweb.duanweb.controller;
 
-import com.duanweb.duanweb.dao.AuthDAO;
+import com.duanweb.duanweb.Service.AuthService;
 import com.duanweb.duanweb.model.AdminAccount;
 import com.duanweb.duanweb.model.User;
 import jakarta.servlet.http.HttpSession;
@@ -15,10 +15,10 @@ import java.nio.charset.StandardCharsets;
 @Controller
 public class LoginController {
 
-    private final AuthDAO authDAO;
+    private final AuthService authService;
 
-    public LoginController(AuthDAO authDAO) {
-        this.authDAO = authDAO;
+    public LoginController(AuthService authService) {
+        this.authService = authService;
     }
 
     @GetMapping("/login")
@@ -45,7 +45,7 @@ public class LoginController {
         // ===== Đăng nhập USER =====
         if ("USER".equalsIgnoreCase(role)) {
 
-            User user = authDAO.login(username, password);
+            User user = authService.login(username, password);
 
             if (user != null) {
                 session.setAttribute("account", user);
@@ -58,7 +58,7 @@ public class LoginController {
         // ===== Đăng nhập ADMIN =====
         if ("ADMIN".equalsIgnoreCase(role)) {
 
-            AdminAccount admin = authDAO.loginAdmin(username, password);
+            AdminAccount admin = authService.loginAdmin(username, password);
 
             if (admin != null) {
                 session.setAttribute("admin", admin);

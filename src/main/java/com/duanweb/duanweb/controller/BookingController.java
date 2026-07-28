@@ -1,9 +1,9 @@
 package com.duanweb.duanweb.controller;
 
-import com.duanweb.duanweb.dao.BookingDAO;
-import com.duanweb.duanweb.dao.BookingDAO.BookingResult;
-import com.duanweb.duanweb.dao.BookingDAO.InvalidBookingException;
-import com.duanweb.duanweb.dao.BookingDAO.SeatTakenException;
+import com.duanweb.duanweb.Service.BookingService;
+import com.duanweb.duanweb.Service.BookingService.BookingResult;
+import com.duanweb.duanweb.Service.BookingService.InvalidBookingException;
+import com.duanweb.duanweb.Service.BookingService.SeatTakenException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,24 +25,24 @@ public class BookingController {
 
     private static final Pattern PHONE_PATTERN = Pattern.compile("^0\\d{9}$");
 
-    private final BookingDAO bookingDao;
+    private final BookingService bookingService;
 
-    public BookingController(BookingDAO bookingDao) {
-        this.bookingDao = bookingDao;
+    public BookingController(BookingService bookingService) {
+        this.bookingService = bookingService;
     }
 
     @GetMapping
     public ResponseEntity<?> get(@RequestParam(value = "bookingId", required = false) Long bookingId,
                                   @RequestParam(value = "showtimeId", required = false) Integer showtimeId) {
         if (bookingId != null) {
-            Map<String, Object> detail = bookingDao.findBookingDetail(bookingId);
+            Map<String, Object> detail = bookingService.findBookingDetail(bookingId);
             if (detail == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Không tìm thấy booking"));
             }
             return ResponseEntity.ok(detail);
         }
         if (showtimeId != null) {
-            List<String> booked = bookingDao.findBookedSeatCodes(showtimeId);
+            List<String> booked = bookingService.findBookedSeatCodes(showtimeId);
             return ResponseEntity.ok(booked);
         }
         return ResponseEntity.badRequest().body(Map.of("error", "Thiếu bookingId hoặc showtimeId"));
@@ -73,12 +73,12 @@ public class BookingController {
         }
 
         try {
-            BookingResult result = bookingDao.createBooking(showtimeId, seats, customer, phone, email);
+            BookingResult result = bookingService.createBooking(showtimeId, seats, customer, phone, email);
             return ResponseEntity.ok(Map.of(
                     "ok", true,
-                    "bookingId", result.bookingId,
-                    "seats", result.seats,
-                    "total", result.total));
+                    "bookingId", result.bookingId(),
+                    "seats", result.seats(),
+                    "total", result.total()));
         } catch (InvalidBookingException e) {
             return ResponseEntity.badRequest().body(Map.of("ok", false, "error", e.getMessage()));
         } catch (SeatTakenException e) {

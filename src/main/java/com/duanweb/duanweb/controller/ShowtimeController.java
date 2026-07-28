@@ -1,9 +1,12 @@
 package com.duanweb.duanweb.controller;
 
-import com.duanweb.duanweb.dao.ShowtimeDAO;
+import com.duanweb.duanweb.Entity.Showtime;
+import com.duanweb.duanweb.Service.ShowtimeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +17,10 @@ import java.util.Map;
 @RequestMapping("/api")
 public class ShowtimeController {
 
-    private final ShowtimeDAO showtimeDao;
+    private final ShowtimeService showtimeService;
 
-    public ShowtimeController(ShowtimeDAO showtimeDao) {
-        this.showtimeDao = showtimeDao;
+    public ShowtimeController(ShowtimeService showtimeService) {
+        this.showtimeService = showtimeService;
     }
 
     @GetMapping({"/showtimes"})
@@ -25,8 +28,31 @@ public class ShowtimeController {
         if (movieId <= 0) {
             return ResponseEntity.badRequest().body(Map.of("error", "movieId không hợp lệ"));
         }
-        List<Map<String, Object>> showtimes = showtimeDao.findByMovieId(movieId);
+        List<Map<String, Object>> showtimes = showtimeService.findByMovieId(movieId);
         return ResponseEntity.ok(showtimes);
+    }
+
+    @PostMapping("/add-showtime")
+    public ResponseEntity<?> addShowtime(@RequestBody Map<String, Object> body) {
+        int movieId = parseInt(body.get("movieId"), 0);
+        String dateValue = body.getOrDefault("date", "").toString();
+        String timeValue = body.getOrDefault("time", "").toString();
+
+        if (movieId <= 0 || dateValue.isBlank() || timeValue.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("ok", false, "error", "Thiếu movieId hoặc date/time"));
+        }
+
+        try {
+            Showtime showtime = showtimeService.addShowtime(movieId, dateValue, timeValue);
+            return ResponseEntity.ok(Map.of("ok", true, "id", showtime.getShowTimeID()));
+        } catch (DateTimeParseException e) {
+            return ResponseEntity.badRequest().body(Map.of("ok", false, "error", "Định dạng date/time không hợp lệ"));
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            return ResponseEntity.badRequest().body(Map.of("ok", false, "error", e.getMessage()));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("ok", false, "error", "Không thể thêm suất chiếu vào CSDL"));
+        }
     }
 
     @DeleteMapping("/showtimes")
@@ -34,7 +60,7 @@ public class ShowtimeController {
         if (id <= 0) {
             return ResponseEntity.badRequest().body(Map.of("error", "Missing id"));
         }
-        showtimeDao.delete(id);
+        showtimeService.delete(id);
         return ResponseEntity.ok(Map.of("deleted", id));
     }
 

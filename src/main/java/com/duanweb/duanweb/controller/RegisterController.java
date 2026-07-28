@@ -1,6 +1,6 @@
 package com.duanweb.duanweb.controller;
 
-import com.duanweb.duanweb.dao.AuthDAO;
+import com.duanweb.duanweb.Service.AuthService;
 import com.duanweb.duanweb.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +13,10 @@ import java.nio.charset.StandardCharsets;
 @Controller
 public class RegisterController {
 
-    private final AuthDAO authDAO;
+    private final AuthService authService;
 
-    public RegisterController(AuthDAO authDAO) {
-        this.authDAO = authDAO;
+    public RegisterController(AuthService authService) {
+        this.authService = authService;
     }
 
     @GetMapping("/register")
@@ -47,8 +47,8 @@ public class RegisterController {
         }
 
         // Kiểm tra tên đăng nhập hoặc email đã tồn tại
-        if (authDAO.checkUserExists(username)
-                || authDAO.checkUserExists(email)) {
+        if (authService.checkUserExists(username)
+                || authService.checkUserExists(email)) {
 
             return "redirect:/Login/register.html?error="
                     + encode("Tên đăng nhập hoặc Email đã tồn tại!");
@@ -63,7 +63,7 @@ public class RegisterController {
         user.setRole("USER");
 
         // Lưu
-        if (authDAO.register(user)) {
+        if (authService.register(user) != null) {
             return "redirect:/Login/login.html?message="
                     + encode("Đăng ký thành công! Vui lòng đăng nhập.");
         }

@@ -1,11 +1,34 @@
 package com.duanweb.duanweb.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "adminaccount")
 public class AdminAccount {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "adminid")
     private int accountID;
+
+    @Column(name = "tennguoidung")
     private String username;
+
+    @Column(name = "matkhau")
     private String password;
+
+    @Column(name = "hoten")
     private String fullName;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "vaitro")
     private String role;
 
     // Constructor rỗng

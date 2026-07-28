@@ -1,6 +1,6 @@
 package com.duanweb.duanweb.controller;
 
-import com.duanweb.duanweb.dao.AuthDAO;
+import com.duanweb.duanweb.Service.AuthService;
 import com.duanweb.duanweb.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +17,10 @@ import java.util.Map;
 @RequestMapping("/api/admin/users")
 public class UserApiController {
 
-    private final AuthDAO authDAO;
+    private final AuthService authService;
 
-    public UserApiController(AuthDAO authDAO) {
-        this.authDAO = authDAO;
+    public UserApiController(AuthService authService) {
+        this.authService = authService;
     }
 
     @PostMapping
@@ -38,7 +38,7 @@ public class UserApiController {
             return ResponseEntity.badRequest().body(Map.of("status", "error", "message", "Email và Password không được để trống!"));
         }
 
-        if (authDAO.checkUserExists(email)) {
+        if (authService.checkUserExists(email)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("status", "error", "message", "Email đã tồn tại!"));
         }
 
@@ -48,7 +48,7 @@ public class UserApiController {
         newUser.setPassword(password.trim());
         newUser.setRole(role != null && !role.isBlank() ? role.trim() : "USER");
 
-        if (authDAO.addUser(newUser)) {
+        if (authService.addUser(newUser) != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("status", "success", "message", "Thêm tài khoản thành công!"));
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("status", "error", "message", "Thêm tài khoản thất bại!"));
@@ -62,7 +62,7 @@ public class UserApiController {
 
         try {
             int userId = Integer.parseInt(idParam.trim());
-            if (authDAO.deleteUser(userId)) {
+            if (authService.deleteUser(userId)) {
                 return ResponseEntity.ok(Map.of("status", "success", "message", "Xóa tài khoản thành công!"));
             }
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("status", "error", "message", "Không tìm thấy tài khoản để xóa!"));

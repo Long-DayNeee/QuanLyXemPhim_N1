@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EVL - Giới Thiệu</title>
     <link rel="stylesheet" href="/styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/cinema-theme.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
@@ -17,11 +19,11 @@
     <link rel="icon" type="image/x-icon" href="/img/favicon.png" />
   </head>
   <body>
-    <header>
+    <header class="site-nav">
       <div class="container">
         <div class="logo">
           <a href="/Home/index.html">
-            <img src="/PRO230/LogoEVL.png" alt="Logo" class="logo-img" />
+            <img src="/DuLieu/Logo/LogoEVL.png" alt="Logo" class="logo-img" />
             <h1>
               <span class="DanhHieu">EVL</span>
             </h1>
@@ -34,17 +36,10 @@
             <li><a href="/Home/Phim.html">Phim</a></li>
           </ul>
         </nav>
-        <div class="theme-toggle">
-          <span class="theme-toggle-icon"><i class="fas fa-sun"></i></span>
-          <label class="theme-toggle-label">
-            <input
-              type="checkbox"
-              class="theme-toggle-checkbox"
-              id="theme-toggle"
-            />
-            <span class="theme-toggle-slider"></span>
-          </label>
-          <span class="theme-toggle-icon"><i class="fas fa-moon"></i></span>
+      
+        <div class="nav-auth">
+          <button id="adminBtn" class="btn-admin-pill"><i class="fas fa-lock"></i> Admin</button>
+          <a href="/login" class="btn-login-pill">Đăng Nhập</a>
         </div>
         <div class="mobile-menu-btn">
           <span></span>
@@ -161,10 +156,10 @@
               />
             </div>
             <div class="member-info">
-              <h3>Lê Huy Hoàng</h3>
+              <h3>Ngô Thành Long</h3>
               <p class="member-role">Trực Ban</p>
               <p class="member-desc">Đảm bảo hoạt động liên tục và an toàn của đơn vị, kỹ thuật tại rạp</p>
-              <p class="member-desc">Liên hệ: 0833 124 166</p>
+              <p class="member-desc">Liên hệ: 0xxx xxx xxx</p>
             </div>
           </div>
 
@@ -175,10 +170,10 @@
                 alt="Q.Khánh"/>
             </div>
             <div class="member-info">
-              <h3>Hàn Quốc Khánh</h3>
+              <h3>Nguyễn Xuân Trúc Quỳnh</h3>
               <p class="member-role">Nhân Viên Soát vé</p>
               <p class="member-desc">Soát vé & Hỗ trợ khách hàng</p>
-              <p class="member-desc">Liên hệ: 0328 196 973</p>
+              <p class="member-desc">Liên hệ: 0xxx xxx xxx</p>
             </div>
           </div>
           <div class="team-member" data-aos="fade-up" data-aos-delay="600">
@@ -186,10 +181,10 @@
               <img src="/PRO230/AnhThanhVien/Quy.jpg" alt="Quý" />
             </div>
             <div class="member-info">
-              <h3>Nguyễn Xuân Quý</h3>
+              <h3>Nguyễn Khánh Thi</h3>
               <p class="member-role">Nhân Viên Soát vé</p>
               <p class="member-desc">Soát vé & Hỗ trợ khách hàng</p>
-              <p class="member-desc">Liên hệ: 0345 970 083</p>
+              <p class="member-desc">Liên hệ: 0xxx xxx xxx</p>
             </div>
           </div>
         </div>
@@ -280,6 +275,23 @@
         </div>
       </div>
     </footer>
+
+    <div id="adminModal" class="modal">
+      <div class="modal-content">
+        <span class="close-admin">&times;</span>
+        <p style="font: weight 10px;; margin-bottom:12px; color: red;">
+          *Trang này chỉ dành cho quản lý
+        </p>
+        <input type="password" id="adminCodeInput" placeholder="Nhập mã quản lý"
+          style="width:100%; padding:8px; box-sizing:border-box;" />
+
+        <div
+          style="margin-top:16px; text-align:right; gap:10px; display:flex; justify-content:flex-end; align-items: center;">
+          <button id="adminExitBtn" class="ThoatQuanLy">Thoát</button>
+          <button id="adminLoginBtn" class="ThoatDangNhap">Đăng nhập</button>
+        </div>
+      </div>
+    </div>
 
     <script src="/script.js"></script>
   </body>

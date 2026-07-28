@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EVL - Trang Chủ</title>
     <link rel="stylesheet" href="/styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/cinema-theme.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet"/>
     <link rel="icon" type="image/x-icon" href="/img/favicon.png" />
@@ -15,8 +17,8 @@
       rel="stylesheet"
     />
   </head>
-  <body>
-    <header>
+  <body class="home-page">
+    <header class="site-nav">
       <div class="container">
         <div class="logo">
           <a href="/Home/index.html">
@@ -33,17 +35,10 @@
             <li><a href="/Home/Phim.html">Phim</a></li>      
           </ul>
         </nav>
-        <div class="theme-toggle">
-          <span class="theme-toggle-icon"><i class="fas fa-sun"></i></span>
-          <label class="theme-toggle-label">
-            <input
-              type="checkbox"
-              class="theme-toggle-checkbox"
-              id="theme-toggle"
-            />
-            <span class="theme-toggle-slider"></span>
-          </label>
-          <span class="theme-toggle-icon"><i class="fas fa-moon"></i></span>
+        
+        <div class="nav-auth">
+          <button id="adminBtn" class="btn-admin-pill"><i class="fas fa-lock"></i> Admin</button>
+          <a href="/login" class="btn-login-pill">Đăng Nhập</a>
         </div>
         <div class="mobile-menu-btn">
           <span></span>
@@ -53,198 +48,221 @@
       </div>
     </header>
 
-    <section class="hero">
-      <div class="container">
-        <div class="hero-content">
-          <h2 class="animate-text">Enjoy virtual life</h2>
-          <p class="animate-text delay-1" style="font-size: 25px">
-            Mang đến trải nghiệm tuyệt vời trong thế giới điện ảnh
-          </p>
-          <a href="/Home/Phim.html" class="btn animate-text delay-2">Khám Phá Ngay!</a>
+    <section class="movie-hero">
+      <img
+        class="movie-hero-bg"
+        src="/PRO230/Phim/28 Năm Sau Hậu Tận Thế/28NamSauHauTanThe_Nen.jpg"
+        alt="28 Năm Sau: Hậu Tận Thế"
+      />
+      <div class="movie-hero-overlay"></div>
+
+      <div class="movie-hero-content">
+        <div class="hero-badges animate-text">
+          <span class="badge badge-red">Đang Chiếu</span>
+          <span class="badge badge-gold">Kinh dị</span>
+        </div>
+
+        <h1 class="movie-hero-title animate-text delay-1">28 Năm Sau: Hậu Tận Thế</h1>
+
+        <div class="movie-hero-meta animate-text delay-2">
+          <span>114 phút</span>
+          <span>•</span>
+          <span>Kinh dị</span>
+        </div>
+
+        <p class="movie-hero-desc animate-text delay-3">
+          Cơn ác mộng chưa kết thúc. Virus trở lại, kéo theo bóng tối bao trùm nước Anh. Một hành trình sinh tử: cậu bé tìm kiếm bác sĩ để cứu mẹ mình, băng qua vùng đất chết chóc đầy xác sống tiến hóa và những kẻ nguy hiểm ẩn sau gương mặt tử tế. Liệu niềm hy vọng cuối cùng có đủ để cứu họ khỏi vực thẳm tuyệt vọng?
+        </p>
+
+        <div class="movie-hero-cta animate-text delay-4">
+          <a href="/ChiTietSanPham.html?movieId=1" class="btn-play">
+            <i class="fas fa-play"></i> Đặt Vé Ngay
+          </a>
+          <a href="/Home/Phim.html" class="btn-outline">Xem Tất Cả Phim</a>
         </div>
       </div>
     </section>
 
-    <section class="ThongTinSanPhamNoiBat">
-    <div class="SanPhamNoiBat-full-image">
-      <img src="/PRO230/Phim/28 Năm Sau Hậu Tận Thế/28NamSauHauTanThe_Nen.jpg" alt="Nền full-width">
-    </div>
-
-    <!-- 2) Panel xanh nằm trên ảnh full-width -->
-    <div class="SanPhamNoiBat-text">
-      <p class="subtitle">Hot nhất tháng này</p>
-      <h2 class="title">28 NĂM SAU: HẬU TẬN THẾ</h2>
-      <p class="desc">
-        Cơn ác mộng chưa kết thúc. Virus trở lại, kéo theo bóng tối bao trùm nước Anh. Một hành trình sinh tử: cậu bé tìm kiếm bác sĩ để cứu mẹ mình, băng qua vùng đất chết chóc đầy xác sống tiến hóa và những kẻ nguy hiểm ẩn sau gương mặt tử tế. Liệu niềm hy vọng cuối cùng có đủ để cứu họ khỏi vực thẳm tuyệt vọng?
-      </p>
-      <ul class="features">
-        <li>Thể loại: Kinh dị</li>
-        <li>Thời lượng: 114 phút</li>
-        <li>Ngôn ngữ:Tiếng Anh</li>
-        <li>Ngày khởi chiếu: 20/06/2025</li>
-      </ul>
-      <h3>Giá vé: 200.000đ</h3>
-    </div>
-
-    <!-- 3) Side-image chồng lên trên ảnh full-width -->
-    <div class="SanPhamNoiBat-image">
-      <img src="/PRO230/Phim/28 Năm Sau Hậu Tận Thế/28NamSauHauTanThe.jpg" alt="Poster">
-    </div>
-  </section>
-
     <section class="featured-products">
       <div class="container">
-        <h2 class="section-title">CÁC PHIM KHỞI CHIẾU</h2>
+        <div class="section-heading">
+          <p class="eyebrow">Đang Chiếu</p>
+          <h2 class="section-title">Các Phim Khởi Chiếu</h2>
+        </div>
         <div class="products-grid">
-          <div class="product-card" data-aos="fade-up">
-            <div class="product-image">
+          <div class="product-card movie-card" data-aos="fade-up">
+            <div class="product-image movie-poster">
               <img src="/PRO230/Phim/28 Năm Sau Hậu Tận Thế/28NamSauHauTanThe.jpg" alt="28NamSauHauTanThe">
+              <div class="movie-badges"><span class="badge">Kinh dị</span></div>
             </div>
             <div class="product-info">
               <h3>28 Năm: Sau Hậu Tận Thế</h3>
-              <p class="price">200.000đ</p>
-              <p class="description">Thể loại: Kinh dị</p>
-              <p class="description">Thời lượng: 114 phút</p>
+              <div class="movie-meta-row">
+                <span class="movie-duration">114 phút</span>
+                <span class="movie-price">200.000đ</span>
+              </div>
               <a href="/ChiTietSanPham.html?movieId=1" class="btn-secondary">Xem Chi Tiết</a>
             </div>
           </div>
-          <div class="product-card" data-aos="fade-up">
-            <div class="product-image">
+          <div class="product-card movie-card" data-aos="fade-up">
+            <div class="product-image movie-poster">
               <img src="/PRO230/Phim/Út Lan/UtLan.jpg" alt="UtLan">
+              <div class="movie-badges"><span class="badge">Kinh dị</span></div>
             </div>
             <div class="product-info">
               <h3>Út Lan: Oán Linh Giữ Của</h3>
-              <p class="price">200.000đ</p>
-              <p class="description">Thể loại: Kinh dị</p>
-              <p class="description">Thời lượng: 111 phút</p>
+              <div class="movie-meta-row">
+                <span class="movie-duration">111 phút</span>
+                <span class="movie-price">200.000đ</span>
+              </div>
               <a href="/ChiTietSanPham.html?movieId=9" class="btn-secondary">Xem Chi Tiết</a>
             </div>
           </div>
-          <div class="product-card" data-aos="fade-up" >
-            <div class="product-image">
+          <div class="product-card movie-card" data-aos="fade-up" >
+            <div class="product-image movie-poster">
               <img src="/PRO230/Phim/Bộ 5 Siêu Đẳng Cấp/Bo5SieuDangCap.jpg" alt="Bo5sieudangcap">
+              <div class="movie-badges"><span class="badge">Hài hước</span><span class="badge">Hành động</span></div>
             </div>
             <div class="product-info">
               <h3>Bộ 5 Siêu Đẳng Cấp</h3>
-              <p class="price">200.000đ</p>
-              <p class="description">Thể loại: Hài hước, Hành động</p>
-              <p class="description">Thời lượng: 119 phút</p>
+              <div class="movie-meta-row">
+                <span class="movie-duration">119 phút</span>
+                <span class="movie-price">200.000đ</span>
+              </div>
               <a href="/ChiTietSanPham.html?movieId=3" class="btn-secondary">Xem Chi Tiết</a>
             </div>
           </div>
-          <div class="product-card" data-aos="fade-up" >
-            <div class="product-image">
+          <div class="product-card movie-card" data-aos="fade-up" >
+            <div class="product-image movie-poster">
               <img src="/PRO230/Phim/Bí Kíp Luyện Rồng/BiKipLuyenRong.jpg" alt="BiKipLuyenRong">
+              <div class="movie-badges"><span class="badge">Thần thoại</span><span class="badge">Phiêu lưu</span></div>
             </div>
             <div class="product-info">
               <h3>Bí Kíp Luyện Rồng</h3>
-              <p class="price">200.000đ</p>
-              <p class="description">Thể loại: Thần thoại, Phiêu lưu</p>
-              <p class="description">Thời lượng: 126 phút</p>
+              <div class="movie-meta-row">
+                <span class="movie-duration">126 phút</span>
+                <span class="movie-price">200.000đ</span>
+              </div>
               <a href="/ChiTietSanPham.html?movieId=2" class="btn-secondary">Xem Chi Tiết</a>
             </div>
           </div>
 
-          <div class="product-card" data-aos="fade-up">
-            <div class="product-image">
+          <div class="product-card movie-card" data-aos="fade-up">
+            <div class="product-image movie-poster">
               <img src="/PRO230/Phim/bóng ma cõi mạng/BongMaCoiMang.jpg" alt="BongMaCoiMang">
+              <div class="movie-badges"><span class="badge">Kinh dị</span></div>
             </div>
             <div class="product-info">
               <h3>Bóng Ma Cõi Mạng</h3>
-              <p class="price">200.000đ</p>
-              <p class="description">Thể loại: Kinh dị</p>
-              <p class="description">Thời lượng: 91 phút</p>
+              <div class="movie-meta-row">
+                <span class="movie-duration">91 phút</span>
+                <span class="movie-price">200.000đ</span>
+              </div>
               <a href="/ChiTietSanPham.html?movieId=4" class="btn-secondary">Xem Chi Tiết</a>
             </div>
           </div>
 
-          <div class="product-card" data-aos="fade-up">
-            <div class="product-image">
+          <div class="product-card movie-card" data-aos="fade-up">
+            <div class="product-image movie-poster">
               <img src="/PRO230/Phim/Dưới Đáy Hồ/DuoiDayHo.png" alt="DuoiDayHo">
+              <div class="movie-badges"><span class="badge">Kinh dị</span></div>
             </div>
             <div class="product-info">
               <h3>Dưới Đáy Hồ</h3>
-              <p class="price">200.000đ</p>
-              <p class="description">Thể loại: Kinh dị</p>
-              <p class="description">Thời lượng: 98 phút</p>
+              <div class="movie-meta-row">
+                <span class="movie-duration">98 phút</span>
+                <span class="movie-price">200.000đ</span>
+              </div>
               <a href="/ChiTietSanPham.html?movieId=5" class="btn-secondary">Xem Chi Tiết</a>
             </div>
           </div>
 
-          <div class="product-card" data-aos="fade-up">
-            <div class="product-image">
+          <div class="product-card movie-card" data-aos="fade-up">
+            <div class="product-image movie-poster">
               <img src="/PRO230/Phim/Quỷ rạch mặt/QuyRachMat.jpg" alt="QuyRachMat">
+              <div class="movie-badges"><span class="badge">Kinh dị</span></div>
             </div>
             <div class="product-info">
               <h3>Quỷ Rạch Mặt</h3>
-              <p class="price">200.000đ</p>
-              <p class="description">Thể loại: Kinh dị</p>
-              <p class="description">Thời lượng: 126 phút</p>
+              <div class="movie-meta-row">
+                <span class="movie-duration">126 phút</span>
+                <span class="movie-price">200.000đ</span>
+              </div>
               <a href="/ChiTietSanPham.html?movieId=10" class="btn-secondary">Xem Chi Tiết</a>
             </div>
           </div>
 
-          <div class="product-card" data-aos="fade-up">
-            <div class="product-image">
+          <div class="product-card movie-card" data-aos="fade-up">
+            <div class="product-image movie-poster">
               <img src="/PRO230/Phim/Mượn Rượu Đẩy Kèo/Muon_Ruou_Day_Keo.jpg" alt="Muon_Ruou_Day_Keo">
+              <div class="movie-badges"><span class="badge">Tâm lý</span><span class="badge">Hồi hộp</span></div>
             </div>
             <div class="product-info">
               <h3>Mượn Rượu Đẩy Kèo</h3>
-              <p class="price">200.000đ</p>
-              <p class="description">Thể loại: Tâm lý, Hồi hộp</p>
-              <p class="description">Thời lượng: 104 phút</p>
+              <div class="movie-meta-row">
+                <span class="movie-duration">104 phút</span>
+                <span class="movie-price">200.000đ</span>
+              </div>
               <a href="/ChiTietSanPham.html?movieId=13" class="btn-secondary">Xem Chi Tiết</a>
             </div>
           </div>
 
-          <div class="product-card" data-aos="fade-up">
-            <div class="product-image">
+          <div class="product-card movie-card" data-aos="fade-up">
+            <div class="product-image movie-poster">
               <img src="/PRO230/Phim/Doraemon Nobita Và Cuộc Phiêu Lưu Vào Thế Giới Trong Tranh/Doraemon.jpg" alt="Doraemon">
+              <div class="movie-badges"><span class="badge">Hoạt hình</span><span class="badge">Phiêu lưu</span></div>
             </div>
             <div class="product-info">
               <h3>Doraemon: Nobita Và Cuộc Phiêu Lưu Vào Thế Giới Trong Tranh</h3>
-              <p class="price">200.000đ</p>
-              <p class="description">Thể loại: Hoạt hình, Phiêu lưu</p>
-              <p class="description">Thời lượng: 105 phút</p>
+              <div class="movie-meta-row">
+                <span class="movie-duration">105 phút</span>
+                <span class="movie-price">200.000đ</span>
+              </div>
               <a href="/ChiTietSanPham.html?movieId=6" class="btn-secondary">Xem Chi Tiết</a>
             </div>
           </div>
 
-          <div class="product-card" data-aos="fade-up">
-            <div class="product-image">
+          <div class="product-card movie-card" data-aos="fade-up">
+            <div class="product-image movie-poster">
               <img src="/PRO230/Phim/Ma không đầu/MaKhongDau.jpg" alt="MaKhongDau">
+              <div class="movie-badges"><span class="badge">Kinh dị</span></div>
             </div>
             <div class="product-info">
               <h3>Ma Không Đầu</h3>
-              <p class="price">200.000đ</p>
-              <p class="description">Thể loại: Kinh dị</p>
-              <p class="description">Thời lượng: 115 phút</p>
+              <div class="movie-meta-row">
+                <span class="movie-duration">115 phút</span>
+                <span class="movie-price">200.000đ</span>
+              </div>
               <a href="/ChiTietSanPham.html?movieId=8" class="btn-secondary">Xem Chi Tiết</a>
             </div>
           </div>
 
-          <div class="product-card" data-aos="fade-up" >
-            <div class="product-image">
+          <div class="product-card movie-card" data-aos="fade-up" >
+            <div class="product-image movie-poster">
               <img src="/PRO230/Phim/Halabala Rừng Ma Tế Xác/Halabala.jpg" alt="Halabala">
+              <div class="movie-badges"><span class="badge">Kinh dị</span></div>
             </div>
             <div class="product-info">
               <h3>Halabala: Rừng Ma Tế Xác</h3>
-              <p class="price">200.000đ</p>
-              <p class="description">Thể loại: Kinh dị</p>
-              <p class="description">Thời lượng: 90 phút</p>
+              <div class="movie-meta-row">
+                <span class="movie-duration">90 phút</span>
+                <span class="movie-price">200.000đ</span>
+              </div>
               <a href="/ChiTietSanPham.html?movieId=14" class="btn-secondary">Xem Chi Tiết</a>
             </div>
           </div>
 
-          <div class="product-card" data-aos="fade-up" >
-            <div class="product-image">
+          <div class="product-card movie-card" data-aos="fade-up" >
+            <div class="product-image movie-poster">
               <img src="/PRO230/Phim/Elio Cậu Bé Đến Từ Trái Đất/Elio.png" alt="Elio">
+              <div class="movie-badges"><span class="badge">Hoạt hình</span><span class="badge">Phiêu lưu</span></div>
             </div>
             <div class="product-info">
               <h3>Elio Cậu Bé Đến Từ Trái Đất</h3>
-              <p class="price">200.000đ</p>
-              <p class="description">Thể loại: Hoạt hình, Phiêu lưu</p>
-              <p class="description">Thời lượng: 97 phút</p>
+              <div class="movie-meta-row">
+                <span class="movie-duration">97 phút</span>
+                <span class="movie-price">200.000đ</span>
+              </div>
               <a href="/ChiTietSanPham.html?movieId=7" class="btn-secondary">Xem Chi Tiết</a>
             </div>
           </div>
@@ -273,13 +291,7 @@
               </p>
               <div class="testimonial-author">
                 <h4>28 Năm sau: Hậu tận thế</h4>
-                <div class="rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                </div>
+                
               </div>
             </div>
           </div>
@@ -297,12 +309,7 @@
               </p>
               <div class="testimonial-author">
                 <h4>Út Lan: Oán linh giữ của</h4>
-                <div class="rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                </div>
+                
               </div>
             </div>
           </div>
@@ -320,12 +327,7 @@
               </p>
               <div class="testimonial-author">
                 <h4>Mượn rượu đẩy kèo</h4>
-                <div class="rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                </div>
+                
               </div>
             </div>
           </div>
@@ -343,13 +345,7 @@
               </p>
               <div class="testimonial-author">
                 <h4>Doraemon: Nobita Và Cuộc Phiêu Lưu Vào Thế Giới Trong Tranh</h4>
-                <div class="rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                </div>
+              
               </div>
             </div>
           </div>
@@ -367,12 +363,7 @@
               </p>
               <div class="testimonial-author">
                 <h4>Elio Cậu Bé Đến Từ Trái Đất</h4>
-                <div class="rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                </div>
+              
               </div>
             </div>
           </div>
@@ -431,6 +422,23 @@
         </div>
       </div>
     </footer>
+
+    <div id="adminModal" class="modal">
+      <div class="modal-content">
+        <span class="close-admin">&times;</span>
+        <p style="font: weight 10px;; margin-bottom:12px; color: red;">
+          *Trang này chỉ dành cho quản lý
+        </p>
+        <input type="password" id="adminCodeInput" placeholder="Nhập mã quản lý"
+          style="width:100%; padding:8px; box-sizing:border-box;" />
+
+        <div
+          style="margin-top:16px; text-align:right; gap:10px; display:flex; justify-content:flex-end; align-items: center;">
+          <button id="adminExitBtn" class="ThoatQuanLy">Thoát</button>
+          <button id="adminLoginBtn" class="ThoatDangNhap">Đăng nhập</button>
+        </div>
+      </div>
+    </div>
 
     <script src="/script.js"></script>
   </body>
