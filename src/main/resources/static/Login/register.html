@@ -1,57 +1,148 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <title>Đăng ký</title>
+
     <style>
-        body { font-family: Arial; background: #f0f2f5; display: flex; justify-content: center; padding-top: 50px; }
-        .box { background: white; padding: 25px; border-radius: 8px; width: 300px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        input { width: 100%; padding: 8px; margin: 8px 0 15px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
-        button { width: 100%; padding: 9px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        body{
+            font-family: Arial, sans-serif;
+            background:#f5f5f5;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+
+        .box{
+            width:350px;
+            background:#fff;
+            padding:25px;
+            border-radius:8px;
+            box-shadow:0 0 10px rgba(0,0,0,.15);
+        }
+
+        h2{
+            text-align:center;
+            margin-bottom:20px;
+        }
+
+        label{
+            display:block;
+            margin-top:10px;
+        }
+
+        input{
+            width:100%;
+            padding:10px;
+            margin-top:5px;
+            box-sizing:border-box;
+        }
+
+        button{
+            width:100%;
+            padding:10px;
+            margin-top:20px;
+            background:#28a745;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#218838;
+        }
+
+        .error{
+            color:red;
+            text-align:center;
+            margin-bottom:10px;
+        }
+
+        .success{
+            color:green;
+            text-align:center;
+            margin-bottom:10px;
+        }
+
+        a{
+            text-decoration:none;
+        }
+
     </style>
 </head>
+
 <body>
 
 <div class="box">
-    <h3 style="text-align: center; margin-top: 0;">ĐĂNG KÝ</h3>
 
-    <p id="errorMsg" style="color: red; font-size: 13px; display: none;"></p>
-    <p id="successMsg" style="color: green; font-size: 13px; display: none;"></p>
+    <h2>Đăng ký</h2>
 
-    <form action="register" method="post">
+    <div id="errorMsg" class="error"></div>
+
+    <div id="successMsg" class="success"></div>
+
+    <form action="/register" method="post">
+
         <label>Họ và tên</label>
-        <input type="text" name="fullName" required>
+        <input
+                type="text"
+                name="fullName"
+                required>
 
-        <label>Tài khoản</label>
-        <input type="text" name="username" required>
+        <label>Tên đăng nhập</label>
+        <input
+                type="text"
+                name="username"
+                required>
 
         <label>Mật khẩu</label>
-        <input type="password" name="password" required>
+        <input
+                type="password"
+                name="password"
+                required>
 
-        <button type="submit">Đăng ký</button>
+        <button type="submit">
+            Đăng ký
+        </button>
+
     </form>
 
-    <p style="text-align: center; font-size: 13px; margin-bottom: 0;">
-        Đã có tài khoản? <a href="login">Đăng nhập</a>
+    <p style="text-align:center;margin-top:15px">
+
+        Đã có tài khoản?
+
+        <a href="/login">
+
+            Đăng nhập
+
+        </a>
+
     </p>
+
 </div>
 
 <script>
-    // Doc thong bao loi/thanh cong tu query string (?error=...&message=...)
-    // vi day la file HTML tinh, khong the doc request.getAttribute() nhu JSP truoc day.
+
     const params = new URLSearchParams(window.location.search);
-    const error = params.get("error");
-    const message = params.get("message");
-    if (error) {
-        const el = document.getElementById("errorMsg");
-        el.textContent = error;
-        el.style.display = "block";
+
+    const error=params.get("error");
+
+    const message=params.get("message");
+
+    if(error){
+
+        document.getElementById("errorMsg").innerHTML=decodeURIComponent(error);
+
     }
-    if (message) {
-        const el = document.getElementById("successMsg");
-        el.textContent = message;
-        el.style.display = "block";
+
+    if(message){
+
+        document.getElementById("successMsg").innerHTML=decodeURIComponent(message);
+
     }
+
 </script>
 
 </body>

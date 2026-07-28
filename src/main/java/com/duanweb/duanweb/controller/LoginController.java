@@ -26,30 +26,47 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam(value = "username", required = false) String username,
-                        @RequestParam(value = "password", required = false) String password,
-                        HttpSession session) {
-        String u = username != null ? username.trim() : "";
-        String p = password != null ? password.trim() : "";
+    public String login(
+            @RequestParam String username,
+            @RequestParam String password,
+            HttpSession session) {
 
-        if (u.isBlank() || p.isBlank()) {
-            return "redirect:/Login/login.html?error=" + encode("Vui lòng nhập đầy đủ Tên đăng nhập và Mật khẩu!");
+        username = username.trim();
+        password = password.trim();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            return "redirect:/Login/login.html?error="
+                    + encode("Vui lòng nhập đầy đủ thông tin!");
         }
 
-        User user = authDAO.login(u, p);
+        // Đăng nhập User
+        User user = authDAO.login(username, password);
+
         if (user != null) {
             session.setAttribute("account", user);
-            session.setMaxInactiveInterval(3600);
+            session.setMaxInactiveInterval(60 * 60);
+
             if ("ADMIN".equalsIgnoreCase(user.getRole())) {
                 return "redirect:/Admin/QuanLyPhim.html";
             }
+
             return "redirect:/Home/index.html";
         }
 
-        return "redirect:/Login/login.html?error=" + encode("Tài khoản hoặc mật khẩu không đúng!");
+        // Nếu không phải User thì kiểm tra Admin
+        AuthDAO.LoginResult result = authDAO.authenticate(username, password);
+
+        if (result == AuthDAO.LoginResult.OK) {
+            session.setAttribute("admin", username);
+            session.setMaxInactiveInterval(60 * 60);
+            return "redirect:/Admin/QuanLyPhim.html";
+        }
+
+        return "redirect:/Login/login.html?error="
+                + encode("Sai tên đăng nhập hoặc mật khẩu!");
     }
 
-    private static String encode(String value) {
-        return URLEncoder.encode(value, StandardCharsets.UTF_8);
+    private String encode(String text) {
+        return URLEncoder.encode(text, StandardCharsets.UTF_8);
     }
 }

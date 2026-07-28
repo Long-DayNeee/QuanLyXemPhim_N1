@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 
 @Controller
 public class RegisterController {
+
     private final AuthDAO authDAO;
 
     public RegisterController(AuthDAO authDAO) {
@@ -24,31 +25,44 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestParam(value = "username", required = false) String username,
-                           @RequestParam(value = "password", required = false) String password,
-                           @RequestParam(value = "fullName", required = false) String fullName) {
-        if (username == null || username.isBlank() || password == null || password.isBlank()) {
-            return "redirect:/Login/register.html?error=" + encode("Vui lòng điền đầy đủ Tên đăng nhập và Mật khẩu!");
+    public String register(
+            @RequestParam String username,
+            @RequestParam String password,
+            @RequestParam String fullName,
+            @RequestParam(required = false) String email) {
+
+        username = username.trim();
+        password = password.trim();
+        fullName = fullName.trim();
+
+        if (email == null) {
+            email = "";
+        } else {
+            email = email.trim();
         }
 
-        String u = username.trim();
-        String p = password.trim();
-        String name = fullName != null ? fullName.trim() : "";
-
-        if (authDAO.checkUserExists(u)) {
-            return "redirect:/Login/register.html?error=" + encode("Tên tài khoản này đã có người sử dụng!");
+        if (username.isEmpty() || password.isEmpty() || fullName.isEmpty()) {
+            return "redirect:/Login/register.html?error="
+                    + encode("Vui lòng nhập đầy đủ thông tin!");
         }
 
-        User newUser = new User(u, p, name);
-        boolean isSuccess = authDAO.register(newUser);
-        if (isSuccess) {
-            return "redirect:/Login/register.html?message=" + encode("Đăng ký thành công! Hãy đăng nhập ngay.");
+        if (authDAO.checkUserExists(username)) {
+            return "redirect:/Login/register.html?error="
+                    + encode("Tên đăng nhập đã tồn tại!");
         }
 
-        return "redirect:/Login/register.html?error=" + encode("Đã xảy ra lỗi trong quá trình lưu dữ liệu. Vui lòng thử lại!");
+        User user = new User(username, password, fullName, email);
+
+        if (authDAO.register(user)) {
+            return "redirect:/Login/login.html?success="
+                    + encode("Đăng ký thành công!");
+        }
+
+        return "redirect:/Login/register.html?error="
+                + encode("Đăng ký thất bại!");
     }
 
-    private static String encode(String value) {
-        return URLEncoder.encode(value, StandardCharsets.UTF_8);
+    private String encode(String text) {
+        return URLEncoder.encode(text, StandardCharsets.UTF_8);
     }
 }
