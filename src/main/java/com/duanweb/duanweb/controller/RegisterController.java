@@ -26,36 +26,46 @@ public class RegisterController {
 
     @PostMapping("/register")
     public String register(
-            @RequestParam String username,
-            @RequestParam String password,
-            @RequestParam String fullName,
-            @RequestParam(required = false) String email) {
+            @RequestParam(required = false) String fullName,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String username,
+            @RequestParam(required = false) String password) {
 
-        username = username.trim();
-        password = password.trim();
-        fullName = fullName.trim();
+        fullName = fullName == null ? "" : fullName.trim();
+        email = email == null ? "" : email.trim();
+        username = username == null ? "" : username.trim();
+        password = password == null ? "" : password.trim();
 
-        if (email == null) {
-            email = "";
-        } else {
-            email = email.trim();
-        }
+        // Kiểm tra dữ liệu
+        if (fullName.isEmpty()
+                || email.isEmpty()
+                || username.isEmpty()
+                || password.isEmpty()) {
 
-        if (username.isEmpty() || password.isEmpty() || fullName.isEmpty()) {
             return "redirect:/Login/register.html?error="
                     + encode("Vui lòng nhập đầy đủ thông tin!");
         }
 
-        if (authDAO.checkUserExists(username)) {
+        // Kiểm tra tên đăng nhập hoặc email đã tồn tại
+        if (authDAO.checkUserExists(username)
+                || authDAO.checkUserExists(email)) {
+
             return "redirect:/Login/register.html?error="
-                    + encode("Tên đăng nhập đã tồn tại!");
+                    + encode("Tên đăng nhập hoặc Email đã tồn tại!");
         }
 
-        User user = new User(username, password, fullName, email);
+        // Tạo User
+        User user = new User();
+        user.setFullName(fullName);
+        user.setEmail(email);
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setRole("USER");
 
+        // Lưu
         if (authDAO.register(user)) {
-            return "redirect:/Login/login.html?success="
-                    + encode("Đăng ký thành công!");
+            return "redirect:/Login/login.html?message="
+                    + encode("Đăng ký thành công! Vui lòng đăng nhập.");
         }
 
         return "redirect:/Login/register.html?error="

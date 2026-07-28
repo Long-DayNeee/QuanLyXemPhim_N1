@@ -32,11 +32,13 @@
             margin-top:10px;
         }
 
-        input{
+        input,select{
             width:100%;
             padding:10px;
             margin-top:5px;
             box-sizing:border-box;
+            border:1px solid #ccc;
+            border-radius:4px;
         }
 
         button{
@@ -47,6 +49,7 @@
             color:white;
             border:none;
             cursor:pointer;
+            border-radius:4px;
         }
 
         button:hover{
@@ -94,6 +97,12 @@
                 name="password"
                 required>
 
+        <label>Đăng nhập với</label>
+        <select name="role">
+            <option value="USER">Người dùng</option>
+            <option value="ADMIN">Quản trị viên</option>
+        </select>
+
         <button type="submit">
             Đăng nhập
         </button>
@@ -113,15 +122,15 @@
 
     const params = new URLSearchParams(window.location.search);
 
-    const error=params.get("error");
-    const message=params.get("message");
+    const error = params.get("error");
+    const message = params.get("message");
 
     if(error){
-        document.getElementById("errorMsg").innerHTML=decodeURIComponent(error);
+        document.getElementById("errorMsg").innerHTML = decodeURIComponent(error);
     }
 
     if(message){
-        document.getElementById("successMsg").innerHTML=decodeURIComponent(message);
+        document.getElementById("successMsg").innerHTML = decodeURIComponent(message);
     }
 
 </script>

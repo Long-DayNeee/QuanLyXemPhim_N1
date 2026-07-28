@@ -38,6 +38,8 @@
             padding:10px;
             margin-top:5px;
             box-sizing:border-box;
+            border:1px solid #ccc;
+            border-radius:4px;
         }
 
         button{
@@ -47,6 +49,7 @@
             background:#28a745;
             color:white;
             border:none;
+            border-radius:4px;
             cursor:pointer;
         }
 
@@ -69,8 +72,8 @@
         a{
             text-decoration:none;
         }
-
     </style>
+
 </head>
 
 <body>
@@ -80,28 +83,29 @@
     <h2>Đăng ký</h2>
 
     <div id="errorMsg" class="error"></div>
-
     <div id="successMsg" class="success"></div>
 
     <form action="/register" method="post">
 
         <label>Họ và tên</label>
-        <input
-                type="text"
-                name="fullName"
-                required>
+        <input type="text"
+               name="fullName"
+               required>
+
+        <label>Email</label>
+        <input type="email"
+               name="email"
+               required>
 
         <label>Tên đăng nhập</label>
-        <input
-                type="text"
-                name="username"
-                required>
+        <input type="text"
+               name="username"
+               required>
 
         <label>Mật khẩu</label>
-        <input
-                type="password"
-                name="password"
-                required>
+        <input type="password"
+               name="password"
+               required>
 
         <button type="submit">
             Đăng ký
@@ -110,15 +114,8 @@
     </form>
 
     <p style="text-align:center;margin-top:15px">
-
         Đã có tài khoản?
-
-        <a href="/login">
-
-            Đăng nhập
-
-        </a>
-
+        <a href="/login">Đăng nhập</a>
     </p>
 
 </div>
@@ -127,20 +124,15 @@
 
     const params = new URLSearchParams(window.location.search);
 
-    const error=params.get("error");
-
-    const message=params.get("message");
+    const error = params.get("error");
+    const message = params.get("message");
 
     if(error){
-
-        document.getElementById("errorMsg").innerHTML=decodeURIComponent(error);
-
+        document.getElementById("errorMsg").innerHTML = decodeURIComponent(error);
     }
 
     if(message){
-
-        document.getElementById("successMsg").innerHTML=decodeURIComponent(message);
-
+        document.getElementById("successMsg").innerHTML = decodeURIComponent(message);
     }
 
 </script>

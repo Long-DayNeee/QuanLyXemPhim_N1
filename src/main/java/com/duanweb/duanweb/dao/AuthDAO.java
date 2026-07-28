@@ -15,14 +15,14 @@ public class AuthDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    //================ LOGIN =================
+    // ================= LOGIN USER =================
 
     public User login(String username, String password) {
 
         String sql = """
                 SELECT *
                 FROM user_account
-                WHERE ten_dang_nhap=? AND mat_khau=?
+                WHERE ten_dang_nhap = ? AND mat_khau = ?
                 """;
 
         try {
@@ -49,14 +49,46 @@ public class AuthDAO {
         }
     }
 
-    //================ REGISTER =================
+    // ================= LOGIN ADMIN =================
+
+    public AdminAccount loginAdmin(String username, String password) {
+
+        String sql = """
+                SELECT *
+                FROM adminaccount
+                WHERE tennguoidung = ? AND matkhau = ?
+                """;
+
+        try {
+
+            return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+
+                AdminAccount admin = new AdminAccount();
+
+                admin.setAccountID(rs.getInt("adminid"));
+                admin.setUsername(rs.getString("tennguoidung"));
+                admin.setPassword(rs.getString("matkhau"));
+                admin.setRole(rs.getString("vaitro"));
+
+                return admin;
+
+            }, username, password);
+
+        } catch (EmptyResultDataAccessException e) {
+
+            return null;
+
+        }
+    }
+
+    // ================= REGISTER USER =================
 
     public boolean register(User user) {
 
         String sql = """
                 INSERT INTO user_account
-                (ten_dang_nhap,mat_khau,ho_ten,email,role)
-                VALUES(?,?,?,?,?)
+                (ten_dang_nhap, mat_khau, ho_ten, email, role)
+                VALUES (?, ?, ?, ?, ?)
                 """;
 
         return jdbcTemplate.update(
@@ -67,38 +99,34 @@ public class AuthDAO {
                 user.getEmail(),
                 "USER"
         ) > 0;
-
     }
 
-    //================ ADD USER =================
+    // ================= ADD USER =================
 
     public boolean addUser(User user) {
-
         return register(user);
-
     }
 
-    //================ DELETE USER =================
+    // ================= DELETE USER =================
 
     public boolean deleteUser(int id) {
 
         String sql = """
                 DELETE FROM user_account
-                WHERE userid=?
+                WHERE userid = ?
                 """;
 
         return jdbcTemplate.update(sql, id) > 0;
-
     }
 
-    //================ CHECK USER =================
+    // ================= CHECK USER =================
 
     public boolean checkUserExists(String value) {
 
         String sql = """
                 SELECT COUNT(*)
                 FROM user_account
-                WHERE ten_dang_nhap=? OR email=?
+                WHERE ten_dang_nhap = ? OR email = ?
                 """;
 
         Integer count = jdbcTemplate.queryForObject(
@@ -109,17 +137,16 @@ public class AuthDAO {
         );
 
         return count != null && count > 0;
-
     }
 
-    //================ CHECK ADMIN =================
+    // ================= CHECK ADMIN =================
 
     public boolean checkUsernameExists(String username) {
 
         String sql = """
                 SELECT COUNT(*)
                 FROM adminaccount
-                WHERE tennguoidung=?
+                WHERE tennguoidung = ?
                 """;
 
         Integer count = jdbcTemplate.queryForObject(
@@ -129,51 +156,16 @@ public class AuthDAO {
         );
 
         return count != null && count > 0;
-
     }
 
-    //================ ADMIN LOGIN =================
-
-    public LoginResult authenticate(String username, String password) {
-
-        String sql = """
-                SELECT matkhau
-                FROM adminaccount
-                WHERE tennguoidung=?
-                """;
-
-        try {
-
-            String pass = jdbcTemplate.queryForObject(
-                    sql,
-                    String.class,
-                    username
-            );
-
-            if (pass == null) {
-                return LoginResult.INVALID_PASSWORD;
-            }
-
-            return pass.equals(password)
-                    ? LoginResult.OK
-                    : LoginResult.INVALID_PASSWORD;
-
-        } catch (EmptyResultDataAccessException e) {
-
-            return LoginResult.USER_NOT_FOUND;
-
-        }
-
-    }
-
-    //================ ADD ADMIN =================
+    // ================= ADD ADMIN =================
 
     public boolean addAdminAccount(AdminAccount account) {
 
         String sql = """
                 INSERT INTO adminaccount
-                (tennguoidung,matkhau,vaitro)
-                VALUES(?,?,?)
+                (tennguoidung, matkhau, vaitro)
+                VALUES (?, ?, ?)
                 """;
 
         return jdbcTemplate.update(
@@ -182,30 +174,25 @@ public class AuthDAO {
                 account.getPassword(),
                 account.getRole()
         ) > 0;
-
     }
 
-    //================ DELETE ADMIN =================
+    // ================= DELETE ADMIN =================
 
     public boolean deleteAdminAccount(int id) {
 
         String sql = """
                 DELETE FROM adminaccount
-                WHERE adminid=?
+                WHERE adminid = ?
                 """;
 
         return jdbcTemplate.update(sql, id) > 0;
-
     }
 
-    //================ ENUM =================
+    // ================= ENUM =================
 
     public enum LoginResult {
-
         OK,
         USER_NOT_FOUND,
         INVALID_PASSWORD
-
     }
-
 }

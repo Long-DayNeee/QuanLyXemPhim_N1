@@ -1,6 +1,7 @@
 package com.duanweb.duanweb.controller;
 
 import com.duanweb.duanweb.dao.AuthDAO;
+import com.duanweb.duanweb.model.AdminAccount;
 import com.duanweb.duanweb.model.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -27,39 +28,44 @@ public class LoginController {
 
     @PostMapping("/login")
     public String login(
-            @RequestParam String username,
-            @RequestParam String password,
+            @RequestParam(required = false) String username,
+            @RequestParam(required = false) String password,
+            @RequestParam(required = false) String role,
             HttpSession session) {
 
-        username = username.trim();
-        password = password.trim();
+        username = username == null ? "" : username.trim();
+        password = password == null ? "" : password.trim();
+        role = role == null ? "USER" : role.trim();
 
         if (username.isEmpty() || password.isEmpty()) {
             return "redirect:/Login/login.html?error="
                     + encode("Vui lòng nhập đầy đủ thông tin!");
         }
 
-        // Đăng nhập User
-        User user = authDAO.login(username, password);
+        // ===== Đăng nhập USER =====
+        if ("USER".equalsIgnoreCase(role)) {
 
-        if (user != null) {
-            session.setAttribute("account", user);
-            session.setMaxInactiveInterval(60 * 60);
+            User user = authDAO.login(username, password);
 
-            if ("ADMIN".equalsIgnoreCase(user.getRole())) {
-                return "redirect:/Admin/QuanLyPhim.html";
+            if (user != null) {
+                session.setAttribute("account", user);
+                session.setMaxInactiveInterval(60 * 60);
+
+                return "redirect:/Home/index.html";
             }
-
-            return "redirect:/Home/index.html";
         }
 
-        // Nếu không phải User thì kiểm tra Admin
-        AuthDAO.LoginResult result = authDAO.authenticate(username, password);
+        // ===== Đăng nhập ADMIN =====
+        if ("ADMIN".equalsIgnoreCase(role)) {
 
-        if (result == AuthDAO.LoginResult.OK) {
-            session.setAttribute("admin", username);
-            session.setMaxInactiveInterval(60 * 60);
-            return "redirect:/Admin/QuanLyPhim.html";
+            AdminAccount admin = authDAO.loginAdmin(username, password);
+
+            if (admin != null) {
+                session.setAttribute("admin", admin);
+                session.setMaxInactiveInterval(60 * 60);
+
+                return "redirect:/Admin/QuanLyPhim.html";
+            }
         }
 
         return "redirect:/Login/login.html?error="
