@@ -31,6 +31,7 @@ public class RegisterController {
             @RequestParam(required = false) String username,
             @RequestParam(required = false) String password,
             @RequestParam(required = false) String password2
+
     ) {
 
         fullName = fullName == null ? "" : fullName.trim();

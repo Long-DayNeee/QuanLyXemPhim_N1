@@ -43,6 +43,7 @@ public class AuthFilter implements Filter {
         }else{
             resp.sendRedirect(req.getContextPath() + "/Login/login.html?error="
                     + encode("Vui lòng đăng nhập!"));
+
         }
     }
     private String encode(String text) {

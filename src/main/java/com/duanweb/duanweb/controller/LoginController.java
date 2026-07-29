@@ -74,6 +74,7 @@ public class LoginController {
                 session.setMaxInactiveInterval(60 * 60);
 
                 return "redirect:/Home/index.html";
+
             }
         }
         return "redirect:/Login/login.html?error="
