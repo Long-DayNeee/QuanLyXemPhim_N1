@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "Movie")
+@Table(name = "movie")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,42 +19,42 @@ public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MovieID")
+    @Column(name = "movieid")
     private Integer movieID;
 
-    @Column(name = "TieuDe")
+    @Column(name = "tieude", nullable = false)
     private String tieuDe;
 
-    @Column(name = "DoTuoi")
+    @Column(name = "dotuoi")
     private String doTuoi;
 
-    @Column(name = "ThoiLuong")
+    @Column(name = "thoiluong")
     private Integer thoiLuong;
 
-    @Column(name = "NgayKhoiChieu")
+    @Column(name = "ngaykhoichieu")
     private LocalDate ngayKhoiChieu;
 
-    @Column(name = "TheLoai")
+    @Column(name = "theloai")
     private String theLoai;
 
-    @Column(name = "MieuTa")
+    @Column(name = "mieuta")
     private String mieuTa;
 
-    @Column(name = "PosterUrl")
+    @Column(name = "posterurl")
     private String posterUrl;
 
-    @Column(name = "TrailerID")
+    @Column(name = "trailerid")
     private String trailerID;
 
-    @Column(name = "NgonNgu")
+    @Column(name = "ngonngu")
     private String ngonNgu;
 
-    @Column(name = "GiaVe")
+    @Column(name = "giave")
     private BigDecimal giaVe;
 
-    @Column(name = "DaoDien")
+    @Column(name = "daodien")
     private String daoDien;
 
-    @Column(name = "DienVien")
+    @Column(name = "dienvien")
     private String dienVien;
 }

@@ -37,10 +37,14 @@
           </ul>
         </nav>
       
-        <div class="nav-auth">
+        <!-- <div class="nav-auth">
           <button id="adminBtn" class="btn-admin-pill"><i class="fas fa-lock"></i> Admin</button>
           <a href="/login" class="btn-login-pill">Đăng Nhập</a>
-        </div>
+        </div> -->
+        <div class="nav-auth">
+        <!-- <button id="adminBtn" class="btn-admin-pill"><i class="fas fa-lock"></i> Admin</button>-->
+        <a href="/logout" class="btn-login-pill">Đăng Xuất</a>
+      </div>
         <div class="mobile-menu-btn">
           <span></span>
           <span></span>
@@ -263,10 +267,10 @@
           <div class="footer-social">
             <h3>Kết Nối</h3>
             <div class="social-icons">
-              <a href="https://www.facebook.com/profile.php?id=61577270567933" target="_blank"> <i class="fab fa-facebook"></i></a>
-              <a href="https://www.tiktok.com/@evl.cinemas.vietnam" target="_blank"><i class="fab fa-tiktok"></i></a>
-              <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
-              <a href="https://www.youtube.com/channel/UCxYDAOCBTBvd7C0YyBPQ7sA " target="_blank"><i class="fab fa-youtube"></i></a>
+              <a href="https://www.facebook.com/profile.php?id=61577270567933" target="_blank" rel="noopener noreferrer"> <i class="fab fa-facebook"></i></a>
+              <a href="https://www.tiktok.com/@evl.cinemas.vietnam" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+              <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+              <a href="https://www.youtube.com/channel/UCxYDAOCBTBvd7C0YyBPQ7sA" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
             </div>
           </div>
         </div>
@@ -279,7 +283,7 @@
     <div id="adminModal" class="modal">
       <div class="modal-content">
         <span class="close-admin">&times;</span>
-        <p style="font: weight 10px;; margin-bottom:12px; color: red;">
+        <p style="font-weight: 600; margin-bottom:12px; color: red;">
           *Trang này chỉ dành cho quản lý
         </p>
         <input type="password" id="adminCodeInput" placeholder="Nhập mã quản lý"

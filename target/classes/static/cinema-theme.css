@@ -1,0 +1,487 @@
+/* ============================================================
+   cinema-theme.css
+   Theme lấy từ cinema-app-frontend, CHỈ áp dụng cho Phim.html
+   (chỉ có tác dụng khi file này được <link> vào trang này)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+
+/* --- Ghi đè biến màu gốc bằng bảng màu cinema-app (cả light & dark toggle) --- */
+:root,
+[data-theme="dark"] {
+  --primary-color: #d4a44c;      /* gold */
+  --secondary-color: #c0162e;    /* red */
+  --accent-color: #f0c96b;       /* gold light */
+  --light-color: #10101c;        /* surface */
+  --dark-color: #ede9e4;         /* text chính */
+  --text-color: #7a7a90;         /* text phụ / muted */
+  --bg-color: #07070e;
+  --card-bg: #10101c;
+  --header-bg: #07070ecc;
+  --footer-bg: #07070e;
+  --footer-text: #ede9e4;
+  --footer-link: #7a7a90;
+  --border-color: rgba(255,255,255,0.07);
+  --shadow-color: rgba(0,0,0,0.5);
+  --box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+  --banner-text-color: #ede9e4;
+}
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+h1, h2, h3, .DanhHieu {
+  font-family: 'Playfair Display', Georgia, serif !important;
+}
+
+/* --- Banner đầu trang --- */
+.page-banner {
+  background: linear-gradient(to bottom, rgba(7,7,14,0.4), #07070e), #10101c;
+}
+.page-banner h1,
+.page-banner p {
+  color: #ede9e4 !important;
+}
+
+/* --- Bộ lọc thể loại --- */
+.filter-btn {
+  border-color: rgba(255,255,255,0.15);
+  color: #ede9e4;
+}
+.filter-btn:hover,
+.filter-btn.active {
+  color: #fff;
+}
+
+/* --- Thẻ phim (product-card) --- */
+.product-card {
+  background-color: #10101c;
+  border: 1px solid rgba(255,255,255,0.07);
+}
+.product-card::before {
+  background: linear-gradient(to right, #d4a44c, #c0162e);
+}
+.product-info h3 {
+  color: #ede9e4;
+}
+.product-info .price {
+  color: #d4a44c;
+  font-weight: 600;
+}
+.product-info .description {
+  color: rgba(237,233,228,0.65);
+}
+.product-info .btn-secondary {
+  background: #c0162e;
+  color: #fff;
+  border-radius: 999px;
+  border: none;
+  padding: 8px 18px;
+  transition: background 0.2s ease;
+}
+.product-info .btn-secondary:hover {
+  background: #a11226;
+}
+
+/* --- Modal đặt vé (booking) --- */
+.modal-content,
+#bookingModal .modal-content {
+  background-color: #10101c !important;
+  color: #ede9e4 !important;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.modal-content h2 {
+  color: #ede9e4;
+}
+.modal-content .close {
+  color: #7a7a90;
+}
+.modal-content .close:hover {
+  color: #ede9e4;
+}
+
+/* Date tabs */
+.date-tabs li {
+  background: #18182a;
+  color: #ede9e4;
+  border-color: transparent;
+}
+.date-tabs li:hover {
+  background: #20203a;
+}
+.date-tabs li.active {
+  background: #c0162e;
+  border-color: #c0162e;
+  color: #fff;
+}
+
+/* Suất chiếu */
+.showtime-btn {
+  background: #18182a;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #ede9e4;
+}
+.showtime-btn:hover,
+.showtime-btn.active,
+.showtime-btn.selected {
+  background: rgba(212,164,76,0.15);
+  border-color: #d4a44c;
+  color: #d4a44c;
+}
+
+/* Sơ đồ ghế */
+.seat,
+#seat-map button {
+  background: #18182a;
+  color: #ede9e4;
+}
+.seat.free { background: #18182a; }
+.seat.selected,
+#seat-map button.selected { background: #d4a44c; color: #07070e; }
+.seat.booked,
+#seat-map button.booked { background: #3a3a4a; color: #7a7a90; }
+.seat:hover:not(.booked):not(.selected) { background: rgba(212,164,76,0.25); }
+
+/* Form đặt vé */
+#booking-form label { color: #ede9e4; }
+#booking-form input[type="number"],
+#booking-form input[readonly] {
+  background: #18182a;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #ede9e4;
+}
+#total_price { color: #d4a44c; }
+#booking-form button {
+  background: #c0162e;
+  border-radius: 999px;
+}
+#booking-form button:hover { background: #a11226; }
+
+/* ============================================================
+   Phần riêng cho index.html (trang chủ)
+   ============================================================ */
+
+/* --- Hero banner đầu trang chủ --- */
+.hero {
+  background: linear-gradient(to bottom, rgba(7,7,14,0.35), #07070e), #10101c;
+}
+.hero h2,
+.hero p {
+  color: #ede9e4 !important;
+  text-shadow: none;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+.hero .btn,
+.hero .btn-secondary {
+  color: #fff !important;
+}
+
+/* --- Panel "Phim nổi bật" (ThongTinSanPhamNoiBat) --- */
+.ThongTinSanPhamNoiBat {
+  background: #07070e;
+}
+.SanPhamNoiBat-text {
+  background: rgba(16,16,28,0.92);
+  color: #ede9e4;
+  border: 1px solid rgba(255,255,255,0.07);
+}
+.SanPhamNoiBat-text .subtitle {
+  color: #d4a44c;
+}
+.SanPhamNoiBat-text .features li::before {
+  color: #d4a44c;
+}
+.SanPhamNoiBat-text h3 {
+  color: #d4a44c;
+}
+
+/* --- Dấu ngoặc kép trang trí trong testimonial --- */
+.testimonial-content::before {
+  color: rgba(212,164,76,0.25);
+}
+.testimonial-content::after {
+  color: rgba(192,22,46,0.25);
+}
+
+/* --- Badge kiểu cinema-app (dùng cho movie-card & hero) --- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: rgba(255,255,255,0.08);
+  color: rgba(237,233,228,0.75);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.badge-gold {
+  background: rgba(212,164,76,0.15);
+  color: #d4a44c;
+  border-color: rgba(212,164,76,0.3);
+}
+.badge-red {
+  background: rgba(192,22,46,0.2);
+  color: #f06070;
+  border-color: rgba(192,22,46,0.3);
+}
+
+/* --- Badge thể loại đè lên poster phim --- */
+.movie-poster { position: relative; }
+.movie-badges {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  max-width: calc(100% - 20px);
+}
+
+/* --- Hàng meta (thời lượng / giá) trong movie-card --- */
+.movie-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  margin: 6px 0 12px;
+}
+.movie-duration { color: #7a7a90; }
+.movie-price { color: #d4a44c; font-weight: 600; }
+
+/* --- Tiêu đề section kiểu eyebrow + heading (thay cho .section-title đơn) --- */
+.section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+.section-heading .eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #d4a44c;
+  margin-bottom: 6px;
+}
+.section-heading .section-title {
+  margin-bottom: 0;
+  text-align: left;
+}
+.section-heading .section-title::after {
+  display: none;
+}
+
+/* --- Badge + nút CTA trong panel Hot phim (thay cho .subtitle) --- */
+.hero-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.hero-cta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.hero-cta h3 { margin: 0; color: #d4a44c; }
+
+/* ============================================================
+   Nav cố định + Hero full-màn-hình (giống HomeView của cinema-app)
+   Chỉ áp dụng cho index.html qua class .home-page trên <body>
+   ============================================================ */
+
+.home-page header.site-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: linear-gradient(to bottom, rgba(7,7,14,0.95) 0%, rgba(7,7,14,0) 100%);
+  box-shadow: none;
+}
+.home-page header.site-nav .menu a {
+  color: rgba(237,233,228,0.75);
+}
+.home-page header.site-nav .menu a:hover,
+.home-page header.site-nav .menu a.active {
+  color: #ede9e4;
+}
+
+.movie-hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
+.movie-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: heroKenBurns 16s ease-out forwards;
+}
+@keyframes heroKenBurns {
+  from { transform: scale(1.12); }
+  to   { transform: scale(1); }
+}
+.movie-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(7,7,14,0.92) 0%, rgba(7,7,14,0.55) 50%, rgba(7,7,14,0.15) 100%),
+    linear-gradient(to top, #07070e 0%, transparent 45%);
+}
+.movie-hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 48px 80px;
+  max-width: 720px;
+}
+
+/* --- Nối dài hệ thống animate-text/delay có sẵn trong styles.css --- */
+.delay-3 { animation-delay: 0.9s; }
+.delay-4 { animation-delay: 1.2s; }
+
+/* Nav mờ dần vào khi tải trang */
+.home-page header.site-nav {
+  animation: fadeIn 0.8s ease-out both;
+}
+.movie-hero-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+  line-height: 1.1;
+  color: #ede9e4;
+  margin: 16px 0;
+}
+.movie-hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: #7a7a90;
+  margin-bottom: 20px;
+}
+.movie-hero-desc {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(237,233,228,0.75);
+  max-width: 560px;
+  margin-bottom: 32px;
+}
+.movie-hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.btn-play,
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+.btn-play {
+  background: #c0162e;
+  color: #fff;
+  border: none;
+}
+.btn-play:hover {
+  background: #a11226;
+  transform: translateY(-2px);
+}
+.btn-outline {
+  background: transparent;
+  color: #ede9e4;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.btn-outline:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+@media (max-width: 768px) {
+  .movie-hero-content { padding: 0 20px 60px; }
+}
+
+/* Admin modal */
+.admin-btn { background: #c0162e; }
+.admin-btn:hover { background: #a11226; }
+#adminModal .modal-content {
+  background-color: #10101c !important;
+  color: #ede9e4 !important;
+}
+#adminCodeInput {
+  background: #18182a;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #ede9e4;
+}
+
+/* ============================================================
+   Style bộ nút Admin & Đăng Nhập (Nav Auth)
+   ============================================================ */
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Nút Admin */
+.btn-admin-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ede9e4;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  outline: none;
+}
+
+.btn-admin-pill i {
+  font-size: 0.8rem;
+  color: #d4a44c; /* Icon khóa màu vàng kim */
+}
+
+.btn-admin-pill:hover {
+  background: rgba(212, 164, 76, 0.15);
+  border-color: #d4a44c;
+  color: #d4a44c;
+  transform: translateY(-2px);
+}
+
+/* Nút Đăng Nhập */
+.btn-login-pill {
+  display: inline-flex;
+  align-items: center;
+  background: #c0162e; /* Màu đỏ chủ đạo */
+  color: #ffffff !important;
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(192, 22, 46, 0.35);
+}
+
+.btn-login-pill:hover {
+  background: #e01b35;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(192, 22, 46, 0.55);
+}

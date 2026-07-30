@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class MovieApiService {
@@ -24,8 +25,8 @@ public class MovieApiService {
         return movieRepository.findAllByOrderByMovieIDDesc().stream().map(this::toMap).toList();
     }
 
-    public Map<String, Object> findByIdAsMap(Integer id) {
-        return movieRepository.findById(id).map(this::toMap).orElse(null);
+    public Optional<Map<String, Object>> findByIdAsMap(Integer id) {
+        return movieRepository.findById(id).map(this::toMap);
     }
 
     public String findPosterUrl(Integer id) {

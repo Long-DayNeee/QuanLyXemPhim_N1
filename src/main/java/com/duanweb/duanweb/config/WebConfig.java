@@ -1,9 +1,11 @@
 package com.duanweb.duanweb.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.NonNull; // Nhớ import thư viện này
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -34,5 +36,19 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOriginPatterns("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*");
+    }
+
+    @Autowired
+    private AdminInterceptor adminInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // Áp dụng bảo vệ cho BẤT KỲ biến thể hoa thường nào của admin: /Admin/**, /admin/**, /ADMIN/**
+        registry.addInterceptor(adminInterceptor)
+                .addPathPatterns(
+                        "/Admin/**", "/Admin/*",
+                        "/admin/**", "/admin/*",
+                        "/api/admin/**"
+                );
     }
 }
