@@ -1,3 +1,218 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="vi">-->
+
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <title>Quản lý Phim / Suất Chiếu</title>-->
+<!--  <link rel="stylesheet" href="/Admin/admin.css">-->
+<!--</head>-->
+
+<!--<body>-->
+<!--  &lt;!&ndash; Modal đăng nhập Nhân viên &ndash;&gt;-->
+<!--  <div id="empLoginModal" class="modal">-->
+<!--    <div class="modal-content" style="max-width:420px;">-->
+<!--      <h3>Đăng nhập Nhân viên</h3>-->
+<!--      <label>Nhập tên:</label>-->
+<!--      <input id="empName" type="text" placeholder="Tên nhân viên" />-->
+<!--      <label>Nhập mật khẩu:</label>-->
+<!--      <input id="empPass" type="password" placeholder="Mật khẩu" />-->
+<!--      <div class="modal-actions">-->
+<!--        <button id="empBack" class="btn-secondary">← Trở về</button>-->
+<!--        <button id="empSubmit" class="btn-primary">Xác nhận</button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash; Admin Panel (ẩn lúc đầu) &ndash;&gt;-->
+<!--  <div id="adminPanel" class="admin-container" style="display:none;">-->
+<!--    <aside class="sidebar">-->
+<!--      <h2>Menu Quản Lý</h2>-->
+<!--      <ul>-->
+<!--        <li><a href="#" data-section="movies">Phim</a></li>-->
+<!--        <li><a href="#" data-section="showtimes">Doanh Thu</a></li>-->
+<!--        <li><a href="/Home/index.html" class="btn-secondary">↩ Trang Phim</a></li>-->
+<!--      </ul>-->
+<!--    </aside>-->
+<!--    <main class="main-content">-->
+<!--      <header>-->
+<!--        <h1 style="text-align: center;">Dashboard Quản Lý</h1>-->
+<!--      </header>-->
+
+<!--      &lt;!&ndash; Section Phim &ndash;&gt;-->
+<!--      <section id="section-movies" class="section" data-active>-->
+<!--        <h3>Danh sách Phim</h3>-->
+<!--        <button id="addMovieBtn" class="btn-primary">Thêm Phim mới</button>-->
+
+<!--        <button id="openAddShowtime" class="btn-primary">Thêm Suất Chiếu</button>-->
+<!--        <div id="addShowtimeModal" class="inline-add-showtime" style="display:none">-->
+<!--          <form id="showtimeForm">-->
+<!--            <label>Phim: <select id="movieSelectAdd">…</select></label>-->
+<!--            <label>Ngày: <input type="date" id="dateInp" required></label>-->
+<!--            <label>Giờ: <input type="time" id="timeInp" required></label>-->
+<!--            <button type="submit" class="save-showtime">Lưu</button>-->
+<!--          </form>-->
+<!--        </div>-->
+
+<!--        <table class="admin-table" style="margin-top: 10px;">-->
+<!--          <thead>-->
+<!--            <tr>-->
+<!--              <th>ID</th>-->
+<!--              <th>Tiêu đề</th>-->
+<!--              <th>Thể loại</th>-->
+<!--              <th>Giá vé (₫)</th>-->
+<!--              <th>Sửa thông tin</th>-->
+<!--            </tr>-->
+<!--          </thead>-->
+<!--          <tbody id="moviesTbody">-->
+<!--            &lt;!&ndash; JS sẽ load vào đây &ndash;&gt;-->
+<!--          </tbody>-->
+<!--        </table>-->
+<!--      </section>-->
+
+<!--      <div id="movieModal" class="modal">-->
+<!--        <form id="movieForm" class="modal-content large" enctype="multipart/form-data">-->
+<!--          <h2>Thêm / Sửa Phim</h2>-->
+
+<!--          <div class="grid-2">-->
+<!--            <label>Tiêu đề-->
+<!--              <input name="title" type="text" required>-->
+<!--            </label>-->
+
+<!--            <label>Thời lượng (phút)-->
+<!--              <input name="duration" type="number" min="1" required>-->
+<!--            </label>-->
+
+<!--            <label class="age-full">Độ tuổi-->
+<!--              <select name="ageRate" required>-->
+<!--                <option value="">– Chọn độ tuổi –</option>-->
+<!--                <option value="0">Không giới hạn độ tuổi</option>-->
+<!--                <option value="16">16+</option>-->
+<!--                <option value="18">18+</option>-->
+<!--              </select>-->
+<!--            </label>-->
+
+<!--            <label>Ngày khởi chiếu lần đầu-->
+<!--              <input name="premiere" type="date" required>-->
+<!--            </label>-->
+
+<!--            <label>Giá vé (đ)-->
+<!--              <input name="price" type="number" min="0" value="200000" placeholder="Nhập giá vé tại đây...">-->
+<!--            </label>-->
+
+<!--            <label>Thể loại-->
+<!--              <input name="TheLoai" required>-->
+<!--            </label>-->
+
+<!--            <label>Ngôn ngữ-->
+<!--              <input name="language" required>-->
+<!--            </label>-->
+
+<!--            <label>Đạo diễn-->
+<!--              <input name="director" required>-->
+<!--            </label>-->
+
+<!--            <label>Diễn viên-->
+<!--              <input name="cast" required>-->
+<!--            </label>-->
+<!--          </div>-->
+
+<!--          <div class="grid-2">-->
+<!--            <label>Mô tả-->
+<!--              <textarea name="description" placeholder="Nhập mô tả…"></textarea>-->
+<!--            </label>-->
+<!--            <label>Poster-->
+<!--              <input name="poster" type="file" accept="image/*">-->
+<!--              <img id="posterPreview" src="" alt="Preview Poster"-->
+<!--                style="max-width:100px; display:block; margin-bottom:8px;" />-->
+<!--            </label>-->
+<!--            <label>Link trailer:-->
+<!--              <input type="text" name="Trailer_ID" placeholder="URL hoặc file path">-->
+<!--            </label>-->
+<!--          </div>-->
+
+<!--          <div class="modal-actions right">-->
+<!--            <button type="button" class="btn-secondary" id="movieCancel">Huỷ</button>-->
+<!--            <button type="submit" class="btn-primary">Lưu</button>-->
+<!--          </div>-->
+<!--        </form>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash; đặt vé &ndash;&gt;-->
+<!--      <div id="bookingModal" class="modal" style="display:none;">-->
+<!--        <form id="bookingForm" class="modal-content large">-->
+<!--          <div class="modal-content large">-->
+<!--            &lt;!&ndash; Nút đóng &ndash;&gt;-->
+<!--            <button id="bookingClose" class="btn-close">&times;</button>-->
+
+<!--            &lt;!&ndash; Poster & Tiêu đề &ndash;&gt;-->
+<!--            <img id="modalPoster" src="" alt="Poster Phim" class="modal-poster">-->
+<!--            <h2 id="modalTitle"></h2>-->
+
+<!--            &lt;!&ndash; Thể loại, Ngôn ngữ, Ngày chiếu &ndash;&gt;-->
+<!--            <p>Thể loại: <span id="modalGenre">—</span></p>-->
+<!--            <p>Ngôn ngữ: <span id="modalLang">—</span></p>-->
+<!--            <p>Ngày chiếu: <span id="modalDate">—</span></p>-->
+
+<!--            &lt;!&ndash; Chọn số vé &ndash;&gt;-->
+<!--            <label>Số vé:-->
+<!--              <input id="so_luong" type="number" min="1" value="1">-->
+<!--            </label>-->
+
+<!--            &lt;!&ndash; Chọn ghế & hiển thị &ndash;&gt;-->
+<!--            <button id="selectSeatsBtn" class="btn-secondary">Chọn Ghế</button>-->
+<!--            <input id="selectedSeats" name="Seats" type="text" readonly placeholder="Chưa chọn ghế">-->
+
+<!--            &lt;!&ndash; Tổng tiền & Đặt vé &ndash;&gt;-->
+<!--            <p>Tổng tiền: <span id="totalAmount"></span> ₫</p>-->
+<!--            <button id="confirmBooking" class="btn-primary">Đặt Vé</button>-->
+
+<!--            &lt;!&ndash; QR Code &ndash;&gt;-->
+<!--            <div id="qrContainer" style="display:none;"></div>-->
+<!--        </form>-->
+<!--      </div>-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash; Section Suất Chiếu &ndash;&gt;-->
+<!--  <section id="section-showtimes" class="section">-->
+<!--    <h3>Quản lý Suất Chiếu</h3>-->
+<!--    <label>Chọn Phim:</label>-->
+<!--    <select id="movieSelect"></select>-->
+<!--    <button id="addShowtimeBtn" class="btn-primary">xem lịch sử</button>-->
+<!--    <div class="booking-wrapper">-->
+<!--      <table class="admin-table">-->
+<!--        <thead>-->
+<!--          <tr>-->
+<!--            <th>Mã Đặt</th>-->
+<!--            <th>SĐT</th>-->
+<!--            <th>Phim</th>-->
+<!--            <th>Ngày Giờ</th>-->
+<!--            <th>Ghế</th>-->
+<!--            <th>Chi tiết</th>-->
+<!--          </tr>-->
+<!--        </thead>-->
+<!--        <tbody id="bookingsTbody"></tbody>-->
+<!--      </table>-->
+<!--    </div>-->
+
+<!--    <h3 style="margin-top: 15px;">Doanh Thu Phim</h3>-->
+<!--    <div style="display:flex; gap:8px; align-items:center">-->
+<!--      <input id="revSearch" placeholder="Nhập tên phim…" style="flex:1">-->
+<!--      <button id="revBtn" class="btn btn-primary">Tìm</button>-->
+<!--    </div>-->
+<!--    <div id="revResult" style="margin-top:8px; font-weight:500;"></div>-->
+
+<!--    <h3 style="margin-top: 15px;">Tổng Doanh Thu</h3>-->
+<!--    <div id="revenue-box" class="revenue-wrapper"></div>-->
+<!--  </section>-->
+
+<!--  </main>-->
+<!--  </div>-->
+
+<!--  <script src="/Admin/admin.js"></script>-->
+<!--</body>-->
+
+<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -8,207 +223,218 @@
 </head>
 
 <body>
-  <!-- Modal đăng nhập Nhân viên -->
-  <div id="empLoginModal" class="modal">
-    <div class="modal-content" style="max-width:420px;">
-      <h3>Đăng nhập Nhân viên</h3>
-      <label>Nhập tên:</label>
-      <input id="empName" type="text" placeholder="Tên nhân viên" />
-      <label>Nhập mật khẩu:</label>
-      <input id="empPass" type="password" placeholder="Mật khẩu" />
-      <div class="modal-actions">
-        <button id="empBack" class="btn-secondary">← Trở về</button>
-        <button id="empSubmit" class="btn-primary">Xác nhận</button>
-      </div>
+<!-- Modal đăng nhập Nhân viên -->
+<div id="empLoginModal" class="modal">
+  <div class="modal-content emp-login-content" style="max-width:420px;">
+    <div class="emp-login-strip"></div>
+    <div class="emp-login-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L3 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-9-4z" fill="rgba(212,164,76,0.15)" stroke="#d4a44c" stroke-width="1.5" stroke-linejoin="round" />
+        <path d="M9 12l2 2 4-4" stroke="#d4a44c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </div>
+    <h3>Đăng Nhập Nhân Viên</h3>
+    <p class="emp-login-sub">Khu vực quản trị — chỉ dành cho nhân viên được cấp quyền</p>
+
+    <div id="empError" class="emp-login-error" style="display:none"></div>
+
+    <label>Tên Đăng Nhập</label>
+    <input id="empName" type="text" placeholder="Nhập tên nhân viên" />
+    <label>Mật Khẩu</label>
+    <input id="empPass" type="password" placeholder="Nhập mật khẩu" />
+    <div class="modal-actions">
+      <button id="empBack" class="btn-secondary">← Trở về</button>
+      <button id="empSubmit" class="btn-emp-submit">Xác nhận</button>
     </div>
   </div>
+</div>
 
-  <!-- Admin Panel (ẩn lúc đầu) -->
-  <div id="adminPanel" class="admin-container" style="display:none;">
-    <aside class="sidebar">
-      <h2>Menu Quản Lý</h2>
-      <ul>
-        <li><a href="#" data-section="movies">Phim</a></li>
-        <li><a href="#" data-section="showtimes">Doanh Thu</a></li>
-        <li><a href="/Home/index.html" class="btn-secondary">↩ Trang Phim</a></li>
-      </ul>
-    </aside>
-    <main class="main-content">
-      <header>
-        <h1 style="text-align: center;">Dashboard Quản Lý</h1>
-      </header>
+<!-- Admin Panel (ẩn lúc đầu) -->
+<div id="adminPanel" class="admin-container" style="display:none;">
+  <aside class="sidebar">
+    <h2>Menu Quản Lý</h2>
+    <ul>
+      <li><a href="#" data-section="movies">Phim</a></li>
+      <li><a href="#" data-section="showtimes">Doanh Thu</a></li>
+      <li><a href="/Home/index.html" class="btn-secondary">↩ Trang Phim</a></li>
+    </ul>
+  </aside>
+  <main class="main-content">
+    <header>
+      <h1 style="text-align: center;">Dashboard Quản Lý</h1>
+    </header>
 
-      <!-- Section Phim -->
-      <section id="section-movies" class="section" data-active>
-        <h3>Danh sách Phim</h3>
-        <button id="addMovieBtn" class="btn-primary">Thêm Phim mới</button>
+    <!-- Section Phim -->
+    <section id="section-movies" class="section" data-active>
+      <h3>Danh sách Phim</h3>
+      <button id="addMovieBtn" class="btn-primary">Thêm Phim mới</button>
 
-        <button id="openAddShowtime" class="btn-primary">Thêm Suất Chiếu</button>
-        <div id="addShowtimeModal" class="inline-add-showtime" style="display:none">
-          <form id="showtimeForm">
-            <label>Phim: <select id="movieSelectAdd">…</select></label>
-            <label>Ngày: <input type="date" id="dateInp" required></label>
-            <label>Giờ: <input type="time" id="timeInp" required></label>
-            <button type="submit" class="save-showtime">Lưu</button>
-          </form>
+      <button id="openAddShowtime" class="btn-primary">Thêm Suất Chiếu</button>
+      <div id="addShowtimeModal" class="inline-add-showtime" style="display:none">
+        <form id="showtimeForm">
+          <label>Phim: <select id="movieSelectAdd">…</select></label>
+          <label>Ngày: <input type="date" id="dateInp" required></label>
+          <label>Giờ: <input type="time" id="timeInp" required></label>
+          <button type="submit" class="save-showtime">Lưu</button>
+        </form>
+      </div>
+
+      <table class="admin-table" style="margin-top: 10px;">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tiêu đề</th>
+          <th>Thể loại</th>
+          <th>Giá vé (₫)</th>
+          <th>Sửa thông tin</th>
+        </tr>
+        </thead>
+        <tbody id="moviesTbody">
+        <!-- JS sẽ load vào đây -->
+        </tbody>
+      </table>
+    </section>
+
+    <div id="movieModal" class="modal">
+      <form id="movieForm" class="modal-content large" enctype="multipart/form-data">
+        <h2>Thêm / Sửa Phim</h2>
+
+        <div class="grid-2">
+          <label>Tiêu đề
+            <input name="title" type="text" required>
+          </label>
+
+          <label>Thời lượng (phút)
+            <input name="duration" type="number" min="1" required>
+          </label>
+
+          <label class="age-full">Độ tuổi
+            <select name="ageRate" required>
+              <option value="">– Chọn độ tuổi –</option>
+              <option value="0">Không giới hạn độ tuổi</option>
+              <option value="16">16+</option>
+              <option value="18">18+</option>
+            </select>
+          </label>
+
+          <label>Ngày khởi chiếu lần đầu
+            <input name="premiere" type="date" required>
+          </label>
+
+          <label>Giá vé (đ)
+            <input name="price" type="number" min="0" value="200000" placeholder="Nhập giá vé tại đây...">
+          </label>
+
+          <label>Thể loại
+            <input name="TheLoai" required>
+          </label>
+
+          <label>Ngôn ngữ
+            <input name="language" required>
+          </label>
+
+          <label>Đạo diễn
+            <input name="director" required>
+          </label>
+
+          <label>Diễn viên
+            <input name="cast" required>
+          </label>
         </div>
 
-        <table class="admin-table" style="margin-top: 10px;">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Tiêu đề</th>
-              <th>Thể loại</th>
-              <th>Giá vé (₫)</th>
-              <th>Sửa thông tin</th>
-            </tr>
-          </thead>
-          <tbody id="moviesTbody">
-            <!-- JS sẽ load vào đây -->
-          </tbody>
-        </table>
-      </section>
+        <div class="grid-2">
+          <label>Mô tả
+            <textarea name="description" placeholder="Nhập mô tả…"></textarea>
+          </label>
+          <label>Poster
+            <input name="poster" type="file" accept="image/*">
+            <img id="posterPreview" src="" alt="Preview Poster"
+                 style="max-width:100px; display:block; margin-bottom:8px;" />
+          </label>
+          <label>Link trailer:
+            <input type="text" name="Trailer_ID" placeholder="URL hoặc file path">
+          </label>
+        </div>
 
-      <div id="movieModal" class="modal">
-        <form id="movieForm" class="modal-content large" enctype="multipart/form-data">
-          <h2>Thêm / Sửa Phim</h2>
-
-          <div class="grid-2">
-            <label>Tiêu đề
-              <input name="title" type="text" required>
-            </label>
-
-            <label>Thời lượng (phút)
-              <input name="duration" type="number" min="1" required>
-            </label>
-
-            <label class="age-full">Độ tuổi
-              <select name="ageRate" required>
-                <option value="">– Chọn độ tuổi –</option>
-                <option value="0">Không giới hạn độ tuổi</option>
-                <option value="16">16+</option>
-                <option value="18">18+</option>
-              </select>
-            </label>
-
-            <label>Ngày khởi chiếu lần đầu
-              <input name="premiere" type="date" required>
-            </label>
-
-            <label>Giá vé (đ)
-              <input name="price" type="number" min="0" value="200000" placeholder="Nhập giá vé tại đây...">
-            </label>
-
-            <label>Thể loại
-              <input name="TheLoai" required>
-            </label>
-
-            <label>Ngôn ngữ
-              <input name="language" required>
-            </label>
-
-            <label>Đạo diễn
-              <input name="director" required>
-            </label>
-
-            <label>Diễn viên
-              <input name="cast" required>
-            </label>
-          </div>
-
-          <div class="grid-2">
-            <label>Mô tả
-              <textarea name="description" placeholder="Nhập mô tả…"></textarea>
-            </label>
-            <label>Poster
-              <input name="poster" type="file" accept="image/*">
-              <img id="posterPreview" src="" alt="Preview Poster"
-                style="max-width:100px; display:block; margin-bottom:8px;" />
-            </label>
-            <label>Link trailer:
-              <input type="text" name="Trailer_ID" placeholder="URL hoặc file path">
-            </label>
-          </div>
-
-          <div class="modal-actions right">
-            <button type="button" class="btn-secondary" id="movieCancel">Huỷ</button>
-            <button type="submit" class="btn-primary">Lưu</button>
-          </div>
-        </form>
-      </div>
-
-      <!-- đặt vé -->
-      <div id="bookingModal" class="modal" style="display:none;">
-        <form id="bookingForm" class="modal-content large">
-          <div class="modal-content large">
-            <!-- Nút đóng -->
-            <button id="bookingClose" class="btn-close">&times;</button>
-
-            <!-- Poster & Tiêu đề -->
-            <img id="modalPoster" src="" alt="Poster Phim" class="modal-poster">
-            <h2 id="modalTitle"></h2>
-
-            <!-- Thể loại, Ngôn ngữ, Ngày chiếu -->
-            <p>Thể loại: <span id="modalGenre">—</span></p>
-            <p>Ngôn ngữ: <span id="modalLang">—</span></p>
-            <p>Ngày chiếu: <span id="modalDate">—</span></p>
-
-            <!-- Chọn số vé -->
-            <label>Số vé:
-              <input id="so_luong" type="number" min="1" value="1">
-            </label>
-
-            <!-- Chọn ghế & hiển thị -->
-            <button id="selectSeatsBtn" class="btn-secondary">Chọn Ghế</button>
-            <input id="selectedSeats" name="Seats" type="text" readonly placeholder="Chưa chọn ghế">
-
-            <!-- Tổng tiền & Đặt vé -->
-            <p>Tổng tiền: <span id="totalAmount"></span> ₫</p>
-            <button id="confirmBooking" class="btn-primary">Đặt Vé</button>
-
-            <!-- QR Code -->
-            <div id="qrContainer" style="display:none;"></div>
-        </form>
-      </div>
-  </div>
-
-  <!-- Section Suất Chiếu -->
-  <section id="section-showtimes" class="section">
-    <h3>Quản lý Suất Chiếu</h3>
-    <label>Chọn Phim:</label>
-    <select id="movieSelect"></select>
-    <button id="addShowtimeBtn" class="btn-primary">xem lịch sử</button>
-    <div class="booking-wrapper">
-      <table class="admin-table">
-        <thead>
-          <tr>
-            <th>Mã Đặt</th>
-            <th>SĐT</th>
-            <th>Phim</th>
-            <th>Ngày Giờ</th>
-            <th>Ghế</th>
-            <th>Chi tiết</th>
-          </tr>
-        </thead>
-        <tbody id="bookingsTbody"></tbody>
-      </table>
+        <div class="modal-actions right">
+          <button type="button" class="btn-secondary" id="movieCancel">Huỷ</button>
+          <button type="submit" class="btn-primary">Lưu</button>
+        </div>
+      </form>
     </div>
 
-    <h3 style="margin-top: 15px;">Doanh Thu Phim</h3>
-    <div style="display:flex; gap:8px; align-items:center">
-      <input id="revSearch" placeholder="Nhập tên phim…" style="flex:1">
-      <button id="revBtn" class="btn btn-primary">Tìm</button>
+    <!-- đặt vé -->
+    <div id="bookingModal" class="modal" style="display:none;">
+      <form id="bookingForm" class="modal-content large">
+        <div class="modal-content large">
+          <!-- Nút đóng -->
+          <button id="bookingClose" class="btn-close">&times;</button>
+
+          <!-- Poster & Tiêu đề -->
+          <img id="modalPoster" src="" alt="Poster Phim" class="modal-poster">
+          <h2 id="modalTitle"></h2>
+
+          <!-- Thể loại, Ngôn ngữ, Ngày chiếu -->
+          <p>Thể loại: <span id="modalGenre">—</span></p>
+          <p>Ngôn ngữ: <span id="modalLang">—</span></p>
+          <p>Ngày chiếu: <span id="modalDate">—</span></p>
+
+          <!-- Chọn số vé -->
+          <label>Số vé:
+            <input id="so_luong" type="number" min="1" value="1">
+          </label>
+
+          <!-- Chọn ghế & hiển thị -->
+          <button id="selectSeatsBtn" class="btn-secondary">Chọn Ghế</button>
+          <input id="selectedSeats" name="Seats" type="text" readonly placeholder="Chưa chọn ghế">
+
+          <!-- Tổng tiền & Đặt vé -->
+          <p>Tổng tiền: <span id="totalAmount"></span> ₫</p>
+          <button id="confirmBooking" class="btn-primary">Đặt Vé</button>
+
+          <!-- QR Code -->
+          <div id="qrContainer" style="display:none;"></div>
+      </form>
     </div>
-    <div id="revResult" style="margin-top:8px; font-weight:500;"></div>
+</div>
 
-    <h3 style="margin-top: 15px;">Tổng Doanh Thu</h3>
-    <div id="revenue-box" class="revenue-wrapper"></div>
-  </section>
-
-  </main>
+<!-- Section Suất Chiếu -->
+<section id="section-showtimes" class="section">
+  <h3>Quản lý Suất Chiếu</h3>
+  <label>Chọn Phim:</label>
+  <select id="movieSelect"></select>
+  <button id="addShowtimeBtn" class="btn-primary">xem lịch sử</button>
+  <div class="booking-wrapper">
+    <table class="admin-table">
+      <thead>
+      <tr>
+        <th>Mã Đặt</th>
+        <th>SĐT</th>
+        <th>Phim</th>
+        <th>Ngày Giờ</th>
+        <th>Ghế</th>
+        <th>Chi tiết</th>
+      </tr>
+      </thead>
+      <tbody id="bookingsTbody"></tbody>
+    </table>
   </div>
 
-  <script src="/Admin/admin.js"></script>
+  <h3 style="margin-top: 15px;">Doanh Thu Phim</h3>
+  <div style="display:flex; gap:8px; align-items:center">
+    <input id="revSearch" placeholder="Nhập tên phim…" style="flex:1">
+    <button id="revBtn" class="btn btn-primary">Tìm</button>
+  </div>
+  <div id="revResult" style="margin-top:8px; font-weight:500;"></div>
+
+  <h3 style="margin-top: 15px;">Tổng Doanh Thu</h3>
+  <div id="revenue-box" class="revenue-wrapper"></div>
+</section>
+
+</main>
+</div>
+
+<script src="/Admin/admin.js"></script>
 </body>
 
 </html>

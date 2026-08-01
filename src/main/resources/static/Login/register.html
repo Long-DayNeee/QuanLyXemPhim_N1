@@ -1,147 +1,317 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="vi">-->
+
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Đăng ký</title>-->
+
+<!--    <style>-->
+<!--        body{-->
+<!--            font-family: Arial, sans-serif;-->
+<!--            background:#f5f5f5;-->
+<!--            display:flex;-->
+<!--            justify-content:center;-->
+<!--            align-items:center;-->
+<!--            height:100vh;-->
+<!--        }-->
+
+<!--        .box{-->
+<!--            width:350px;-->
+<!--            background:#fff;-->
+<!--            padding:25px;-->
+<!--            border-radius:8px;-->
+<!--            box-shadow:0 0 10px rgba(0,0,0,.15);-->
+<!--        }-->
+
+<!--        h2{-->
+<!--            text-align:center;-->
+<!--            margin-bottom:20px;-->
+<!--        }-->
+
+<!--        label{-->
+<!--            display:block;-->
+<!--            margin-top:10px;-->
+<!--        }-->
+
+<!--        input{-->
+<!--            width:100%;-->
+<!--            padding:10px;-->
+<!--            margin-top:5px;-->
+<!--            box-sizing:border-box;-->
+<!--            border:1px solid #ccc;-->
+<!--            border-radius:4px;-->
+<!--        }-->
+
+<!--        button{-->
+<!--            width:100%;-->
+<!--            padding:10px;-->
+<!--            margin-top:20px;-->
+<!--            background:#28a745;-->
+<!--            color:white;-->
+<!--            border:none;-->
+<!--            border-radius:4px;-->
+<!--            cursor:pointer;-->
+<!--        }-->
+
+<!--        button:hover{-->
+<!--            background:#218838;-->
+<!--        }-->
+
+<!--        .error{-->
+<!--            color:red;-->
+<!--            text-align:center;-->
+<!--            margin-bottom:10px;-->
+<!--        }-->
+
+<!--        .success{-->
+<!--            color:green;-->
+<!--            text-align:center;-->
+<!--            margin-bottom:10px;-->
+<!--        }-->
+
+<!--        a{-->
+<!--            text-decoration:none;-->
+<!--        }-->
+<!--    </style>-->
+
+<!--</head>-->
+
+<!--<body>-->
+
+<!--<div class="box">-->
+
+<!--    <h2>Đăng ký</h2>-->
+
+<!--    <div id="errorMsg" class="error"></div>-->
+<!--    <div id="successMsg" class="success"></div>-->
+
+<!--    <form action="/register" method="post">-->
+
+<!--        <label>Họ và tên</label>-->
+<!--        <input type="text"-->
+<!--               name="fullName"-->
+<!--               required>-->
+
+<!--        <label>Email</label>-->
+<!--        <input type="email"-->
+<!--               name="email"-->
+<!--               required>-->
+
+<!--        <label>Tên đăng nhập</label>-->
+<!--        <input type="text"-->
+<!--               name="username"-->
+<!--               required>-->
+
+<!--        <label>Mật khẩu</label>-->
+<!--        <input type="password"-->
+<!--               name="password"-->
+<!--               required>-->
+
+<!--        <label>Nhập lại mật khẩu</label>-->
+<!--        <input type="password2"-->
+<!--               name="password2"-->
+<!--               required>-->
+
+<!--        <button type="submit">-->
+<!--            Đăng ký-->
+<!--        </button>-->
+
+<!--    </form>-->
+
+<!--    <p style="text-align:center;margin-top:15px">-->
+<!--        Đã có tài khoản?-->
+<!--        <a href="/login">Đăng nhập</a>-->
+<!--    </p>-->
+
+<!--</div>-->
+
+<!--<script>-->
+
+<!--    const params = new URLSearchParams(window.location.search);-->
+
+<!--    const error = params.get("error");-->
+<!--    const message = params.get("message");-->
+
+<!--    if(error){-->
+<!--        document.getElementById("errorMsg").innerHTML = decodeURIComponent(error);-->
+<!--    }-->
+
+<!--    if(message){-->
+<!--        document.getElementById("successMsg").innerHTML = decodeURIComponent(message);-->
+<!--    }-->
+
+<!--</script>-->
+
+
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Đăng ký</title>
-
-    <style>
-        body{
-            font-family: Arial, sans-serif;
-            background:#f5f5f5;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            height:100vh;
-        }
-
-        .box{
-            width:350px;
-            background:#fff;
-            padding:25px;
-            border-radius:8px;
-            box-shadow:0 0 10px rgba(0,0,0,.15);
-        }
-
-        h2{
-            text-align:center;
-            margin-bottom:20px;
-        }
-
-        label{
-            display:block;
-            margin-top:10px;
-        }
-
-        input{
-            width:100%;
-            padding:10px;
-            margin-top:5px;
-            box-sizing:border-box;
-            border:1px solid #ccc;
-            border-radius:4px;
-        }
-
-        button{
-            width:100%;
-            padding:10px;
-            margin-top:20px;
-            background:#28a745;
-            color:white;
-            border:none;
-            border-radius:4px;
-            cursor:pointer;
-        }
-
-        button:hover{
-            background:#218838;
-        }
-
-        .error{
-            color:red;
-            text-align:center;
-            margin-bottom:10px;
-        }
-
-        .success{
-            color:green;
-            text-align:center;
-            margin-bottom:10px;
-        }
-
-        a{
-            text-decoration:none;
-        }
-    </style>
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng Ký - EVL</title>
+    <link rel="stylesheet" href="/Login/login.css" />
 </head>
-
 <body>
 
-<div class="box">
+<div class="login-page">
 
-    <h2>Đăng ký</h2>
+    <div class="login-visual">
+        <img class="login-visual-bg"
+             src="/DuLieu/28 Năm Sau Hậu Tận Thế/28NamSauHauTanThe_Nen.jpg"
+             alt="" />
+        <div class="login-visual-scrim"></div>
 
-    <div id="errorMsg" class="error"></div>
-    <div id="successMsg" class="success"></div>
+        <div class="login-brand">
+            <img src="/DuLieu/Logo/LogoEVL.png" alt="EVL" class="login-brand-icon" />
+            <span class="login-brand-name">EVL</span>
+        </div>
 
-    <form action="/register" method="post">
+        <div class="login-poster-stack">
+            <img src="/DuLieu/Halabala Rừng Ma Tế Xác/Halabala.jpg" alt=""
+                 style="transform: rotate(-6deg) translateY(8px); z-index:1" />
+            <img src="/DuLieu/Bí Kíp Luyện Rồng/BiKipLuyenRong.jpg" alt=""
+                 style="transform: rotate(0deg); z-index:3; margin-left:-32px" />
+            <img src="/DuLieu/TRON ARES/tron_ares.jpg" alt=""
+                 style="transform: rotate(6deg) translateY(8px); z-index:2; margin-left:-32px" />
+        </div>
 
-        <label>Họ và tên</label>
-        <input type="text"
-               name="fullName"
-               required>
+        <div class="login-tagline">
+            <p class="login-tagline-sub">Trải Nghiệm Điện Ảnh</p>
+            <h2 class="login-tagline-title">Gia Nhập<br />Cộng Đồng EVL.</h2>
+            <p class="login-tagline-desc">
+                Tạo tài khoản để lưu vé, nhận ưu đãi thành viên và đặt vé nhanh hơn ở lần sau.
+            </p>
+        </div>
 
-        <label>Email</label>
-        <input type="email"
-               name="email"
-               required>
+        <div class="login-filmstrip"><div class="login-filmstrip-row"></div></div>
+    </div>
 
-        <label>Tên đăng nhập</label>
-        <input type="text"
-               name="username"
-               required>
+    <div class="login-form-panel">
+        <a href="/Home/index.html" class="login-close">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" />
+            </svg>
+            Đóng
+        </a>
 
-        <label>Mật khẩu</label>
-        <input type="password"
-               name="password"
-               required>
+        <div class="login-mobile-brand">
+            <img src="/DuLieu/Logo/LogoEVL.png" alt="EVL" class="login-brand-icon" />
+            <span class="login-brand-name">EVL</span>
+        </div>
 
-        <label>Nhập lại mật khẩu</label>
-        <input type="password2"
-               name="password2"
-               required>
+        <div class="login-form-inner">
+            <h1 class="login-title">Tạo Tài Khoản</h1>
+            <p class="login-subtitle">Chỉ mất chưa đầy 1 phút</p>
 
-        <button type="submit">
-            Đăng ký
-        </button>
+            <div id="loginBanner" class="login-banner" style="display:none"></div>
 
-    </form>
+            <form class="login-form active" action="/register" method="post" id="registerForm">
+                <div class="login-field">
+                    <label>Họ Và Tên</label>
+                    <div class="login-input-wrap">
+                        <svg class="login-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7a7a90" stroke-width="1.8">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
+                        </svg>
+                        <input type="text" name="fullName" placeholder="Nguyễn Văn A" required />
+                    </div>
+                </div>
 
-    <p style="text-align:center;margin-top:15px">
-        Đã có tài khoản?
-        <a href="/login">Đăng nhập</a>
-    </p>
+                <div class="login-field">
+                    <label>Email</label>
+                    <div class="login-input-wrap">
+                        <svg class="login-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7a7a90" stroke-width="1.8">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" />
+                        </svg>
+                        <input type="email" name="email" placeholder="ten@email.com" required />
+                    </div>
+                </div>
 
+                <div class="login-field">
+                    <label>Tên Đăng Nhập</label>
+                    <div class="login-input-wrap">
+                        <svg class="login-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7a7a90" stroke-width="1.8">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                        </svg>
+                        <input type="text" name="username" placeholder="Tên đăng nhập" required />
+                    </div>
+                </div>
+
+                <div class="login-field">
+                    <label>Mật Khẩu</label>
+                    <div class="login-input-wrap">
+                        <svg class="login-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7a7a90" stroke-width="1.8">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                        <input type="password" name="password" placeholder="••••••••" class="pass-input" required />
+                        <button type="button" class="login-eye-btn" data-toggle-pass>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="login-field">
+                    <label>Nhập Lại Mật Khẩu</label>
+                    <div class="login-input-wrap">
+                        <svg class="login-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7a7a90" stroke-width="1.8">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                        <input type="password" name="password2" placeholder="••••••••" class="pass-input" required />
+                        <button type="button" class="login-eye-btn" data-toggle-pass>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="login-submit login-submit-red">Đăng Ký</button>
+
+                <p class="login-register-link">
+                    Đã có tài khoản? <a href="/Login/login.html">Đăng nhập</a>
+                </p>
+            </form>
+        </div>
+    </div>
 </div>
 
 <script>
+    document.querySelectorAll('[data-toggle-pass]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const input = btn.parentElement.querySelector('.pass-input');
+            input.type = input.type === 'password' ? 'text' : 'password';
+        });
+    });
 
     const params = new URLSearchParams(window.location.search);
-
-    const error = params.get("error");
-    const message = params.get("message");
-
-    if(error){
-        document.getElementById("errorMsg").innerHTML = decodeURIComponent(error);
+    const error = params.get('error');
+    const message = params.get('message');
+    const banner = document.getElementById('loginBanner');
+    if (error) {
+        banner.textContent = decodeURIComponent(error);
+        banner.className = 'login-banner login-banner-error';
+        banner.style.display = 'flex';
+    } else if (message) {
+        banner.textContent = decodeURIComponent(message);
+        banner.className = 'login-banner login-banner-success';
+        banner.style.display = 'flex';
     }
 
-    if(message){
-        document.getElementById("successMsg").innerHTML = decodeURIComponent(message);
-    }
-
+    document.getElementById('registerForm').addEventListener('submit', e => {
+        const pass = document.querySelector('input[name="password"]').value;
+        const pass2 = document.querySelector('input[name="password2"]').value;
+        if (pass !== pass2) {
+            e.preventDefault();
+            banner.textContent = 'Mật khẩu nhập lại không khớp';
+            banner.className = 'login-banner login-banner-error';
+            banner.style.display = 'flex';
+        }
+    });
 </script>
-
-
 </body>
 </html>
