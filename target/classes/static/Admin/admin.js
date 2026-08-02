@@ -942,7 +942,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!confirm(`Bạn muốn xóa "${title}"? 
 *Sau khi xóa sẽ không khôi phục được thông tin*`)) return;
     // gọi API xóa
-    const res = await fetch('/api/movies?movieId=' + id, {
+    const res = await fetch('/api/movies?id=' + id, {
       method: 'DELETE'
     });
     if (!res.ok) {

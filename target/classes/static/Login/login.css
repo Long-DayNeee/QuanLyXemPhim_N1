@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+
+* { box-sizing: border-box; }
+html, body {
+    margin: 0;
+    height: 100%;
+    font-family: "DM Sans", system-ui, sans-serif;
+    background: #07070e;
+    color: #ede9e4;
+}
+
+.login-page { display: flex; min-height: 100vh; }
+
+/* ===== CỘT TRÁI ===== */
+.login-visual { position: relative; flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+.login-visual-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.login-visual-scrim {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(7,7,14,0.15) 0%, rgba(7,7,14,0.65) 60%, #07070e 100%);
+}
+
+.login-brand { position: absolute; top: 40px; left: 48px; z-index: 2; display: flex; align-items: center; gap: 10px; }
+.login-brand-icon { width: 36px; height: 36px; border-radius: 8px; background: #c0162e; padding: 6px; object-fit: contain; }
+.login-brand-name { font-family: "Playfair Display", Georgia, serif; font-weight: 900; font-size: 1.5rem; color: #ede9e4; }
+
+.login-poster-stack { position: absolute; z-index: 2; left: 48px; bottom: 80px; display: flex; }
+.login-poster-stack img {
+    width: 120px; height: 180px; object-fit: cover; border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.login-tagline { position: absolute; z-index: 2; left: 48px; bottom: 284px; max-width: 380px; }
+.login-tagline-sub { font-size: 0.75rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #d4a44c; margin: 0 0 12px; }
+.login-tagline-title { font-family: "Playfair Display", Georgia, serif; font-weight: 900; font-size: 2.5rem; line-height: 1.15; color: #ede9e4; margin: 0 0 16px; }
+.login-tagline-desc { font-size: 0.9rem; line-height: 1.6; color: rgba(237,233,228,0.6); margin: 0; }
+
+.login-filmstrip { position: absolute; top: 0; right: 0; bottom: 0; width: 64px; background: rgba(0,0,0,0.4); z-index: 2; overflow: hidden; }
+.login-filmstrip-row { height: 100%; }
+.login-filmstrip-row::before {
+    content: ""; display: block; height: 100%;
+    background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 34px, rgba(255,255,255,0.05) 34px, rgba(255,255,255,0.05) 36px);
+}
+
+/* ===== CỘT PHẢI ===== */
+.login-form-panel {
+    width: 480px; flex-shrink: 0; background: #0c0c1a;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 48px 56px; position: relative; overflow-y: auto;
+}
+.login-close {
+    position: absolute; top: 32px; right: 32px; display: flex; align-items: center; gap: 6px;
+    font-size: 0.85rem; color: #7a7a90; text-decoration: none; transition: color 0.15s ease;
+}
+.login-close:hover { color: #ede9e4; }
+
+.login-mobile-brand { display: none; align-items: center; gap: 8px; margin-bottom: 32px; }
+.login-mobile-brand .login-brand-icon { width: 32px; height: 32px; }
+
+.login-form-inner { max-width: 360px; width: 100%; margin: 0 auto; }
+
+.login-title { font-family: "Playfair Display", Georgia, serif; font-weight: 900; font-size: 1.9rem; color: #ede9e4; margin: 0 0 8px; }
+.login-subtitle { font-size: 0.9rem; color: #7a7a90; margin: 0 0 28px; }
+
+.login-tabs {
+    display: flex; border-radius: 12px; padding: 4px; margin-bottom: 24px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+}
+.login-tab {
+    flex: 1; padding: 10px; border-radius: 8px; border: none; background: transparent;
+    color: #7a7a90; font-size: 0.9rem; font-weight: 500; font-family: inherit; cursor: pointer; transition: all 0.15s ease;
+}
+.login-tab.active { background: #c0162e; color: #fff; }
+
+.login-banner { align-items: center; gap: 8px; padding: 12px 16px; border-radius: 10px; margin-bottom: 20px; font-size: 0.85rem; }
+.login-banner-error { background: rgba(192,22,46,0.12); border: 1px solid rgba(192,22,46,0.25); color: #f06070; }
+.login-banner-success { background: rgba(76,175,138,0.12); border: 1px solid rgba(76,175,138,0.3); color: #4caf8a; }
+
+.login-form { display: none; }
+.login-form.active { display: flex; flex-direction: column; gap: 20px; }
+
+.login-field label { display: block; font-size: 0.75rem; font-weight: 500; color: #7a7a90; margin-bottom: 8px; }
+.login-field-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.login-field-row label { margin-bottom: 0; }
+.login-forgot { font-size: 0.75rem; color: #d4a44c; text-decoration: none; }
+.login-forgot:hover { color: #f0c96b; }
+
+.login-input-wrap { position: relative; }
+.login-input-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+.login-input-wrap input {
+    width: 100%; padding: 12px 44px 12px 40px; border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04);
+    color: #ede9e4; font-family: inherit; font-size: 0.9rem; outline: none; transition: border-color 0.15s ease;
+}
+.login-input-wrap input:focus { border-color: rgba(212,164,76,0.5); }
+.login-eye-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #7a7a90; cursor: pointer; padding: 0; display: flex; }
+.login-eye-btn:hover { color: #ede9e4; }
+
+.login-submit { width: 100%; padding: 14px; border-radius: 12px; border: none; font-size: 0.9rem; font-weight: 700; font-family: inherit; cursor: pointer; transition: opacity 0.15s ease; }
+.login-submit:hover { opacity: 0.9; }
+.login-submit-red { background: #c0162e; color: #fff; }
+.login-submit-gold { background: linear-gradient(135deg, #b8860b, #d4a44c); color: #0a0800; }
+
+.login-divider { display: flex; align-items: center; gap: 12px; }
+.login-divider span { flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
+.login-divider em { font-style: normal; font-size: 0.75rem; color: #7a7a90; }
+
+.login-social { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.login-social-btn {
+    display: flex; align-items: center; justify-content: center; gap: 10px; padding: 11px; border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1); background: transparent; color: #ede9e4;
+    font-size: 0.85rem; font-family: inherit; cursor: pointer; transition: background 0.15s ease;
+}
+.login-social-btn:hover { background: rgba(255,255,255,0.05); }
+
+.login-register-link { text-align: center; font-size: 0.8rem; color: #7a7a90; margin: 4px 0 0; }
+.login-register-link a { color: #d4a44c; font-weight: 600; text-decoration: none; }
+.login-register-link a:hover { color: #f0c96b; }
+
+.login-staff-notice {
+    display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 12px;
+    background: rgba(212,164,76,0.08); border: 1px solid rgba(212,164,76,0.2); color: #d4a44c; font-size: 0.78rem;
+}
+
+@media (max-width: 1024px) {
+    .login-visual { display: none; }
+    .login-form-panel { width: 100%; }
+    .login-mobile-brand { display: flex; }
+}

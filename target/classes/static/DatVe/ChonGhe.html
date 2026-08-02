@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chọn Ghế - EVL</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/cinema-theme.css">
+  <link rel="stylesheet" href="/DatVe/datve.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+  <div class="toast" id="toast"></div>
+
+  <div class="flow-page">
+    <div class="flow-topbar">
+      <a href="javascript:history.back()" class="flow-back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Quay lại chọn suất
+      </a>
+      <div class="flow-steps">
+        <span class="flow-step done">1. Suất chiếu</span>
+        <span class="flow-step active">2. Chọn ghế</span>
+        <span class="flow-step">3. Thanh toán</span>
+      </div>
+    </div>
+
+    <div id="movieBar" class="flow-movie-bar"></div>
+
+    <div class="panel">
+      <div class="count-row">
+        <span class="count-label">Số người</span>
+        <div class="stepper">
+          <button id="decBtn" type="button">−</button>
+          <span id="countVal">2</span>
+          <button id="incBtn" type="button">+</button>
+        </div>
+        <span class="hint" id="priceHint"></span>
+        <button class="clear-link" id="clearBtn" type="button">Bỏ chọn tất cả</button>
+        <span class="progress-badge" id="progressBadge">Đã chọn 0/2 ghế</span>
+      </div>
+    </div>
+
+    <p class="rule-note" id="ruleNote"></p>
+
+    <div class="screen">
+      <div class="screen-bar"></div>
+      <p class="screen-label">Screen</p>
+    </div>
+
+    <div class="seatmap"><div class="seatmap-inner" id="seatmapInner"></div></div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--red);border-color:var(--red-b);"></div>Ghế đã chọn</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--seat-empty);border-color:var(--seat-empty-b);"></div>Ghế trống</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--seat-empty);border-color:var(--warn-b);box-shadow:0 0 0 2px rgba(224,160,48,.5) inset;"></div>Ghế trống giữa cụm bạn chọn</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--seat-sold);border-color:var(--seat-sold-b);background-image:repeating-linear-gradient(45deg, rgba(255,255,255,0.14) 0 1.5px, transparent 1.5px 6px);"></div>Ghế đã bán</div>
+    </div>
+  </div>
+
+  <div class="bottombar" id="bottombar">
+    <div class="bottombar-inner">
+      <div>
+        <p class="bb-line" id="bbSeatsLine"></p>
+        <p class="bb-line" id="bbCountLine"></p>
+        <p class="bb-total" id="bbTotal"></p>
+      </div>
+      <button class="confirm-btn" id="confirmBtn" type="button">Xác Nhận →</button>
+    </div>
+  </div>
+
+  <script src="/DatVe/chon-ghe.js"></script>
+</body>
+
+</html>

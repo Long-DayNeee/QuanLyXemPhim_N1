@@ -1,3 +1,206 @@
+<!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html lang="vi">&ndash;&gt;-->
+
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+<!--&lt;!&ndash;  <meta charset="UTF-8">&ndash;&gt;-->
+<!--&lt;!&ndash;  <meta name="viewport" content="width=device-width, initial-scale=1.0">&ndash;&gt;-->
+<!--&lt;!&ndash;  <title>EVL - Chi Tiết Phim</title>&ndash;&gt;-->
+<!--&lt;!&ndash;  <link rel="stylesheet" href="/styles.css">&ndash;&gt;-->
+<!--&lt;!&ndash;  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">&ndash;&gt;-->
+<!--&lt;!&ndash;  <link rel="icon" type="image/x-icon" href="/img/favicon.png">&ndash;&gt;-->
+<!--&lt;!&ndash;  <link rel="preconnect" href="https://fonts.googleapis.com">&ndash;&gt;-->
+<!--&lt;!&ndash;  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>&ndash;&gt;-->
+<!--&lt;!&ndash;  <link href="https://fonts.googleapis.com/css2?family=Playwrite+DK+Loopet:wght@100..400&display=swap" rel="stylesheet">&ndash;&gt;-->
+<!--&lt;!&ndash;</head>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+<!--&lt;!&ndash;  <header>&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="container">&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="logo">&ndash;&gt;-->
+<!--&lt;!&ndash;        <a href="/Home/index.html">&ndash;&gt;-->
+<!--&lt;!&ndash;          <img src="/DuLieu/Logo/LogoEVL.png" alt="Logo" class="logo-img" />&ndash;&gt;-->
+<!--&lt;!&ndash;          <h1><span class="DanhHieu">EVL</span></h1>&ndash;&gt;-->
+<!--&lt;!&ndash;        </a>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <nav>&ndash;&gt;-->
+<!--&lt;!&ndash;        <ul class="menu">&ndash;&gt;-->
+<!--&lt;!&ndash;          <li><a href="/Home/index.html">Trang Chủ</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;          <li><a href="/Home/GioiThieu.html">Trung Tâm Dịch Vụ</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;          <li><a href="/Home/Phim.html" class="active">Phim</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;        </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;      </nav>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="theme-toggle">&ndash;&gt;-->
+<!--&lt;!&ndash;        <span class="theme-toggle-icon"><i class="fas fa-sun"></i></span>&ndash;&gt;-->
+<!--&lt;!&ndash;        <label class="theme-toggle-label">&ndash;&gt;-->
+<!--&lt;!&ndash;          <input type="checkbox" class="theme-toggle-checkbox" id="theme-toggle">&ndash;&gt;-->
+<!--&lt;!&ndash;          <span class="theme-toggle-slider"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;        </label>&ndash;&gt;-->
+<!--&lt;!&ndash;        <span class="theme-toggle-icon"><i class="fas fa-moon"></i></span>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="mobile-menu-btn">&ndash;&gt;-->
+<!--&lt;!&ndash;        <span></span>&ndash;&gt;-->
+<!--&lt;!&ndash;        <span></span>&ndash;&gt;-->
+<!--&lt;!&ndash;        <span></span>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;  </header>&ndash;&gt;-->
+
+<!--&lt;!&ndash;  <section class="page-banner">&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="container">&ndash;&gt;-->
+<!--&lt;!&ndash;      <h1>Thông tin phim</h1>&ndash;&gt;-->
+<!--&lt;!&ndash;      <p>&ndash;&gt;-->
+<!--&lt;!&ndash;        <a href="/Home/index.html">Trang Chủ</a> &gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <a href="/Home/Phim.html">Phim</a> &gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <span id="productName">Thông tin phim</span>&ndash;&gt;-->
+<!--&lt;!&ndash;      </p>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;  </section>&ndash;&gt;-->
+
+<!--&lt;!&ndash;  <section class="product-detail">&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="container">&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="product-detail-content" id="productDetail">&ndash;&gt;-->
+<!--&lt;!&ndash;        &lt;!&ndash; Chi tiết sản phẩm sẽ được thêm vào đây bằng JavaScript &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;      <div class="product-description" id="productDescription">&ndash;&gt;-->
+<!--&lt;!&ndash;        &lt;!&ndash; Mô tả Phim sẽ được thêm vào đây bằng JavaScript &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;      <div class="product-nutrition" id="productNutrition">&ndash;&gt;-->
+<!--&lt;!&ndash;        &lt;!&ndash; Thông tin trailer sẽ được thêm vào đây bằng JavaScript &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <video id="trailer" controls width="100%" height="auto">&ndash;&gt;-->
+<!--&lt;!&ndash;          Trình duyệt của bạn không hỗ trợ video tag.&ndash;&gt;-->
+<!--&lt;!&ndash;        </video>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;      <div class="related-products">&ndash;&gt;-->
+<!--&lt;!&ndash;        <h2>Phim Liên Quan</h2>&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="related-products-container" id="relatedProducts">&ndash;&gt;-->
+<!--&lt;!&ndash;          &lt;!&ndash; Phim liên quan sẽ được thêm vào đây bằng JavaScript &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;  </section>&ndash;&gt;-->
+
+<!--&lt;!&ndash;  <footer>&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="container">&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="footer-content">&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="footer-logo">&ndash;&gt;-->
+<!--&lt;!&ndash;          <h2>&ndash;&gt;-->
+<!--&lt;!&ndash;            <span class="DanhHieu">EVL</span>&ndash;&gt;-->
+<!--&lt;!&ndash;          </h2>&ndash;&gt;-->
+<!--&lt;!&ndash;          <p>EVL Cinemas Vietnam</p>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="footer-links">&ndash;&gt;-->
+<!--&lt;!&ndash;          <h3>Liên Kết</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;          <ul>&ndash;&gt;-->
+<!--&lt;!&ndash;            <li><a href="/Home/index.html">Trang Chủ</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;            <li><a href="/Home/GioiThieu.html">Trung Tâm Dịch Vụ</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;            <li><a href="/Home/Phim.html">Phim</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;          </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="footer-contact">&ndash;&gt;-->
+<!--&lt;!&ndash;          <h3>Liên Hệ</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;          <p>&ndash;&gt;-->
+<!--&lt;!&ndash;            <i class="fas fa-map-marker-alt"></i> Số 31 LK20B Khu đô thị Văn Phú, phường Phú La, quận Hà Đông&ndash;&gt;-->
+<!--&lt;!&ndash;          </p>&ndash;&gt;-->
+<!--&lt;!&ndash;          <p><i class="fas fa-phone"></i> 09114040453 </p>&ndash;&gt;-->
+<!--&lt;!&ndash;          <p><i class="fas fa-envelope"></i> evle36165@gmail.com </p>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="footer-social">&ndash;&gt;-->
+<!--&lt;!&ndash;          <h3>Kết Nối</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="social-icons">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a href="https://www.facebook.com/profile.php?id=61577270567933" target="_blank"> <i&ndash;&gt;-->
+<!--&lt;!&ndash;                class="fab fa-facebook"></i></a>&ndash;&gt;-->
+<!--&lt;!&ndash;            <a href="https://www.tiktok.com/@evl.cinemas.vietnam" target="_blank"><i class="fab fa-tiktok"></i></a>&ndash;&gt;-->
+<!--&lt;!&ndash;            <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>&ndash;&gt;-->
+<!--&lt;!&ndash;            <a href="https://www.youtube.com/channel/UCxYDAOCBTBvd7C0YyBPQ7sA " target="_blank"><i&ndash;&gt;-->
+<!--&lt;!&ndash;                class="fab fa-youtube"></i></a>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="footer-bottom">&ndash;&gt;-->
+<!--&lt;!&ndash;        <p>&copy; Enjoy virtual life</p>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;  </footer>&ndash;&gt;-->
+
+<!--&lt;!&ndash;  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>&ndash;&gt;-->
+<!--&lt;!&ndash;  <div id="bookingModal" class="modal">&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="modal-content">&ndash;&gt;-->
+<!--&lt;!&ndash;      <span id="bookingClose" class="close">&times;</span>&ndash;&gt;-->
+<!--&lt;!&ndash;      <h2>Đặt vé Online</h2>&ndash;&gt;-->
+
+<!--&lt;!&ndash;      <div class="booking-widget">&ndash;&gt;-->
+<!--&lt;!&ndash;        <ul class="date-tabs">&ndash;&gt;-->
+<!--&lt;!&ndash;          &lt;!&ndash; danh sách ngày sẽ render JS &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        </ul>&ndash;&gt;-->
+
+<!--&lt;!&ndash;        <form id="booking-form" action="/book.html" method="POST">&ndash;&gt;-->
+<!--&lt;!&ndash;          &lt;!&ndash; B. Lưới 2 cột &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="booking-grid">&ndash;&gt;-->
+<!--&lt;!&ndash;            &lt;!&ndash; B1. Cột trái (poster + thông tin) &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="booking-left">&ndash;&gt;-->
+<!--&lt;!&ndash;              <img id="modalPoster" class="poster-img" src="" alt="poster">&ndash;&gt;-->
+<!--&lt;!&ndash;              <h3 id="modalTitle"></h3>&ndash;&gt;-->
+<!--&lt;!&ndash;              <p>Thể loại: <span id="modalGenre"></span></p>&ndash;&gt;-->
+<!--&lt;!&ndash;              <p>Ngôn ngữ: <span id="modalLang"></span></p>&ndash;&gt;-->
+
+<!--&lt;!&ndash;              <label>Số lượng vé:&ndash;&gt;-->
+<!--&lt;!&ndash;                <input type="number" id="so_luong" name="so_luong" min="0" value="0" readonly>&ndash;&gt;-->
+<!--&lt;!&ndash;              </label>&ndash;&gt;-->
+<!--&lt;!&ndash;              <label>Ghế ngồi:&ndash;&gt;-->
+<!--&lt;!&ndash;                <input type="text" id="ghe_ngoi" name="ghe_ngoi" readonly>&ndash;&gt;-->
+<!--&lt;!&ndash;              </label>&ndash;&gt;-->
+
+<!--&lt;!&ndash;              <input type="text" id="customer" placeholder="Họ và tên">&ndash;&gt;-->
+
+<!--&lt;!&ndash;              <label for="email">Thông tin liên hệ:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;              <input type="email" id="email" placeholder="Email">&ndash;&gt;-->
+
+<!--&lt;!&ndash;              <input type="tel" id="phone" name="phone" pattern="0[0-9]{9}" placeholder="Số điện thoại" required>&ndash;&gt;-->
+<!--&lt;!&ndash;              <p>Ngày chiếu: <span id="booking-date">–/–/–</span></p>&ndash;&gt;-->
+<!--&lt;!&ndash;              <p>Giờ chiếu: <span id="booking-time">&#45;&#45;:&#45;&#45;</span></p>&ndash;&gt;-->
+<!--&lt;!&ndash;              <p class="total">Tổng tiền: <span id="total_price">0 đ</span></p>&ndash;&gt;-->
+<!--&lt;!&ndash;              &ndash;&gt;-->
+<!--&lt;!&ndash;              <input type="hidden" id="showtime_id" name="showtimeId">&ndash;&gt;-->
+<!--&lt;!&ndash;              <input type="hidden" id="form-date" name="date">&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;            &lt;!&ndash; B2. Cột phải (sơ đồ ghế + nút) &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="booking-right">&ndash;&gt;-->
+<!--&lt;!&ndash;              <h4>Chọn ghế ngồi</h4>&ndash;&gt;-->
+<!--&lt;!&ndash;              <br>&ndash;&gt;-->
+<!--&lt;!&ndash;              <div id="showtimes-container" class="showtimes"></div><br>&ndash;&gt;-->
+<!--&lt;!&ndash;              <div id="seat-map-wrapper">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div id="seat-map"></div> &lt;!&ndash; JS sẽ đổ ghế vào đây &ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;                <div class="legend">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <span class="seat free"></span> Trống&ndash;&gt;-->
+<!--&lt;!&ndash;                  <span class="seat selected"></span> Đang chọn&ndash;&gt;-->
+<!--&lt;!&ndash;                  <span class="seat booked"></span> Đã bán&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;              </div>&ndash;&gt;-->
+<!--&lt;!&ndash;              <button id="confirmBooking" type="button" class="btn-pay wide">Đặt vé</button>&ndash;&gt;-->
+<!--&lt;!&ndash;              <button type="button" style="margin-top: 8px; background-color: rgb(252, 194, 3); color: rgb(255, 8, 0);">&ndash;&gt;-->
+<!--&lt;!&ndash;                <a href="/LichSuDatVeNguoiDung.html" style="color: inherit; text-decoration: none;">Xem lịch sử đặt vé</a>&ndash;&gt;-->
+<!--&lt;!&ndash;              </button>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </form>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;      <div id="qrContainer" class="qr-container" style="display:none;"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;  </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;  &lt;!&ndash; Load các script hệ thống &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;  <script src="/Admin/admin.js"></script>&ndash;&gt;-->
+<!--&lt;!&ndash;  <script src="/script.js"></script>&ndash;&gt;-->
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
+
 <!--<!DOCTYPE html>-->
 <!--<html lang="vi">-->
 
@@ -6,6 +209,7 @@
 <!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
 <!--  <title>EVL - Chi Tiết Phim</title>-->
 <!--  <link rel="stylesheet" href="/styles.css">-->
+<!--  <link rel="stylesheet" href="/cinema-theme.css">-->
 <!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">-->
 <!--  <link rel="icon" type="image/x-icon" href="/img/favicon.png">-->
 <!--  <link rel="preconnect" href="https://fonts.googleapis.com">-->
@@ -14,192 +218,222 @@
 <!--</head>-->
 
 <!--<body>-->
-<!--  <header>-->
-<!--    <div class="container">-->
-<!--      <div class="logo">-->
-<!--        <a href="/Home/index.html">-->
-<!--          <img src="/DuLieu/Logo/LogoEVL.png" alt="Logo" class="logo-img" />-->
-<!--          <h1><span class="DanhHieu">EVL</span></h1>-->
-<!--        </a>-->
-<!--      </div>-->
-<!--      <nav>-->
-<!--        <ul class="menu">-->
-<!--          <li><a href="/Home/index.html">Trang Chủ</a></li>-->
-<!--          <li><a href="/Home/GioiThieu.html">Trung Tâm Dịch Vụ</a></li>-->
-<!--          <li><a href="/Home/Phim.html" class="active">Phim</a></li>-->
-<!--        </ul>-->
-<!--      </nav>-->
-<!--      <div class="theme-toggle">-->
-<!--        <span class="theme-toggle-icon"><i class="fas fa-sun"></i></span>-->
-<!--        <label class="theme-toggle-label">-->
-<!--          <input type="checkbox" class="theme-toggle-checkbox" id="theme-toggle">-->
-<!--          <span class="theme-toggle-slider"></span>-->
-<!--        </label>-->
-<!--        <span class="theme-toggle-icon"><i class="fas fa-moon"></i></span>-->
-<!--      </div>-->
-<!--      <div class="mobile-menu-btn">-->
-<!--        <span></span>-->
-<!--        <span></span>-->
-<!--        <span></span>-->
-<!--      </div>-->
+<!--<header>-->
+<!--  <div class="container">-->
+<!--    <div class="logo">-->
+<!--      <a href="/Home/index.html">-->
+<!--        <img src="/DuLieu/Logo/LogoEVL.png" alt="Logo" class="logo-img" />-->
+<!--        <h1><span class="DanhHieu">EVL</span></h1>-->
+<!--      </a>-->
 <!--    </div>-->
-<!--  </header>-->
-
-<!--  <section class="page-banner">-->
-<!--    <div class="container">-->
-<!--      <h1>Thông tin phim</h1>-->
-<!--      <p>-->
-<!--        <a href="/Home/index.html">Trang Chủ</a> &gt;-->
-<!--        <a href="/Home/Phim.html">Phim</a> &gt;-->
-<!--        <span id="productName">Thông tin phim</span>-->
-<!--      </p>-->
+<!--    <nav>-->
+<!--      <ul class="menu">-->
+<!--        <li><a href="/Home/index.html">Trang Chủ</a></li>-->
+<!--        <li><a href="/Home/GioiThieu.html">Trung Tâm Dịch Vụ</a></li>-->
+<!--        <li><a href="/Home/Phim.html" class="active">Phim</a></li>-->
+<!--      </ul>-->
+<!--    </nav>-->
+<!--    <div class="theme-toggle">-->
+<!--      <span class="theme-toggle-icon"><i class="fas fa-sun"></i></span>-->
+<!--      <label class="theme-toggle-label">-->
+<!--        <input type="checkbox" class="theme-toggle-checkbox" id="theme-toggle">-->
+<!--        <span class="theme-toggle-slider"></span>-->
+<!--      </label>-->
+<!--      <span class="theme-toggle-icon"><i class="fas fa-moon"></i></span>-->
 <!--    </div>-->
-<!--  </section>-->
-
-<!--  <section class="product-detail">-->
-<!--    <div class="container">-->
-<!--      <div class="product-detail-content" id="productDetail">-->
-<!--        &lt;!&ndash; Chi tiết sản phẩm sẽ được thêm vào đây bằng JavaScript &ndash;&gt;-->
-<!--      </div>-->
-
-<!--      <div class="product-description" id="productDescription">-->
-<!--        &lt;!&ndash; Mô tả Phim sẽ được thêm vào đây bằng JavaScript &ndash;&gt;-->
-<!--      </div>-->
-
-<!--      <div class="product-nutrition" id="productNutrition">-->
-<!--        &lt;!&ndash; Thông tin trailer sẽ được thêm vào đây bằng JavaScript &ndash;&gt;-->
-<!--        <video id="trailer" controls width="100%" height="auto">-->
-<!--          Trình duyệt của bạn không hỗ trợ video tag.-->
-<!--        </video>-->
-<!--      </div>-->
-
-<!--      <div class="related-products">-->
-<!--        <h2>Phim Liên Quan</h2>-->
-<!--        <div class="related-products-container" id="relatedProducts">-->
-<!--          &lt;!&ndash; Phim liên quan sẽ được thêm vào đây bằng JavaScript &ndash;&gt;-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </section>-->
-
-<!--  <footer>-->
-<!--    <div class="container">-->
-<!--      <div class="footer-content">-->
-<!--        <div class="footer-logo">-->
-<!--          <h2>-->
-<!--            <span class="DanhHieu">EVL</span>-->
-<!--          </h2>-->
-<!--          <p>EVL Cinemas Vietnam</p>-->
-<!--        </div>-->
-<!--        <div class="footer-links">-->
-<!--          <h3>Liên Kết</h3>-->
-<!--          <ul>-->
-<!--            <li><a href="/Home/index.html">Trang Chủ</a></li>-->
-<!--            <li><a href="/Home/GioiThieu.html">Trung Tâm Dịch Vụ</a></li>-->
-<!--            <li><a href="/Home/Phim.html">Phim</a></li>-->
-<!--          </ul>-->
-<!--        </div>-->
-<!--        <div class="footer-contact">-->
-<!--          <h3>Liên Hệ</h3>-->
-<!--          <p>-->
-<!--            <i class="fas fa-map-marker-alt"></i> Số 31 LK20B Khu đô thị Văn Phú, phường Phú La, quận Hà Đông-->
-<!--          </p>-->
-<!--          <p><i class="fas fa-phone"></i> 09114040453 </p>-->
-<!--          <p><i class="fas fa-envelope"></i> evle36165@gmail.com </p>-->
-<!--        </div>-->
-<!--        <div class="footer-social">-->
-<!--          <h3>Kết Nối</h3>-->
-<!--          <div class="social-icons">-->
-<!--            <a href="https://www.facebook.com/profile.php?id=61577270567933" target="_blank"> <i-->
-<!--                class="fab fa-facebook"></i></a>-->
-<!--            <a href="https://www.tiktok.com/@evl.cinemas.vietnam" target="_blank"><i class="fab fa-tiktok"></i></a>-->
-<!--            <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>-->
-<!--            <a href="https://www.youtube.com/channel/UCxYDAOCBTBvd7C0YyBPQ7sA " target="_blank"><i-->
-<!--                class="fab fa-youtube"></i></a>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="footer-bottom">-->
-<!--        <p>&copy; Enjoy virtual life</p>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </footer>-->
-
-<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>-->
-<!--  <div id="bookingModal" class="modal">-->
-<!--    <div class="modal-content">-->
-<!--      <span id="bookingClose" class="close">&times;</span>-->
-<!--      <h2>Đặt vé Online</h2>-->
-
-<!--      <div class="booking-widget">-->
-<!--        <ul class="date-tabs">-->
-<!--          &lt;!&ndash; danh sách ngày sẽ render JS &ndash;&gt;-->
-<!--        </ul>-->
-
-<!--        <form id="booking-form" action="/book.html" method="POST">-->
-<!--          &lt;!&ndash; B. Lưới 2 cột &ndash;&gt;-->
-<!--          <div class="booking-grid">-->
-<!--            &lt;!&ndash; B1. Cột trái (poster + thông tin) &ndash;&gt;-->
-<!--            <div class="booking-left">-->
-<!--              <img id="modalPoster" class="poster-img" src="" alt="poster">-->
-<!--              <h3 id="modalTitle"></h3>-->
-<!--              <p>Thể loại: <span id="modalGenre"></span></p>-->
-<!--              <p>Ngôn ngữ: <span id="modalLang"></span></p>-->
-
-<!--              <label>Số lượng vé:-->
-<!--                <input type="number" id="so_luong" name="so_luong" min="0" value="0" readonly>-->
-<!--              </label>-->
-<!--              <label>Ghế ngồi:-->
-<!--                <input type="text" id="ghe_ngoi" name="ghe_ngoi" readonly>-->
-<!--              </label>-->
-
-<!--              <input type="text" id="customer" placeholder="Họ và tên">-->
-
-<!--              <label for="email">Thông tin liên hệ:</label>-->
-<!--              <input type="email" id="email" placeholder="Email">-->
-
-<!--              <input type="tel" id="phone" name="phone" pattern="0[0-9]{9}" placeholder="Số điện thoại" required>-->
-<!--              <p>Ngày chiếu: <span id="booking-date">–/–/–</span></p>-->
-<!--              <p>Giờ chiếu: <span id="booking-time">&#45;&#45;:&#45;&#45;</span></p>-->
-<!--              <p class="total">Tổng tiền: <span id="total_price">0 đ</span></p>-->
-<!--              -->
-<!--              <input type="hidden" id="showtime_id" name="showtimeId">-->
-<!--              <input type="hidden" id="form-date" name="date">-->
-<!--            </div>-->
-
-<!--            &lt;!&ndash; B2. Cột phải (sơ đồ ghế + nút) &ndash;&gt;-->
-<!--            <div class="booking-right">-->
-<!--              <h4>Chọn ghế ngồi</h4>-->
-<!--              <br>-->
-<!--              <div id="showtimes-container" class="showtimes"></div><br>-->
-<!--              <div id="seat-map-wrapper">-->
-<!--                <div id="seat-map"></div> &lt;!&ndash; JS sẽ đổ ghế vào đây &ndash;&gt;-->
-
-<!--                <div class="legend">-->
-<!--                  <span class="seat free"></span> Trống-->
-<!--                  <span class="seat selected"></span> Đang chọn-->
-<!--                  <span class="seat booked"></span> Đã bán-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <button id="confirmBooking" type="button" class="btn-pay wide">Đặt vé</button>-->
-<!--              <button type="button" style="margin-top: 8px; background-color: rgb(252, 194, 3); color: rgb(255, 8, 0);">-->
-<!--                <a href="/LichSuDatVeNguoiDung.html" style="color: inherit; text-decoration: none;">Xem lịch sử đặt vé</a>-->
-<!--              </button>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </form>-->
-<!--      </div>-->
-
-<!--      <div id="qrContainer" class="qr-container" style="display:none;"></div>-->
+<!--    <div class="mobile-menu-btn">-->
+<!--      <span></span>-->
+<!--      <span></span>-->
+<!--      <span></span>-->
 <!--    </div>-->
 <!--  </div>-->
+<!--</header>-->
 
-<!--  &lt;!&ndash; Load các script hệ thống &ndash;&gt;-->
-<!--  <script src="/Admin/admin.js"></script>-->
-<!--  <script src="/script.js"></script>-->
+<!--<section class="page-banner">-->
+<!--  <div class="container">-->
+<!--    <h1>Thông tin phim</h1>-->
+<!--    <p>-->
+<!--      <a href="/Home/index.html">Trang Chủ</a> &gt;-->
+<!--      <a href="/Home/Phim.html">Phim</a> &gt;-->
+<!--      <span id="productName">Thông tin phim</span>-->
+<!--    </p>-->
+<!--  </div>-->
+<!--</section>-->
+
+<!--<section class="product-detail">-->
+<!--  <div class="container">-->
+<!--    <div class="product-detail-content" id="productDetail">-->
+<!--      &lt;!&ndash; Chi tiết sản phẩm sẽ được thêm vào đây bằng JavaScript &ndash;&gt;-->
+<!--    </div>-->
+
+<!--    <div class="product-description" id="productDescription">-->
+<!--      &lt;!&ndash; Mô tả Phim sẽ được thêm vào đây bằng JavaScript &ndash;&gt;-->
+<!--    </div>-->
+
+<!--    <div class="product-nutrition" id="productNutrition">-->
+<!--      &lt;!&ndash; Thông tin trailer sẽ được thêm vào đây bằng JavaScript &ndash;&gt;-->
+<!--      <video id="trailer" controls width="100%" height="auto">-->
+<!--        Trình duyệt của bạn không hỗ trợ video tag.-->
+<!--      </video>-->
+<!--    </div>-->
+
+<!--    <div class="related-products">-->
+<!--      <h2>Phim Liên Quan</h2>-->
+<!--      <div class="related-products-container" id="relatedProducts">-->
+<!--        &lt;!&ndash; Phim liên quan sẽ được thêm vào đây bằng JavaScript &ndash;&gt;-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</section>-->
+
+<!--<footer>-->
+<!--  <div class="container">-->
+<!--    <div class="footer-content">-->
+<!--      <div class="footer-logo">-->
+<!--        <h2>-->
+<!--          <span class="DanhHieu">EVL</span>-->
+<!--        </h2>-->
+<!--        <p>EVL Cinemas Vietnam</p>-->
+<!--      </div>-->
+<!--      <div class="footer-links">-->
+<!--        <h3>Liên Kết</h3>-->
+<!--        <ul>-->
+<!--          <li><a href="/Home/index.html">Trang Chủ</a></li>-->
+<!--          <li><a href="/Home/GioiThieu.html">Trung Tâm Dịch Vụ</a></li>-->
+<!--          <li><a href="/Home/Phim.html">Phim</a></li>-->
+<!--        </ul>-->
+<!--      </div>-->
+<!--      <div class="footer-contact">-->
+<!--        <h3>Liên Hệ</h3>-->
+<!--        <p>-->
+<!--          <i class="fas fa-map-marker-alt"></i> Số 31 LK20B Khu đô thị Văn Phú, phường Phú La, quận Hà Đông-->
+<!--        </p>-->
+<!--        <p><i class="fas fa-phone"></i> 09114040453 </p>-->
+<!--        <p><i class="fas fa-envelope"></i> evle36165@gmail.com </p>-->
+<!--      </div>-->
+<!--      <div class="footer-social">-->
+<!--        <h3>Kết Nối</h3>-->
+<!--        <div class="social-icons">-->
+<!--          <a href="https://www.facebook.com/profile.php?id=61577270567933" target="_blank"> <i-->
+<!--                  class="fab fa-facebook"></i></a>-->
+<!--          <a href="https://www.tiktok.com/@evl.cinemas.vietnam" target="_blank"><i class="fab fa-tiktok"></i></a>-->
+<!--          <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>-->
+<!--          <a href="https://www.youtube.com/channel/UCxYDAOCBTBvd7C0YyBPQ7sA " target="_blank"><i-->
+<!--                  class="fab fa-youtube"></i></a>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="footer-bottom">-->
+<!--      <p>&copy; Enjoy virtual life</p>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</footer>-->
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>-->
+<!--<div id="bookingModal" class="modal">-->
+<!--  <div class="modal-content">-->
+<!--    <span id="bookingClose" class="close">&times;</span>-->
+<!--    <h2>Đặt vé Online</h2>-->
+
+<!--    <div class="booking-widget">-->
+<!--      <ul class="date-tabs">-->
+<!--        &lt;!&ndash; danh sách ngày sẽ render JS &ndash;&gt;-->
+<!--      </ul>-->
+
+<!--      <form id="booking-form" action="/book.html" method="POST">-->
+<!--        &lt;!&ndash; B. Lưới 2 cột &ndash;&gt;-->
+<!--        <div class="booking-grid">-->
+<!--          &lt;!&ndash; B1. Cột trái (poster + thông tin) &ndash;&gt;-->
+<!--          <div class="booking-left">-->
+<!--            <img id="modalPoster" class="poster-img" src="" alt="poster">-->
+<!--            <h3 id="modalTitle"></h3>-->
+<!--            <p>Thể loại: <span id="modalGenre"></span></p>-->
+<!--            <p>Ngôn ngữ: <span id="modalLang"></span></p>-->
+
+<!--            <label style="display:none">Số lượng vé:-->
+<!--              <input type="number" id="so_luong" name="so_luong" min="0" value="0" readonly>-->
+<!--            </label>-->
+<!--            <label style="display:none">Ghế ngồi:-->
+<!--              <input type="text" id="ghe_ngoi" name="ghe_ngoi" readonly>-->
+<!--            </label>-->
+
+<!--            <input type="text" id="customer" placeholder="Họ và tên">-->
+
+<!--            <label for="email">Thông tin liên hệ:</label>-->
+<!--            <input type="email" id="email" placeholder="Email">-->
+
+<!--            <input type="tel" id="phone" name="phone" pattern="0[0-9]{9}" placeholder="Số điện thoại" required>-->
+<!--            <p>Ngày chiếu: <span id="booking-date">–/–/–</span></p>-->
+<!--            <p>Giờ chiếu: <span id="booking-time">&#45;&#45;:&#45;&#45;</span></p>-->
+<!--            <p class="total">Tổng tiền: <span id="total_price">0 đ</span></p>-->
+
+<!--            <input type="hidden" id="showtime_id" name="showtimeId">-->
+<!--            <input type="hidden" id="form-date" name="date">-->
+<!--          </div>-->
+
+<!--          &lt;!&ndash; B2. Cột phải (sơ đồ ghế + nút) &ndash;&gt;-->
+<!--          <div class="booking-right">-->
+<!--            <h4>Chọn ghế ngồi</h4>-->
+<!--            <div id="showtimes-container" class="showtimes"></div>-->
+
+<!--            <div class="qty-picker">-->
+<!--              <span class="qty-label">Số vé (tối đa 4)</span>-->
+<!--              <div class="qty-stepper">-->
+<!--                <button type="button" id="qtyMinus">−</button>-->
+<!--                <span id="qtyValue">1</span>-->
+<!--                <button type="button" id="qtyPlus">+</button>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div id="seatOptions" class="seat-options"></div>-->
+
+<!--            <div id="seat-map-wrapper">-->
+<!--              <div id="seat-map"></div>-->
+
+<!--              <div class="legend">-->
+<!--                <span class="seat2 is-free"></span> Trống-->
+<!--                <span class="seat2 is-selected"></span> Đang chọn-->
+<!--                <span class="seat2 is-booked"></span> Đã bán-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div id="bookingInfoPanel" class="booking-info-panel" style="display:none"></div>-->
+
+<!--            <label class="terms-check">-->
+<!--              <input type="checkbox" id="termsCheck" />-->
+<!--              Tôi đã đọc và đồng ý với <a href="#" id="termsLink">điều khoản đặt vé</a>-->
+<!--            </label>-->
+<!--            <div id="termsBox" class="terms-box" style="display:none">-->
+<!--              <ul>-->
+<!--                <li>Vé đã đặt thành công không thể đổi hoặc hoàn tiền, trừ trường hợp rạp hủy suất chiếu.</li>-->
+<!--                <li>Vui lòng có mặt trước giờ chiếu ít nhất 15 phút để nhận vé và ổn định chỗ ngồi.</li>-->
+<!--                <li>Trẻ em dưới độ tuổi quy định của phim cần có sự đi kèm của người giám hộ hợp lệ.</li>-->
+<!--                <li>Ghế đã chọn chỉ được giữ trong 10 phút kể từ khi xác nhận, quá thời gian hệ thống sẽ tự hủy.</li>-->
+<!--              </ul>-->
+<!--            </div>-->
+
+<!--            <button id="confirmBooking" type="button" class="btn-pay wide" disabled>Đặt vé</button>-->
+<!--            <button type="button" style="margin-top: 8px; background-color: rgb(252, 194, 3); color: rgb(255, 8, 0);">-->
+<!--              <a href="/LichSuDatVeNguoiDung.html" style="color: inherit; text-decoration: none;">Xem lịch sử đặt vé</a>-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </form>-->
+<!--    </div>-->
+
+<!--    <div id="qrContainer" class="qr-container" style="display:none;"></div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Load các script hệ thống &ndash;&gt;-->
+<!--<script src="/Admin/admin.js"></script>-->
+<!--<script src="/script.js"></script>-->
+<!--<script src="/seat-engine.js"></script>-->
+<!--<script src="/booking-flow.js"></script>-->
 <!--</body>-->
 
 <!--</html>-->
+
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -330,106 +564,75 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<div id="bookingModal" class="modal">
-  <div class="modal-content">
-    <span id="bookingClose" class="close">&times;</span>
-    <h2>Đặt vé Online</h2>
-
-    <div class="booking-widget">
-      <ul class="date-tabs">
-        <!-- danh sách ngày sẽ render JS -->
-      </ul>
-
-      <form id="booking-form" action="/book.html" method="POST">
-        <!-- B. Lưới 2 cột -->
-        <div class="booking-grid">
-          <!-- B1. Cột trái (poster + thông tin) -->
-          <div class="booking-left">
-            <img id="modalPoster" class="poster-img" src="" alt="poster">
-            <h3 id="modalTitle"></h3>
-            <p>Thể loại: <span id="modalGenre"></span></p>
-            <p>Ngôn ngữ: <span id="modalLang"></span></p>
-
-            <label style="display:none">Số lượng vé:
-              <input type="number" id="so_luong" name="so_luong" min="0" value="0" readonly>
-            </label>
-            <label style="display:none">Ghế ngồi:
-              <input type="text" id="ghe_ngoi" name="ghe_ngoi" readonly>
-            </label>
-
-            <input type="text" id="customer" placeholder="Họ và tên">
-
-            <label for="email">Thông tin liên hệ:</label>
-            <input type="email" id="email" placeholder="Email">
-
-            <input type="tel" id="phone" name="phone" pattern="0[0-9]{9}" placeholder="Số điện thoại" required>
-            <p>Ngày chiếu: <span id="booking-date">–/–/–</span></p>
-            <p>Giờ chiếu: <span id="booking-time">--:--</span></p>
-            <p class="total">Tổng tiền: <span id="total_price">0 đ</span></p>
-
-            <input type="hidden" id="showtime_id" name="showtimeId">
-            <input type="hidden" id="form-date" name="date">
-          </div>
-
-          <!-- B2. Cột phải (sơ đồ ghế + nút) -->
-          <div class="booking-right">
-            <h4>Chọn ghế ngồi</h4>
-            <div id="showtimes-container" class="showtimes"></div>
-
-            <div class="qty-picker">
-              <span class="qty-label">Số vé (tối đa 4)</span>
-              <div class="qty-stepper">
-                <button type="button" id="qtyMinus">−</button>
-                <span id="qtyValue">1</span>
-                <button type="button" id="qtyPlus">+</button>
-              </div>
-            </div>
-
-            <div id="seatOptions" class="seat-options"></div>
-
-            <div id="seat-map-wrapper">
-              <div id="seat-map"></div>
-
-              <div class="legend">
-                <span class="seat2 is-free"></span> Trống
-                <span class="seat2 is-selected"></span> Đang chọn
-                <span class="seat2 is-booked"></span> Đã bán
-              </div>
-            </div>
-
-            <div id="bookingInfoPanel" class="booking-info-panel" style="display:none"></div>
-
-            <label class="terms-check">
-              <input type="checkbox" id="termsCheck" />
-              Tôi đã đọc và đồng ý với <a href="#" id="termsLink">điều khoản đặt vé</a>
-            </label>
-            <div id="termsBox" class="terms-box" style="display:none">
-              <ul>
-                <li>Vé đã đặt thành công không thể đổi hoặc hoàn tiền, trừ trường hợp rạp hủy suất chiếu.</li>
-                <li>Vui lòng có mặt trước giờ chiếu ít nhất 15 phút để nhận vé và ổn định chỗ ngồi.</li>
-                <li>Trẻ em dưới độ tuổi quy định của phim cần có sự đi kèm của người giám hộ hợp lệ.</li>
-                <li>Ghế đã chọn chỉ được giữ trong 10 phút kể từ khi xác nhận, quá thời gian hệ thống sẽ tự hủy.</li>
-              </ul>
-            </div>
-
-            <button id="confirmBooking" type="button" class="btn-pay wide" disabled>Đặt vé</button>
-            <button type="button" style="margin-top: 8px; background-color: rgb(252, 194, 3); color: rgb(255, 8, 0);">
-              <a href="/LichSuDatVeNguoiDung.html" style="color: inherit; text-decoration: none;">Xem lịch sử đặt vé</a>
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <div id="qrContainer" class="qr-container" style="display:none;"></div>
-  </div>
-</div>
 
 <!-- Load các script hệ thống -->
 <script src="/Admin/admin.js"></script>
 <script src="/script.js"></script>
-<script src="/seat-engine.js"></script>
-<script src="/booking-flow.js"></script>
-</body>
+<script src="/datve-redirect.js"></script>
 
+<!-- Script xử lý chuyển hướng khi click nút Đặt Vé -->
+<script>
+  document.addEventListener('click', function (e) {
+    // Kiểm tra xem phần tử được click có phải là nút "Đặt vé" hay không
+    const btn = e.target.closest('button, a');
+    if (btn && (btn.innerText.includes('Đặt vé') || btn.innerText.includes('Đặt Vé') || btn.classList.contains('btn-booking'))) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Lấy movieId từ URL hiện tại (ví dụ: ?movieId=16)
+      const urlParams = new URLSearchParams(window.location.search);
+      const movieId = urlParams.get('movieId') || urlParams.get('id');
+
+      if (movieId) {
+        window.location.href = `/DatVe/ChonSuatChieu.html?movieId=${movieId}`;
+      } else {
+        alert('Không tìm thấy thông tin phim!');
+      }
+    }
+  }, true); // Dùng capture phase (true) để ưu tiên chạy trước script.js
+</script>
+</body>
 </html>
+
+
+
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>-->
+<!--<div id="bookingModal" class="modal">-->
+<!--  <div class="modal-content">-->
+<!--    <span id="bookingClose" class="close">&times;</span>-->
+<!--    <h2>Đặt vé Online</h2>-->
+
+<!--    <div class="booking-widget">-->
+<!--      <ul class="date-tabs">-->
+<!--        &lt;!&ndash; danh sách ngày sẽ render JS &ndash;&gt;-->
+<!--      </ul>-->
+
+<!--      <div id="showtimes-container" class="showtimes"></div>-->
+
+<!--      <button id="gotoSeatsBtn" type="button" class="btn-pay wide" disabled>Chọn Ghế</button>-->
+
+<!--      &lt;!&ndash; Giữ các phần tử ẩn này để không phá logic ngày/giờ có sẵn trong script.js &ndash;&gt;-->
+<!--      <div style="display:none">-->
+<!--        <img id="modalPoster" src="" alt="poster" />-->
+<!--        <h3 id="modalTitle"></h3>-->
+<!--        <span id="modalGenre"></span>-->
+<!--        <span id="modalLang"></span>-->
+<!--        <span id="booking-date">–/–/–</span>-->
+<!--        <span id="booking-time">&#45;&#45;:&#45;&#45;</span>-->
+<!--        <input type="hidden" id="showtime_id" name="showtimeId" />-->
+<!--        <input type="hidden" id="form-date" name="date" />-->
+<!--        <input type="hidden" id="so_luong" />-->
+<!--        <input type="hidden" id="ghe_ngoi" />-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Load các script hệ thống &ndash;&gt;-->
+<!--<script src="/Admin/admin.js"></script>-->
+<!--<script src="/script.js"></script>-->
+<!--<script src="/datve-redirect.js"></script>-->
+<!--</body>-->
+
+<!--</html>-->
