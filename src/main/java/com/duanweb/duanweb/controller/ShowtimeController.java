@@ -1,5 +1,6 @@
 package com.duanweb.duanweb.controller;
 
+import com.duanweb.duanweb.Entity.CinemaRoom;
 import com.duanweb.duanweb.Entity.Showtime;
 import com.duanweb.duanweb.Service.ShowtimeService;
 import org.springframework.http.HttpStatus;
@@ -35,15 +36,16 @@ public class ShowtimeController {
     @PostMapping("/add-showtime")
     public ResponseEntity<?> addShowtime(@RequestBody Map<String, Object> body) {
         int movieId = parseInt(body.get("movieId"), 0);
+        int roomId = parseInt(body.get("roomId"), 0);
         String dateValue = body.getOrDefault("date", "").toString();
         String timeValue = body.getOrDefault("time", "").toString();
 
-        if (movieId <= 0 || dateValue.isBlank() || timeValue.isBlank()) {
-            return ResponseEntity.badRequest().body(Map.of("ok", false, "error", "Thiếu movieId hoặc date/time"));
+        if (movieId <= 0 || roomId <= 0 || dateValue.isBlank() || timeValue.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("ok", false, "error", "Thiếu movieId, roomId hoặc date/time"));
         }
 
         try {
-            Showtime showtime = showtimeService.addShowtime(movieId, dateValue, timeValue);
+            Showtime showtime = showtimeService.addShowtime(movieId, roomId, dateValue, timeValue);
             return ResponseEntity.ok(Map.of("ok", true, "id", showtime.getShowTimeID()));
         } catch (DateTimeParseException e) {
             return ResponseEntity.badRequest().body(Map.of("ok", false, "error", "Định dạng date/time không hợp lệ"));
@@ -64,6 +66,65 @@ public class ShowtimeController {
         return ResponseEntity.ok(Map.of("deleted", id));
     }
 
+    @GetMapping("/rooms")
+    public ResponseEntity<?> getRooms() {
+        return ResponseEntity.ok(showtimeService.findAllRooms());
+    }
+
+    @PostMapping("/add-room")
+    public ResponseEntity<?> addRoom(@RequestBody Map<String, Object> body) {
+        String tenPhong = body.getOrDefault("tenPhong", "").toString().trim();
+        Integer tongChoNgoi = parseIntOrNull(body.get("tongChoNgoi"));
+        String trangThai = body.getOrDefault("trangThai", "").toString().trim();
+
+        try {
+            CinemaRoom room = showtimeService.addRoom(tenPhong, tongChoNgoi, trangThai);
+            return ResponseEntity.ok(Map.of("ok", true, "roomId", room.getRoomID()));
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            return ResponseEntity.badRequest().body(Map.of("ok", false, "error", e.getMessage()));
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("ok", false, "error", e.getMessage()));
+        }
+    }
+
+    @PutMapping("/rooms/{id}")
+    public ResponseEntity<?> updateRoom(@PathVariable Integer id, @RequestBody Map<String, Object> body) {
+        String tenPhong = body.getOrDefault("tenPhong", "").toString().trim();
+        Integer tongChoNgoi = parseIntOrNull(body.get("tongChoNgoi"));
+        String trangThai = body.getOrDefault("trangThai", "").toString().trim();
+
+        try {
+            CinemaRoom room = showtimeService.updateRoom(id, tenPhong, tongChoNgoi, trangThai);
+            return ResponseEntity.ok(Map.of("ok", true, "roomId", room.getRoomID()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("ok", false, "error", e.getMessage()));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("ok", false, "error", e.getMessage()));
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("ok", false, "error", e.getMessage()));
+        }
+    }
+
+    @DeleteMapping("/rooms/{id}")
+    public ResponseEntity<?> deleteRoom(@PathVariable Integer id) {
+        try {
+            showtimeService.deleteRoom(id);
+            return ResponseEntity.ok(Map.of("ok", true));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("ok", false, "error", e.getMessage()));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("ok", false, "error", e.getMessage()));
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("ok", false, "error", e.getMessage()));
+        }
+    }
+
     private static int parseInt(Object value, int defaultValue) {
         if (value == null) {
             return defaultValue;
@@ -72,6 +133,17 @@ public class ShowtimeController {
             return Integer.parseInt(value.toString().trim());
         } catch (NumberFormatException e) {
             return defaultValue;
+        }
+    }
+
+    private static Integer parseIntOrNull(Object value) {
+        if (value == null) {
+            return null;
+        }
+        try {
+            return Integer.parseInt(value.toString().trim());
+        } catch (NumberFormatException e) {
+            return null;
         }
     }
 }

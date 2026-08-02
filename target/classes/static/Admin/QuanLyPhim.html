@@ -266,19 +266,50 @@
 
     <!-- Section Phim -->
     <section id="section-movies" class="section" data-active>
-      <h3>Danh sách Phim</h3>
       <button id="addMovieBtn" class="btn-primary">Thêm Phim mới</button>
 
       <button id="openAddShowtime" class="btn-primary">Thêm Suất Chiếu</button>
       <div id="addShowtimeModal" class="inline-add-showtime" style="display:none">
         <form id="showtimeForm">
           <label>Phim: <select id="movieSelectAdd">…</select></label>
+          <label>Phòng chiếu: <select id="roomSelectAdd" required>…</select></label>
           <label>Ngày: <input type="date" id="dateInp" required></label>
           <label>Giờ: <input type="time" id="timeInp" required></label>
           <button type="submit" class="save-showtime">Lưu</button>
         </form>
       </div>
 
+      <button id="openAddRoom" class="btn-primary">Thêm Phòng Chiếu</button>
+      <div id="addRoomModal" class="inline-add-showtime" style="display:none">
+        <form id="roomForm">
+          <label>Tên phòng: <input type="text" id="tenPhongInp" required placeholder="VD: Phòng 2"></label>
+          <label>Tổng chỗ ngồi: <input type="number" id="tongChoNgoiInp" min="1" required placeholder="VD: 80"></label>
+          <label>Trạng thái:
+            <select id="trangThaiInp">
+              <option value="Hoạt động">Hoạt động</option>
+              <option value="Bảo trì">Bảo trì</option>
+              <option value="Ngừng hoạt động">Ngừng hoạt động</option>
+            </select>
+          </label>
+          <button type="submit" class="save-showtime">Lưu Phòng</button>
+        </form>
+      </div>
+
+      <h3 style="margin-top: 20px;">Danh sách Phòng Chiếu</h3>
+      <table class="admin-table" style="margin-top: 10px;">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tên phòng</th>
+          <th>Tổng chỗ ngồi</th>
+          <th>Trạng thái</th>
+          <th>Sửa thông tin</th>
+        </tr>
+        </thead>
+        <tbody id="roomsTbody"></tbody>
+      </table>
+
+      <h3 style="margin-top: 20px;">Danh sách Phim</h3>
       <table class="admin-table" style="margin-top: 10px;">
         <thead>
         <tr>

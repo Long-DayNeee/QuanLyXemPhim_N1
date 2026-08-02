@@ -741,6 +741,7 @@ document.addEventListener('DOMContentLoaded', () => {
     activateSection('movies');
     loadMovies();
     loadMovieOptions();
+    loadRoomsTable();
   }
 
   /* ====== CHUYỂN SECTION ====== */
@@ -781,6 +782,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .addEventListener('click', () => {
         document.getElementById('addShowtimeModal').style.display = 'flex';
         loadMovieOptionsAdd(); // nạp <select id="movieSelectAdd">
+        loadRoomOptionsAdd();  // nạp <select id="roomSelectAdd">
       });
 
   const premiereInp = document.querySelector('input[name="premiere"]');
@@ -839,6 +841,26 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     } catch (e) {
       console.error('Không load được danh sách phim', e);
+    }
+  }
+
+  async function loadRoomOptionsAdd() {
+    const sel = document.getElementById('roomSelectAdd');
+    if (!sel) return;
+    sel.innerHTML = '<option value="">--Chọn phòng chiếu--</option>';
+    try {
+      const res = await fetch('/api/rooms');
+      const rooms = await res.json();
+      rooms.forEach(r => {
+        const opt = document.createElement('option');
+        opt.value = r.RoomID;
+        const soCho = r.TongChoNgoi ? ` (${r.TongChoNgoi} chỗ)` : '';
+        const trangThai = r.TrangThai ? ` - ${r.TrangThai}` : '';
+        opt.textContent = `${r.TenPhong}${soCho}${trangThai}`;
+        sel.appendChild(opt);
+      });
+    } catch (e) {
+      console.error('Không load được danh sách phòng chiếu', e);
     }
   }
 
@@ -987,21 +1009,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const showtimeModal = document.getElementById('bookingModal');
   const showtimeForm = document.getElementById('showtimeForm');
   document.addEventListener('DOMContentLoaded', loadMovieOptionsAdd);
+  document.addEventListener('DOMContentLoaded', loadRoomOptionsAdd);
   if (showtimeForm) {
     showtimeForm.addEventListener('submit', async e => {
       e.preventDefault();
-      // const mid  = +showtimeForm.movieId.value;
-      // const date = showtimeForm.date.value;   // YYYY-MM-DD
-      // const time = showtimeForm.time.value;   // HH:MM
       const mid = +document.getElementById('movieSelectAdd').value;
+      const rid = +document.getElementById('roomSelectAdd').value;
       const date = document.getElementById('dateInp').value;
       const time = document.getElementById('timeInp').value;
-      if (!mid || !date || !time) return alert('Thiếu thông tin');
+      if (!mid || !rid || !date || !time) return alert('Thiếu thông tin (phim, phòng chiếu, ngày, giờ)');
 
       const res = await fetch('/api/add-showtime', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ movieId: mid, date, time })
+        body: JSON.stringify({ movieId: mid, roomId: rid, date, time })
       });
       const json = await res.json();
       if (json.ok) {
@@ -1012,6 +1033,111 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  /* ====== PHÒNG CHIẾU: THÊM / SỬA / XOÁ ====== */
+  const openAddRoomBtn = document.getElementById('openAddRoom');
+  const addRoomModal = document.getElementById('addRoomModal');
+  const roomForm = document.getElementById('roomForm');
+
+  if (openAddRoomBtn && addRoomModal) {
+    openAddRoomBtn.addEventListener('click', () => {
+      roomForm.reset();
+      delete roomForm.dataset.editing;
+      addRoomModal.style.display = addRoomModal.style.display === 'flex' ? 'none' : 'flex';
+    });
+  }
+
+  if (roomForm) {
+    roomForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const tenPhong = document.getElementById('tenPhongInp').value.trim();
+      const tongChoNgoi = +document.getElementById('tongChoNgoiInp').value;
+      const trangThai = document.getElementById('trangThaiInp').value;
+
+      if (!tenPhong || !tongChoNgoi) {
+        alert('Vui lòng nhập đầy đủ tên phòng và tổng chỗ ngồi');
+        return;
+      }
+
+      const isEdit = !!roomForm.dataset.editing;
+      const url = isEdit ? `/api/rooms/${roomForm.dataset.editing}` : '/api/add-room';
+      const method = isEdit ? 'PUT' : 'POST';
+
+      try {
+        const res = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tenPhong, tongChoNgoi, trangThai })
+        });
+        const json = await res.json();
+        if (json.ok) {
+          alert(isEdit ? 'Cập nhật phòng chiếu thành công' : 'Thêm phòng chiếu thành công');
+          roomForm.reset();
+          delete roomForm.dataset.editing;
+          addRoomModal.style.display = 'none';
+          loadRoomOptionsAdd();
+          loadRoomsTable();
+        } else {
+          alert('Lỗi: ' + (json.error || 'Không rõ'));
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Không thể lưu phòng chiếu, vui lòng thử lại.');
+      }
+    });
+  }
+
+  async function loadRoomsTable() {
+    const tbody = document.getElementById('roomsTbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    try {
+      const res = await fetch('/api/rooms');
+      const rooms = await res.json();
+      rooms.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.dataset.id = r.RoomID;
+        tr.innerHTML = `
+          <td>${r.RoomID}</td>
+          <td>${r.TenPhong}</td>
+          <td>${r.TongChoNgoi ?? ''}</td>
+          <td>${r.TrangThai ?? ''}</td>
+          <td>
+            <button class="btn-secondary" onclick="editRoom(${r.RoomID})">Sửa</button>
+            <button class="btn-secondary" onclick="deleteRoomAdmin(${r.RoomID})">Xoá</button>
+          </td>`;
+        tbody.appendChild(tr);
+      });
+    } catch (e) {
+      console.error('Không load được danh sách phòng chiếu', e);
+    }
+  }
+
+  window.editRoom = async id => {
+    const res = await fetch('/api/rooms');
+    const rooms = await res.json();
+    const r = rooms.find(x => x.RoomID === id);
+    if (!r) return alert('Không tìm thấy phòng');
+
+    document.getElementById('tenPhongInp').value = r.TenPhong;
+    document.getElementById('tongChoNgoiInp').value = r.TongChoNgoi;
+    document.getElementById('trangThaiInp').value = r.TrangThai;
+    roomForm.dataset.editing = id;
+    addRoomModal.style.display = 'flex';
+  };
+
+  window.deleteRoomAdmin = async id => {
+    if (!confirm('Bạn có chắc muốn xoá phòng chiếu này?')) return;
+    const res = await fetch(`/api/rooms/${id}`, { method: 'DELETE' });
+    const json = await res.json();
+    if (json.ok) {
+      loadRoomsTable();
+      loadRoomOptionsAdd();
+    } else {
+      alert('Lỗi: ' + (json.error || 'Không rõ'));
+    }
+  };
+
   movieSelect.addEventListener('change', loadBookingHistory);
 
   addShowtimeBtn.textContent = 'Xem lịch sử';
