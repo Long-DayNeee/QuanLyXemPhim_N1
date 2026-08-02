@@ -263,41 +263,6 @@ function updateTotal() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-
-
-  // A. Chống BFCache (Khi bấm nút Back trên trình duyệt, ép trang phải tải lại từ Server)
-window.addEventListener("pageshow", function (event) {
-    if (event.persisted || (typeof performance !== "undefined" && performance.navigation.type === 2)) {
-        window.location.reload();
-    }
-});
-
-// B. Tự động kiểm tra trạng thái Đăng nhập để render nút Đăng Nhập / Đăng Xuất phù hợp
-async function checkAuthStatus() {
-    const navAuth = document.querySelector(".nav-auth");
-    if (!navAuth) return;
-
-    try {
-        // Gọi API kiểm tra session phía Server (Cần đảm bảo backend có endpoint check auth)
-        const res = await fetch('/api/check-auth'); 
-        if (res.ok) {
-            const data = await res.json();
-            if (data.isLoggedIn) {
-                navAuth.innerHTML = `<a href="/logout" class="btn-login-pill">Đăng Xuất</a>`;
-            } else {
-                navAuth.innerHTML = `<a href="/Login/login.html" class="btn-login-pill">Đăng Nhập</a>`;
-            }
-        } else {
-            navAuth.innerHTML = `<a href="/Login/login.html" class="btn-login-pill">Đăng Nhập</a>`;
-        }
-    } catch (e) {
-        // Mặc định hiện nút Đăng nhập nếu không gọi được API
-        navAuth.innerHTML = `<a href="/Login/login.html" class="btn-login-pill">Đăng Nhập</a>`;
-    }
-}
-
-// Gọi hàm kiểm tra ngay khi load trang
-checkAuthStatus();
   // Dark Mode Toggle
   function initTheme() {
     // Kiểm tra xem người dùng đã chọn theme chưa
@@ -759,37 +724,7 @@ checkAuthStatus();
 
 
   // Display products
-  // function displayProducts(items) {
-  //   if (!productsContainer) return;
-
-  //   productsContainer.innerHTML = "";
-
-  //   items.forEach((product) => {
-  //     const productElement = document.createElement("div");
-  //     productElement.classList.add("product-card");
-  //     productElement.setAttribute("data-aos", "fade-up");
-  //     productElement.setAttribute("data-category", product.category.join(" "));
-
-  //     productElement.innerHTML = `
-  //               <div class="product-image">
-  //                   <img src="${product.image}" alt="${product.name}">
-  //               </div>
-  //               <div class="product-info">
-  //                   <h3>${product.name}</h3>
-  //                   <p class="price">${product.price}</p>
-  //                   <p class="description">${product.description}</p>
-  //                   <a href="/ChiTietSanPham.html?movieId=${product.id}" class="btn-secondary">Xem Chi Tiết</a>
-  //               </div>
-  //           `;
-
-  //     productsContainer.appendChild(productElement);
-  //   });
-
-  //   observeVisibleCards();
-  // }
-
   function displayProducts(items) {
-    const productsContainer = document.getElementById("productsContainer") || document.getElementById("homeProductsGrid");
     if (!productsContainer) return;
 
     productsContainer.innerHTML = "";
@@ -864,7 +799,6 @@ checkAuthStatus();
 
   await fetchMovies();
   // Filter products
-  displayProducts(products);
   if (filterBtns.length > 0) {
     filterBtns.forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -892,6 +826,8 @@ checkAuthStatus();
         }
       });
     });
+
+    displayProducts(products);
   
   }
 

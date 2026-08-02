@@ -1,238 +1,60 @@
-/*!* history.css *!*/
-/*body {*/
-/*  font-family: 'Segoe UI', Tahoma, sans-serif;*/
-/*  background: #f2f2f2;*/
-/*  margin: 0;*/
-/*  padding: 0;*/
-/*}*/
-
-/*h2 {*/
-/*  text-align: center;*/
-/*  margin: 30px 0;*/
-/*  font-size: 2em;*/
-/*  color: #333;*/
-/*}*/
-
-/*#history {*/
-/*  max-width: 800px;*/
-/*  margin: 0 auto 50px;*/
-/*  padding: 0 20px;*/
-/*}*/
-
-/*.booking {*/
-/*  background: #fff;*/
-/*  border: 1px solid #ddd;*/
-/*  border-radius: 6px;*/
-/*  padding: 15px 20px;*/
-/*  margin-bottom: 20px;*/
-/*  box-shadow: 0 2px 4px rgba(0,0,0,0.1);*/
-/*}*/
-
-/*.booking h4 {*/
-/*  margin: 0 0 10px;*/
-/*  font-size: 1.4em;*/
-/*  color: #2a2a2a;*/
-/*}*/
-
-/*.booking p {*/
-/*  margin: 5px 0;*/
-/*  color: #555;*/
-/*  line-height: 1.4;*/
-/*}*/
-
-/*.booking p span {*/
-/*  font-weight: bold;*/
-/*  color: #333;*/
-/*}*/
-
-/*.btn-back {*/
-/*  display: inline-block;*/
-/*  margin: 20px;*/
-/*  padding: 8px 12px;*/
-/*  background: #2db400;*/
-/*  color: #fff;*/
-/*  border: none;*/
-/*  border-radius: 4px;*/
-/*  cursor: pointer;*/
-/*}*/
-/*.btn-back:hover {*/
-/*  background: #27a200;*/
-/*}*/
-
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
-
-* { box-sizing: border-box; }
-html, body {
+/* history.css */
+body {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: #f2f2f2;
   margin: 0;
-  min-height: 100%;
-  background: #07070e;
-  color: #ede9e4;
-  font-family: "DM Sans", system-ui, sans-serif;
+  padding: 0;
 }
 
-.hist-page {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 32px 24px 80px;
-}
-
-/* ===== Thanh trên ===== */
-.hist-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 40px;
-}
-.hist-back {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.1);
-  color: #a8a8ba;
-  padding: 9px 16px;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-family: inherit;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-.hist-back:hover { background: rgba(255,255,255,0.06); color: #ede9e4; }
-
-.hist-brand { display: flex; align-items: center; gap: 8px; }
-.hist-brand img { width: 30px; height: 30px; border-radius: 6px; background: #c0162e; padding: 4px; object-fit: contain; }
-.hist-brand span { font-family: "Playfair Display", Georgia, serif; font-weight: 900; font-size: 1.2rem; }
-
-/* ===== Hero tìm kiếm ===== */
-.hist-hero { text-align: center; margin-bottom: 40px; }
-.hist-hero h2 {
-  font-family: "Playfair Display", Georgia, serif;
-  font-weight: 900;
-  font-size: 2.2rem;
-  margin: 0 0 10px;
-  color: #ede9e4;
-}
-.hist-hero p { color: #7a7a90; font-size: 0.95rem; margin: 0 0 28px; }
-
-.hist-search {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #10101c;
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 14px;
-  padding: 8px 8px 8px 18px;
-  max-width: 480px;
-  margin: 0 auto;
-}
-.hist-search svg { flex-shrink: 0; }
-.hist-search input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: #ede9e4;
-  font-family: inherit;
-  font-size: 0.9rem;
-  padding: 10px 0;
-}
-.hist-search input::placeholder { color: #7a7a90; }
-.hist-search button {
-  background: #c0162e;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 12px 20px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  font-family: inherit;
-  cursor: pointer;
-  transition: opacity 0.15s ease;
-  white-space: nowrap;
-}
-.hist-search button:hover { opacity: 0.9; }
-
-/* ===== Danh sách vé ===== */
-.hist-list { display: flex; flex-direction: column; gap: 14px; }
-
-.hist-empty {
+h2 {
   text-align: center;
-  padding: 50px 20px;
-  color: #7a7a90;
-  font-size: 0.9rem;
-  background: #10101c;
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 14px;
+  margin: 30px 0;
+  font-size: 2em;
+  color: #333;
 }
 
-.hist-card {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  background: #10101c;
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 14px;
-  padding: 20px 22px;
-  transition: border-color 0.15s ease;
-}
-.hist-card:hover { border-color: rgba(212,164,76,0.3); }
-
-.hist-card-main { flex: 1; min-width: 200px; }
-.hist-card-main h4 {
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin: 0 0 6px;
-  color: #ede9e4;
-}
-.hist-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  font-size: 0.8rem;
-  color: #7a7a90;
-  margin: 0;
+#history {
+  max-width: 800px;
+  margin: 0 auto 50px;
+  padding: 0 20px;
 }
 
-.hist-badge {
-  font-size: 0.72rem;
-  font-weight: 700;
-  padding: 5px 12px;
-  border-radius: 999px;
-  white-space: nowrap;
+.booking {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-.hist-badge-gold { background: rgba(212,164,76,0.15); color: #d4a44c; border: 1px solid rgba(212,164,76,0.3); }
-.hist-badge-muted { background: rgba(255,255,255,0.05); color: #7a7a90; border: 1px solid rgba(255,255,255,0.08); }
 
-.hist-card-actions { display: flex; gap: 10px; }
-.hist-btn-outline, .hist-btn-red {
-  border: none;
-  border-radius: 999px;
-  padding: 9px 18px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
+.booking h4 {
+  margin: 0 0 10px;
+  font-size: 1.4em;
+  color: #2a2a2a;
 }
-.hist-btn-outline {
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.15);
-  color: #ede9e4;
+
+.booking p {
+  margin: 5px 0;
+  color: #555;
+  line-height: 1.4;
 }
-.hist-btn-outline:hover { background: rgba(255,255,255,0.06); }
-.hist-btn-red {
-  background: #c0162e;
+
+.booking p span {
+  font-weight: bold;
+  color: #333;
+}
+
+.btn-back {
+  display: inline-block;
+  margin: 20px;
+  padding: 8px 12px;
+  background: #2db400;
   color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
-.hist-btn-red:hover { background: #a71227; }
-
-@media (max-width: 600px) {
-  .hist-search { flex-wrap: wrap; padding: 14px; }
-  .hist-search button { width: 100%; }
-  .hist-card { flex-direction: column; align-items: flex-start; }
-  .hist-card-actions { width: 100%; }
-  .hist-btn-outline, .hist-btn-red { flex: 1; }
+.btn-back:hover {
+  background: #27a200;
 }

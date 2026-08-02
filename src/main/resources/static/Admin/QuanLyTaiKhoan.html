@@ -1,10 +1,1014 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Quản lý tài khoản</title>
+
+    <style>
+        /* =========================
+           RESET
+        ========================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f6fa;
+            color: #2f3640;
+            min-height: 100vh;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        /* =========================
+           CONTAINER
+        ========================= */
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            background: #ffffff;
+            padding: 24px 28px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: #1f2937;
+        }
+
+        .page-title p {
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        .refresh-btn {
+            border: none;
+            background: #2563eb;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .refresh-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* =========================
+           STATISTICS
+        ========================= */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        .stat-card .label {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .value {
+            font-size: 30px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        /* =========================
+           SEARCH
+        ========================= */
+        .toolbar {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 13px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            outline: none;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        /* =========================
+           ACCOUNT SECTION
+        ========================= */
+        .account-section {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .section-header h2 {
+            font-size: 20px;
+            color: #1f2937;
+        }
+
+        .badge {
+            min-width: 35px;
+            padding: 5px 10px;
+            background: #eff6ff;
+            color: #2563eb;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        th,
+        td {
+            padding: 15px 18px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+        th {
+            background: #f9fafb;
+            color: #4b5563;
+            font-weight: 600;
+        }
+
+        td {
+            color: #374151;
+        }
+
+        tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        /* =========================
+           ROLE BADGE
+        ========================= */
+        .role-badge {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .role-user {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .role-staff {
+            background: #fff7ed;
+            color: #ea580c;
+        }
+
+        /* =========================
+           DELETE BUTTON
+        ========================= */
+        .btn-delete {
+            border: none;
+            background: #ef4444;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+        }
+
+        /* =========================
+           EMPTY
+        ========================= */
+        .empty-row td {
+            text-align: center;
+            padding: 35px;
+            color: #9ca3af;
+        }
+
+        /* =========================
+           LOADING
+        ========================= */
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #6b7280;
+        }
+
+        /* =========================
+           ERROR MESSAGE
+        ========================= */
+        .error-message {
+            display: none;
+            background: #fef2f2;
+            color: #b91c1c;
+            padding: 15px 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+        @media (max-width: 900px) {
+
+            .container {
+                padding: 15px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
 </head>
+
 <body>
-$END$
+
+<div class="container">
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+    <div class="page-header">
+
+        <div class="page-title">
+            <h1>Quản lý tài khoản</h1>
+            <p>Quản lý tài khoản người dùng và nhân viên</p>
+        </div>
+
+        <button
+                type="button"
+                class="refresh-btn"
+                onclick="loadAccounts()">
+            Làm mới
+        </button>
+
+    </div>
+
+
+    <!-- =========================
+         ERROR
+    ========================= -->
+    <div id="errorMessage" class="error-message">
+        Không thể tải dữ liệu tài khoản.
+    </div>
+
+
+    <!-- =========================
+         THỐNG KÊ
+    ========================= -->
+    <div class="stats">
+
+        <div class="stat-card">
+            <div class="label">
+                Tổng tài khoản
+            </div>
+
+            <div
+                    class="value"
+                    id="totalAccounts">
+                0
+            </div>
+        </div>
+
+
+        <div class="stat-card">
+            <div class="label">
+                Người dùng
+            </div>
+
+            <div
+                    class="value"
+                    id="totalUsers">
+                0
+            </div>
+        </div>
+
+
+        <div class="stat-card">
+            <div class="label">
+                Nhân viên
+            </div>
+
+            <div
+                    class="value"
+                    id="totalStaff">
+                0
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         TÌM KIẾM
+    ========================= -->
+    <div class="toolbar">
+
+        <div class="search-box">
+
+            <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Tìm kiếm theo tên đăng nhập, họ tên hoặc email..."
+                    oninput="searchAccounts()">
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         NGƯỜI DÙNG
+    ========================= -->
+    <section class="account-section">
+
+        <div class="section-header">
+
+            <h2>
+                Danh sách người dùng
+            </h2>
+
+            <span
+                    class="badge"
+                    id="userCount">
+                0
+            </span>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Tên đăng nhập</th>
+                    <th>Họ tên</th>
+                    <th>Email</th>
+                    <th>Vai trò</th>
+                    <th>Thao tác</th>
+                </tr>
+
+                </thead>
+
+
+                <tbody id="userTableBody">
+
+                <tr>
+                    <td
+                            colspan="6"
+                            class="loading">
+                        Đang tải dữ liệu...
+                    </td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         NHÂN VIÊN
+    ========================= -->
+    <section class="account-section">
+
+        <div class="section-header">
+
+            <h2>
+                Danh sách nhân viên
+            </h2>
+
+            <span
+                    class="badge"
+                    id="staffCount">
+                0
+            </span>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Tên đăng nhập</th>
+                    <th>Họ tên</th>
+                    <th>Email</th>
+                    <th>Vai trò</th>
+                    <th>Thao tác</th>
+                </tr>
+
+                </thead>
+
+
+                <tbody id="staffTableBody">
+
+                <tr>
+                    <td
+                            colspan="6"
+                            class="loading">
+                        Đang tải dữ liệu...
+                    </td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script>
+
+    // ==========================================
+    // BIẾN TOÀN CỤC
+    // ==========================================
+
+    let allAccounts = [];
+
+
+    // ==========================================
+    // LẤY DANH SÁCH TÀI KHOẢN
+    // API:
+    // GET /api/admin/account
+    // ==========================================
+
+    async function loadAccounts() {
+
+        const errorMessage =
+            document.getElementById('errorMessage');
+
+        errorMessage.style.display = 'none';
+
+
+        try {
+
+            const response =
+                await fetch('/api/admin/account');
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    'Không thể tải danh sách tài khoản'
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            // Kiểm tra dữ liệu trả về
+            if (!Array.isArray(data)) {
+
+                throw new Error(
+                    'Dữ liệu trả về không hợp lệ'
+                );
+
+            }
+
+
+            // Lưu toàn bộ tài khoản
+            allAccounts = data;
+
+
+            // Hiển thị dữ liệu
+            renderAccounts(allAccounts);
+
+
+        } catch (error) {
+
+            console.error(
+                'Lỗi loadAccounts:',
+                error
+            );
+
+
+            errorMessage.innerText =
+                'Không thể tải danh sách tài khoản. Vui lòng kiểm tra Backend hoặc API.';
+
+
+            errorMessage.style.display =
+                'block';
+
+
+            // Hiển thị thông báo rỗng
+            document.getElementById(
+                'userTableBody'
+            ).innerHTML = `
+                <tr class="empty-row">
+                    <td colspan="6">
+                        Không thể tải dữ liệu
+                    </td>
+                </tr>
+            `;
+
+
+            document.getElementById(
+                'staffTableBody'
+            ).innerHTML = `
+                <tr class="empty-row">
+                    <td colspan="6">
+                        Không thể tải dữ liệu
+                    </td>
+                </tr>
+            `;
+
+        }
+
+    }
+
+
+    // ==========================================
+    // HIỂN THỊ DANH SÁCH
+    // ==========================================
+
+    function renderAccounts(accounts) {
+
+        // Lọc USER
+        const users =
+            accounts.filter(account => {
+
+                return account.role &&
+                    account.role.toUpperCase() === 'USER';
+
+            });
+
+
+        // Lọc STAFF
+        const staffs =
+            accounts.filter(account => {
+
+                return account.role &&
+                    account.role.toUpperCase() === 'STAFF';
+
+            });
+
+
+        // Cập nhật thống kê
+        document.getElementById(
+            'totalAccounts'
+        ).innerText = users.length + staffs.length;
+
+
+        document.getElementById(
+            'totalUsers'
+        ).innerText = users.length;
+
+
+        document.getElementById(
+            'totalStaff'
+        ).innerText = staffs.length;
+
+
+        document.getElementById(
+            'userCount'
+        ).innerText = users.length;
+
+
+        document.getElementById(
+            'staffCount'
+        ).innerText = staffs.length;
+
+
+        // Render bảng
+        renderUserTable(users);
+
+        renderStaffTable(staffs);
+
+    }
+
+
+    // ==========================================
+    // HIỂN THỊ BẢNG USER
+    // ==========================================
+
+    function renderUserTable(users) {
+
+        const tableBody =
+            document.getElementById(
+                'userTableBody'
+            );
+
+
+        tableBody.innerHTML = '';
+
+
+        if (users.length === 0) {
+
+            tableBody.innerHTML = `
+                <tr class="empty-row">
+                    <td colspan="6">
+                        Không có tài khoản người dùng
+                    </td>
+                </tr>
+            `;
+
+            return;
+
+        }
+
+
+        users.forEach(user => {
+
+            const row =
+                document.createElement('tr');
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${escapeHtml(user.id)}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                user.username || ''
+            )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                user.fullName || ''
+            )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                user.email || ''
+            )}
+                </td>
+
+                <td>
+                    <span class="role-badge role-user">
+                        USER
+                    </span>
+                </td>
+
+                <td>
+                    <button
+                            class="btn-delete"
+                            onclick="deleteAccount(${user.id})">
+                        Xóa
+                    </button>
+                </td>
+
+            `;
+
+
+            tableBody.appendChild(row);
+
+        });
+
+    }
+
+
+    // ==========================================
+    // HIỂN THỊ BẢNG STAFF
+    // ==========================================
+
+    function renderStaffTable(staffs) {
+
+        const tableBody =
+            document.getElementById(
+                'staffTableBody'
+            );
+
+
+        tableBody.innerHTML = '';
+
+
+        if (staffs.length === 0) {
+
+            tableBody.innerHTML = `
+                <tr class="empty-row">
+                    <td colspan="6">
+                        Không có tài khoản nhân viên
+                    </td>
+                </tr>
+            `;
+
+            return;
+
+        }
+
+
+        staffs.forEach(staff => {
+
+            const row =
+                document.createElement('tr');
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${escapeHtml(staff.id)}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                staff.username || ''
+            )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                staff.fullName || ''
+            )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                staff.email || ''
+            )}
+                </td>
+
+                <td>
+                    <span class="role-badge role-staff">
+                        STAFF
+                    </span>
+                </td>
+
+                <td>
+                    <button
+                            class="btn-delete"
+                            onclick="deleteAccount(${staff.id})">
+                        Xóa
+                    </button>
+                </td>
+
+            `;
+
+
+            tableBody.appendChild(row);
+
+        });
+
+    }
+
+
+    // ==========================================
+    // TÌM KIẾM
+    // ==========================================
+
+    function searchAccounts() {
+
+        const keyword =
+            document.getElementById(
+                'searchInput'
+            ).value
+                .toLowerCase()
+                .trim();
+
+
+        if (keyword === '') {
+
+            renderAccounts(allAccounts);
+
+            return;
+
+        }
+
+
+        const filteredAccounts =
+            allAccounts.filter(account => {
+
+                const username =
+                    (account.username || '')
+                        .toLowerCase();
+
+
+                const fullName =
+                    (account.fullName || '')
+                        .toLowerCase();
+
+
+                const email =
+                    (account.email || '')
+                        .toLowerCase();
+
+
+                return (
+                    username.includes(keyword) ||
+                    fullName.includes(keyword) ||
+                    email.includes(keyword)
+                );
+
+            });
+
+
+        renderAccounts(filteredAccounts);
+
+    }
+
+
+    // ==========================================
+    // XÓA TÀI KHOẢN
+    // API:
+    // DELETE /api/admin/account?id={id}
+    // ==========================================
+
+    async function deleteAccount(id) {
+
+        const confirmDelete =
+            confirm(
+                'Bạn có chắc chắn muốn xóa tài khoản có ID = '
+                + id
+                + ' không?'
+            );
+
+
+        if (!confirmDelete) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    '/api/admin/account?id='
+                    + encodeURIComponent(id),
+                    {
+                        method: 'DELETE'
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (response.ok) {
+
+                alert(
+                    data.message ||
+                    'Xóa tài khoản thành công!'
+                );
+
+
+                // Tải lại danh sách
+                await loadAccounts();
+
+
+            } else {
+
+                alert(
+                    data.message ||
+                    'Không thể xóa tài khoản!'
+                );
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                'Lỗi xóa tài khoản:',
+                error
+            );
+
+
+            alert(
+                'Có lỗi xảy ra khi xóa tài khoản!'
+            );
+
+        }
+
+    }
+
+
+    // ==========================================
+    // BẢO VỆ HIỂN THỊ HTML
+    // ==========================================
+
+    function escapeHtml(value) {
+
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+
+    }
+
+
+    // ==========================================
+    // CHẠY KHI MỞ TRANG
+    // ==========================================
+
+    document.addEventListener(
+        'DOMContentLoaded',
+        function () {
+
+            loadAccounts();
+
+        }
+    );
+
+</script>
+
 </body>
 </html>
