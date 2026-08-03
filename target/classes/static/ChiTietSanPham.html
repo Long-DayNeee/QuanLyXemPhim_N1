@@ -124,106 +124,75 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<div id="bookingModal" class="modal">
-  <div class="modal-content">
-    <span id="bookingClose" class="close">&times;</span>
-    <h2>Đặt vé Online</h2>
-
-    <div class="booking-widget">
-      <ul class="date-tabs">
-        <!-- danh sách ngày sẽ render JS -->
-      </ul>
-
-      <form id="booking-form" action="/book.html" method="POST">
-        <!-- B. Lưới 2 cột -->
-        <div class="booking-grid">
-          <!-- B1. Cột trái (poster + thông tin) -->
-          <div class="booking-left">
-            <img id="modalPoster" class="poster-img" src="" alt="poster">
-            <h3 id="modalTitle"></h3>
-            <p>Thể loại: <span id="modalGenre"></span></p>
-            <p>Ngôn ngữ: <span id="modalLang"></span></p>
-
-            <label style="display:none">Số lượng vé:
-              <input type="number" id="so_luong" name="so_luong" min="0" value="0" readonly>
-            </label>
-            <label style="display:none">Ghế ngồi:
-              <input type="text" id="ghe_ngoi" name="ghe_ngoi" readonly>
-            </label>
-
-            <input type="text" id="customer" placeholder="Họ và tên">
-
-            <label for="email">Thông tin liên hệ:</label>
-            <input type="email" id="email" placeholder="Email">
-
-            <input type="tel" id="phone" name="phone" pattern="0[0-9]{9}" placeholder="Số điện thoại" required>
-            <p>Ngày chiếu: <span id="booking-date">–/–/–</span></p>
-            <p>Giờ chiếu: <span id="booking-time">--:--</span></p>
-            <p class="total">Tổng tiền: <span id="total_price">0 đ</span></p>
-
-            <input type="hidden" id="showtime_id" name="showtimeId">
-            <input type="hidden" id="form-date" name="date">
-          </div>
-
-          <!-- B2. Cột phải (sơ đồ ghế + nút) -->
-          <div class="booking-right">
-            <h4>Chọn ghế ngồi</h4>
-            <div id="showtimes-container" class="showtimes"></div>
-
-            <div class="qty-picker">
-              <span class="qty-label">Số vé (tối đa 4)</span>
-              <div class="qty-stepper">
-                <button type="button" id="qtyMinus">−</button>
-                <span id="qtyValue">1</span>
-                <button type="button" id="qtyPlus">+</button>
-              </div>
-            </div>
-
-            <div id="seatOptions" class="seat-options"></div>
-
-            <div id="seat-map-wrapper">
-              <div id="seat-map"></div>
-
-              <div class="legend">
-                <span class="seat2 is-free"></span> Trống
-                <span class="seat2 is-selected"></span> Đang chọn
-                <span class="seat2 is-booked"></span> Đã bán
-              </div>
-            </div>
-
-            <div id="bookingInfoPanel" class="booking-info-panel" style="display:none"></div>
-
-            <label class="terms-check">
-              <input type="checkbox" id="termsCheck" />
-              Tôi đã đọc và đồng ý với <a href="#" id="termsLink">điều khoản đặt vé</a>
-            </label>
-            <div id="termsBox" class="terms-box" style="display:none">
-              <ul>
-                <li>Vé đã đặt thành công không thể đổi hoặc hoàn tiền, trừ trường hợp rạp hủy suất chiếu.</li>
-                <li>Vui lòng có mặt trước giờ chiếu ít nhất 15 phút để nhận vé và ổn định chỗ ngồi.</li>
-                <li>Trẻ em dưới độ tuổi quy định của phim cần có sự đi kèm của người giám hộ hợp lệ.</li>
-                <li>Ghế đã chọn chỉ được giữ trong 10 phút kể từ khi xác nhận, quá thời gian hệ thống sẽ tự hủy.</li>
-              </ul>
-            </div>
-
-            <button id="confirmBooking" type="button" class="btn-pay wide" disabled>Đặt vé</button>
-            <button type="button" style="margin-top: 8px; background-color: rgb(252, 194, 3); color: rgb(255, 8, 0);">
-              <a href="/LichSuDatVeNguoiDung.html" style="color: inherit; text-decoration: none;">Xem lịch sử đặt vé</a>
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <div id="qrContainer" class="qr-container" style="display:none;"></div>
-  </div>
-</div>
 
 <!-- Load các script hệ thống -->
 <script src="/Admin/admin.js"></script>
 <script src="/script.js"></script>
-<script src="/seat-engine.js"></script>
-<script src="/booking-flow.js"></script>
-</body>
+<script src="/datve-redirect.js"></script>
 
+<!-- Script xử lý chuyển hướng khi click nút Đặt Vé -->
+<script>
+  document.addEventListener('click', function (e) {
+    // Kiểm tra xem phần tử được click có phải là nút "Đặt vé" hay không
+    const btn = e.target.closest('button, a');
+    if (btn && (btn.innerText.includes('Đặt vé') || btn.innerText.includes('Đặt Vé') || btn.classList.contains('btn-booking'))) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Lấy movieId từ URL hiện tại (ví dụ: ?movieId=16)
+      const urlParams = new URLSearchParams(window.location.search);
+      const movieId = urlParams.get('movieId') || urlParams.get('id');
+
+      if (movieId) {
+        window.location.href = `/DatVe/ChonSuatChieu.html?movieId=${movieId}`;
+      } else {
+        alert('Không tìm thấy thông tin phim!');
+      }
+    }
+  }, true); // Dùng capture phase (true) để ưu tiên chạy trước script.js
+</script>
+</body>
 </html>
+
+
+
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>-->
+<!--<div id="bookingModal" class="modal">-->
+<!--  <div class="modal-content">-->
+<!--    <span id="bookingClose" class="close">&times;</span>-->
+<!--    <h2>Đặt vé Online</h2>-->
+
+<!--    <div class="booking-widget">-->
+<!--      <ul class="date-tabs">-->
+<!--        &lt;!&ndash; danh sách ngày sẽ render JS &ndash;&gt;-->
+<!--      </ul>-->
+
+<!--      <div id="showtimes-container" class="showtimes"></div>-->
+
+<!--      <button id="gotoSeatsBtn" type="button" class="btn-pay wide" disabled>Chọn Ghế</button>-->
+
+<!--      &lt;!&ndash; Giữ các phần tử ẩn này để không phá logic ngày/giờ có sẵn trong script.js &ndash;&gt;-->
+<!--      <div style="display:none">-->
+<!--        <img id="modalPoster" src="" alt="poster" />-->
+<!--        <h3 id="modalTitle"></h3>-->
+<!--        <span id="modalGenre"></span>-->
+<!--        <span id="modalLang"></span>-->
+<!--        <span id="booking-date">–/–/–</span>-->
+<!--        <span id="booking-time">&#45;&#45;:&#45;&#45;</span>-->
+<!--        <input type="hidden" id="showtime_id" name="showtimeId" />-->
+<!--        <input type="hidden" id="form-date" name="date" />-->
+<!--        <input type="hidden" id="so_luong" />-->
+<!--        <input type="hidden" id="ghe_ngoi" />-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Load các script hệ thống &ndash;&gt;-->
+<!--<script src="/Admin/admin.js"></script>-->
+<!--<script src="/script.js"></script>-->
+<!--<script src="/datve-redirect.js"></script>-->
+<!--</body>-->
+
+<!--</html>-->
