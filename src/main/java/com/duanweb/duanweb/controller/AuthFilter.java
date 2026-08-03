@@ -13,18 +13,8 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-
 @Component
 @Order(1)
-// @WebFilter(filterName = "auth", value = {
-//         "/api/*",
-//         "/movie/*",
-//         "/Home/*",
-//         "/GioiThieu.html",
-//         "/Phim.html",
-//         "/Admin/*",
-//         "/admin/*"
-// })
 @WebFilter(urlPatterns = "/*")
 public class AuthFilter implements Filter {
 
@@ -36,57 +26,89 @@ public class AuthFilter implements Filter {
                          ServletResponse response,
                          FilterChain chain)
             throws IOException, ServletException {
+        
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
-        // Chống cache trình duyệt
+        // Chống Cache
         resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         resp.setHeader("Pragma", "no-cache");
         resp.setDateHeader("Expires", 0);
 
-        HttpSession session = req.getSession(false);
         String requestURI = req.getRequestURI();
         
-        // 1. Cho phép các endpoint public không cần kiểm tra auth
-        if (requestURI.contains("/login") || 
-            requestURI.contains("/register") || 
-            requestURI.contains("/logout") || 
-            requestURI.contains("/Logout") || 
-            requestURI.contains("/api/check-auth")) {
-            
+        // 🛠️ LÀM SẠCH URI: Loại bỏ query string (?) hoặc matrix parameter (;) nếu có
+        String cleanURI = requestURI;
+        if (cleanURI.contains("?")) {
+            cleanURI = cleanURI.substring(0, cleanURI.indexOf("?"));
+        }
+        if (cleanURI.contains(";")) {
+            cleanURI = cleanURI.substring(0, cleanURI.indexOf(";"));
+        }
+        String lowerURI = cleanURI.toLowerCase();
+
+        // 🟢 BƯỚC 1: BỎ QUA TẤT CẢ FILE TĨNH (STATIC RESOURCES)
+        boolean isStatic = lowerURI.endsWith(".png")  || 
+                           lowerURI.endsWith(".jpg")  || 
+                           lowerURI.endsWith(".jpeg") || 
+                           lowerURI.endsWith(".gif")  || 
+                           lowerURI.endsWith(".svg")  || 
+                           lowerURI.endsWith(".ico")  || 
+                           lowerURI.endsWith(".css")  || 
+                           lowerURI.endsWith(".js")   || 
+                           lowerURI.endsWith(".mp4")  || 
+                           lowerURI.endsWith(".woff") || 
+                           lowerURI.endsWith(".woff2")|| 
+                           lowerURI.endsWith(".ttf");
+
+        if (isStatic) {
             chain.doFilter(request, response);
             return;
         }
 
+        // 🟢 BƯỚC 2: BỎ QUA CÁC TRANG VÀ THƯ MỤC PUBLIC
+        boolean isPublic = lowerURI.contains("/login") || 
+                           lowerURI.contains("/register") || 
+                           lowerURI.contains("/logout") || 
+                           lowerURI.contains("/error") || 
+                           lowerURI.contains("/pro230/") ||   // Thư mục ảnh phim của bạn
+                           lowerURI.contains("/api/check-auth") ||
+                           lowerURI.contains("/api/movies") ||
+                           lowerURI.contains("/api/showtimes");
+
+        if (isPublic) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+        // 🟢 BƯỚC 3: KIỂM TRA PHÂN QUYỀN & CHẶN ACCESS
+        HttpSession session = req.getSession(false);
         String role = (session != null) ? (String) session.getAttribute("role") : null;
 
-        // 🟢 2. BẢO VỆ TRANG HTML ADMIN & API DÀNH RIÊNG CHO ADMIN
-        // Chặn nếu truy cập /Admin/* HOẶC các API quản trị như /api/admin/*
-        boolean isAdminPath = requestURI.contains("/Admin/") || requestURI.contains("/api/admin/");
+        // Bật log này để kiểm tra trên Console xem URL nào bị rơi vào vòng kiểm tra Auth
+        System.out.println("🚨 [AuthFilter CHẶN TRUY CẬP] URL: " + lowerURI + " | Role: " + role);
 
+        // Kiểm tra đường dẫn Admin
+        boolean isAdminPath = lowerURI.contains("/admin/") || lowerURI.contains("/api/admin/");
         if (isAdminPath) {
             if (role == null || !role.equalsIgnoreCase("ADMIN")) {
-                // Nếu là API call -> Trả về lỗi 403 Forbidden dạng JSON
-                if (requestURI.startsWith(req.getContextPath() + "/api/")) {
+                if (lowerURI.startsWith(req.getContextPath().toLowerCase() + "/api/")) {
                     resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
                     resp.setContentType("application/json;charset=UTF-8");
                     resp.getWriter().write("{\"error\": \"Bạn không có quyền thực hiện thao tác này!\"}");
                     return;
                 }
-                
-                // Nếu là truy cập trang HTML -> Redirect về /Home/index.html (ĐÃ SỬA LỖI 404)
                 resp.sendRedirect(req.getContextPath() + "/Home/index.html?error=" 
                         + encode("Bạn không có quyền truy cập trang Admin!"));
                 return;
             }
         }
 
-        // 🟢 3. KIỂM TRA ĐĂNG NHẬP THÔNG THƯỜNG CHO CÁC TRANG USER
+        // Kiểm tra người dùng đã đăng nhập chưa
         if (role != null) {
             chain.doFilter(request, response);
         } else {
-            // Nếu gọi API khi chưa login -> Trả về 401 Unauthorized
-            if (requestURI.startsWith(req.getContextPath() + "/api/")) {
+            if (lowerURI.startsWith(req.getContextPath().toLowerCase() + "/api/")) {
                 resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 resp.setContentType("application/json;charset=UTF-8");
                 resp.getWriter().write("{\"error\": \"Vui lòng đăng nhập!\"}");

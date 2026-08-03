@@ -51,9 +51,11 @@ public class ShowtimeController {
             return ResponseEntity.badRequest().body(Map.of("ok", false, "error", "Định dạng date/time không hợp lệ"));
         } catch (IllegalArgumentException | IllegalStateException e) {
             return ResponseEntity.badRequest().body(Map.of("ok", false, "error", e.getMessage()));
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+            String detailError = e.getMessage() != null ? e.getMessage() : "Lỗi CSDL không xác định";
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("ok", false, "error", "Không thể thêm suất chiếu vào CSDL"));
+                    .body(Map.of("ok", false, "error", detailError));
         }
     }
 

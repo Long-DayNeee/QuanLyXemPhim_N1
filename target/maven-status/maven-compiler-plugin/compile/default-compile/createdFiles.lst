@@ -3,6 +3,7 @@ com\duanweb\duanweb\Service\BookingService$SeatTakenException.class
 com\duanweb\duanweb\controller\MovieApiController.class
 com\duanweb\duanweb\controller\CheckAuthController.class
 com\duanweb\duanweb\Entity\Movie.class
+com\duanweb\duanweb\Repository\CinemaRoomRepository.class
 com\duanweb\duanweb\model\Movie.class
 com\duanweb\duanweb\controller\BookingController$BookingRequest.class
 com\duanweb\duanweb\Repository\MovieRepository.class
@@ -17,6 +18,7 @@ com\duanweb\duanweb\Service\MovieServiceImpl.class
 com\duanweb\duanweb\model\AdminAccount.class
 com\duanweb\duanweb\Repository\BookingRepository.class
 com\duanweb\duanweb\DuanwebApplication.class
+com\duanweb\duanweb\Entity\CinemaRoom.class
 com\duanweb\duanweb\Service\BookingService$InvalidBookingException.class
 com\duanweb\duanweb\Entity\Booking.class
 com\duanweb\duanweb\Repository\SeatRepository.class

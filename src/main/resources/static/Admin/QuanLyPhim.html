@@ -273,8 +273,8 @@
         <form id="showtimeForm">
           <label>Phim: <select id="movieSelectAdd">…</select></label>
           <label>Phòng chiếu: <select id="roomSelectAdd" required>…</select></label>
-          <label>Ngày: <input type="date" id="dateInp" required></label>
-          <label>Giờ: <input type="time" id="timeInp" required></label>
+          <label>Ngày: <input type="date" id="dateInp" onkeydown="return false" required></label>
+          <label>Giờ: <input type="time" id="timeInp" onkeydown="return false" required></label>
           <button type="submit" class="save-showtime">Lưu</button>
         </form>
       </div>
@@ -327,72 +327,75 @@
     </section>
 
     <div id="movieModal" class="modal">
-      <form id="movieForm" class="modal-content large" enctype="multipart/form-data">
-        <h2>Thêm / Sửa Phim</h2>
+  <form id="movieForm" class="modal-content large" enctype="multipart/form-data">
+    <h2>Thêm / Sửa Phim</h2>
 
-        <div class="grid-2">
-          <label>Tiêu đề
-            <input name="title" type="text" required>
-          </label>
+    <div class="grid-2">
+      <label>Tiêu đề
+        <input name="title" type="text" required>
+      </label>
 
-          <label>Thời lượng (phút)
-            <input name="duration" type="number" min="1" required>
-          </label>
+      <label>Thời lượng (phút)
+        <input name="duration" type="number" min="1" required>
+      </label>
 
-          <label class="age-full">Độ tuổi
-            <select name="ageRate" required>
-              <option value="">– Chọn độ tuổi –</option>
-              <option value="0">Không giới hạn độ tuổi</option>
-              <option value="16">16+</option>
-              <option value="18">18+</option>
-            </select>
-          </label>
+      <label class="age-full">Độ tuổi
+        <select name="ageRate" required>
+          <option value="">– Chọn độ tuổi –</option>
+          <option value="0">Không giới hạn độ tuổi</option>
+          <option value="16">16+</option>
+          <option value="18">18+</option>
+        </select>
+      </label>
 
-          <label>Ngày khởi chiếu lần đầu
-            <input name="premiere" type="date" required>
-          </label>
+      <label>Ngày khởi chiếu lần đầu
+        <input name="premiere" type="date" required>
+      </label>
 
-          <label>Giá vé (đ)
-            <input name="price" type="number" min="0" value="200000" placeholder="Nhập giá vé tại đây...">
-          </label>
+      <!-- 1. THÊM required VÀO GIÁ VÉ -->
+      <label>Giá vé (đ)
+        <input name="price" type="number" min="0" value="200000" placeholder="Nhập giá vé tại đây..." required>
+      </label>
 
-          <label>Thể loại
-            <input name="TheLoai" required>
-          </label>
+      <label>Thể loại
+        <input name="TheLoai" required>
+      </label>
 
-          <label>Ngôn ngữ
-            <input name="language" required>
-          </label>
+      <label>Ngôn ngữ
+        <input name="language" required>
+      </label>
 
-          <label>Đạo diễn
-            <input name="director" required>
-          </label>
+      <label>Đạo diễn
+        <input name="director" required>
+      </label>
 
-          <label>Diễn viên
-            <input name="cast" required>
-          </label>
-        </div>
-
-        <div class="grid-2">
-          <label>Mô tả
-            <textarea name="description" placeholder="Nhập mô tả…"></textarea>
-          </label>
-          <label>Poster
-            <input name="poster" type="file" accept="image/*">
-            <img id="posterPreview" src="" alt="Preview Poster"
-                 style="max-width:100px; display:block; margin-bottom:8px;" />
-          </label>
-          <label>Link trailer:
-            <input type="text" name="Trailer_ID" placeholder="URL hoặc file path">
-          </label>
-        </div>
-
-        <div class="modal-actions right">
-          <button type="button" class="btn-secondary" id="movieCancel">Huỷ</button>
-          <button type="submit" class="btn-primary">Lưu</button>
-        </div>
-      </form>
+      <label>Diễn viên
+        <input name="cast" required>
+      </label>
     </div>
+
+    <div class="grid-2">
+      <label>Mô tả
+        <textarea name="description" placeholder="Nhập mô tả…" required></textarea>
+      </label>
+
+      <label>Poster
+        <input name="poster" type="file" accept="image/*" id="posterInput">
+        <img id="posterPreview" src="" alt="Preview Poster"
+             style="max-width:100px; display:block; margin-bottom:8px;" />
+      </label>
+      
+      <label>Link trailer:
+        <input type="text" name="Trailer_ID" placeholder="URL hoặc file path">
+      </label>
+    </div>
+
+    <div class="modal-actions right">
+      <button type="button" class="btn-secondary" id="movieCancel">Huỷ</button>
+      <button type="submit" class="btn-primary">Lưu</button>
+    </div>
+  </form>
+</div>
 
     <!-- đặt vé -->
     <div id="bookingModal" class="modal" style="display:none;">

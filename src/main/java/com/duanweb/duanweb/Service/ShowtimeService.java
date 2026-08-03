@@ -47,8 +47,18 @@ public class ShowtimeService {
             throw new IllegalArgumentException("MovieID không tồn tại!");
         }
 
-        if (roomId == null || roomId <= 0 || !cinemaRoomRepository.existsById(roomId)) {
+        if (roomId == null || roomId <= 0) {
             throw new IllegalArgumentException("Phòng chiếu không hợp lệ!");
+        }
+
+        // 1. Tìm phòng chiếu trong CSDL
+        CinemaRoom room = cinemaRoomRepository.findById(roomId)
+                .orElseThrow(() -> new IllegalArgumentException("Phòng chiếu không tồn tại!"));
+
+        // 2. KIỂM TRA TRẠNG THÁI PHÒNG: Nếu phòng không phải "Hoạt động" thì chặn ngay
+        if (room.getTrangThai() != null && !room.getTrangThai().trim().equalsIgnoreCase("Hoạt động")) {
+            throw new IllegalStateException("Phòng chiếu '" + room.getTenPhong() + "' đang ở trạng thái '" 
+                    + room.getTrangThai() + "', không thể thêm suất chiếu!");
         }
 
         LocalDateTime start = LocalDateTime.of(LocalDate.parse(date), LocalTime.parse(time));

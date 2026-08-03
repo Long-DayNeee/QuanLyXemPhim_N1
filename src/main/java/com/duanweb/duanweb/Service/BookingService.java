@@ -7,6 +7,7 @@ import com.duanweb.duanweb.Repository.BookingSeatRepository;
 import com.duanweb.duanweb.Repository.SeatRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -102,6 +103,12 @@ public class BookingService {
         return new BookingResult(savedBooking.getBookingID(), normalizedCodes, total);
     }
 
+    // Lịch sử đặt vé cho Admin, dùng để hiển thị bảng vé + tính doanh thu.
+    // Mỗi phần tử trả về: BookingID, Phone, MovieTitle, ThoiGianBatDau, Seats (chuỗi "A1,A2"), Total (tổng tiền booking)
+    public List<Map<String, Object>> findAdminBookingHistory(Integer movieId) {
+        return bookingRepository.findAdminBookingHistoryRows(movieId);
+    }
+
     private static String seatCode(Map<String, Object> row) {
         return String.valueOf(row.get("HangGhe")) + row.get("SoGhe");
     }
@@ -127,4 +134,6 @@ public class BookingService {
             return conflictSeats;
         }
     }
+
+    
 }

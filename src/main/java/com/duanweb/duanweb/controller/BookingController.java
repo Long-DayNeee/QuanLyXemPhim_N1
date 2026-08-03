@@ -86,4 +86,18 @@ public class BookingController {
                     "ok", false, "error", e.getMessage(), "conflictSeats", e.getConflictSeats()));
         }
     }
+
+
+    @GetMapping("/admin/bookings")
+    public ResponseEntity<?> getAdminBookings(@RequestParam(value = "movieId", required = false) Integer movieId) {
+        try {
+            // 1. Lấy danh sách booking chi tiết từ Service (truyền null nếu không lọc movieId)
+            List<Map<String, Object>> bookingList = bookingService.findAdminBookingHistory(movieId);
+            return ResponseEntity.ok(bookingList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Lỗi lấy dữ liệu lịch sử đặt vé"));
+        }
+    }
 }

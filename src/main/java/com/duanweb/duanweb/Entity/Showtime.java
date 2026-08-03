@@ -10,24 +10,24 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Showtime")
+@Table(name = "showtime")
 public class Showtime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ShowTimeID")
+    @Column(name = "showtimeid")
     private Integer showTimeID;
 
-    @Column(name = "MovieID")
+    @Column(name = "movieid")
     private Integer movieID;
 
-    @Column(name = "RoomID")
+    @Column(name = "roomid")
     private Integer roomID;
 
-    @Column(name = "ThoiGianBatDau")
+    @Column(name = "thoigianbatdau")
     private LocalDateTime thoiGianBatDau;
 
-    @Column(name = "ThoiGianKetThuc")
+    @Column(name = "thoigianketthuc")
     private LocalDateTime thoiGianKetThuc;
 
     public Integer getShowTimeID() {

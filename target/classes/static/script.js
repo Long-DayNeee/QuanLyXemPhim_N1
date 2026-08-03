@@ -278,12 +278,27 @@ async function checkAuthStatus() {
     if (!navAuth) return;
 
     try {
-        // Gọi API kiểm tra session phía Server (Cần đảm bảo backend có endpoint check auth)
         const res = await fetch('/api/check-auth'); 
         if (res.ok) {
             const data = await res.json();
             if (data.isLoggedIn) {
-                navAuth.innerHTML = `<a href="/logout" class="btn-login-pill">Đăng Xuất</a>`;
+                // Lấy tên hiển thị
+                const userName = data.ho_ten || data.email || data.username || 'Thành viên';
+                
+                // Kiểm tra role (chuyển về chữ thường để tránh lỗi hoa/thường)
+                const userRole = (data.role || '').toLowerCase();
+                const isAdmin = userRole === 'admin';
+
+                // Trỏ đúng về đường dẫn /admin/QuanLyPhim.html
+                const adminButtonHTML = isAdmin 
+                    ? `<a href="/admin/QuanLyPhim.html" class="btn-admin-pill">Quản Lý</a>` 
+                    : '';
+
+                navAuth.innerHTML = `
+                    ${adminButtonHTML}
+                    <span class="user-name">👤 ${userName}</span>
+                    <a href="/logout" class="btn-login-pill">Đăng Xuất</a>
+                `;
             } else {
                 navAuth.innerHTML = `<a href="/Login/login.html" class="btn-login-pill">Đăng Nhập</a>`;
             }
@@ -291,7 +306,6 @@ async function checkAuthStatus() {
             navAuth.innerHTML = `<a href="/Login/login.html" class="btn-login-pill">Đăng Nhập</a>`;
         }
     } catch (e) {
-        // Mặc định hiện nút Đăng nhập nếu không gọi được API
         navAuth.innerHTML = `<a href="/Login/login.html" class="btn-login-pill">Đăng Nhập</a>`;
     }
 }
@@ -819,48 +833,82 @@ checkAuthStatus();
   }
 
   async function fetchMovies() {
-    try {
-      const res = await fetch('/api/movies');
-      const list = await res.json();
+  try {
+    const res = await fetch('/api/movies');
+    if (!res.ok) throw new Error('Không thể kết nối API phim');
+    
+    const list = await res.json();
 
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Đưa về mốc 00:00:00 hôm nay để so sánh chính xác ngày
 
-      products.length = 0;
-      list.forEach(m => {
-        const cats = [];
-        if (m.NgayChieu) {
-          // const premiere = new Date(m.NgayChieu);
+    products.length = 0; // Clear mảng cũ
+
+    list.forEach(m => {
+      const cats = [];
+
+      // 🟢 1. LOGIC PHÂN LOẠI NGÀY CHIẾU chuẩn rạp phim
+      if (m.NgayChieu) {
+        let premiere;
+
+        // Xử lý linh hoạt cả định dạng "DD/MM/YYYY" lẫn "YYYY-MM-DD"
+        if (typeof m.NgayChieu === 'string' && m.NgayChieu.includes('/')) {
           const [dd, mm, yyyy] = m.NgayChieu.split('/');
-          const premiere = new Date(`${yyyy}-${mm}-${dd}`);
-          premiere.setHours(0, 0, 0, 0);
-
-          cats.push(premiere <= today ? 'DangChieu' : 'SapChieu');
+          premiere = new Date(`${yyyy}-${mm}-${dd}`);
         } else {
-          cats.push('SapChieu');  // hoặc không push gì
+          premiere = new Date(m.NgayChieu);
         }
-        if (parseInt(m.DoTuoi, 10) === 0) cats.push('KhongGioiHan');
 
-        products.push({
-          id: m.MovieID,
-          name: m.TieuDe,
-          price: (+m.GiaVe).toLocaleString('vi-VN') + 'đ',
-          image: m.PosterUrl || '/api/placeholder?width=300',
-          description: '<b>Độ tuổi:</b> ' + (m.DoTuoi || '—'),
-          features: [
-            `Đạo diễn: ${m.DaoDien}`,
-            `Diễn viên: ${m.DienVien}`,
-            `Thể loại: ${m.TheLoai}`,
-            `Thời lượng: ${m.ThoiLuong} phút`,
-            `Ngôn ngữ: ${m.NgonNgu}`
-          ],
-          category: cats
-        });
+        premiere.setHours(0, 0, 0, 0);
+
+        // Phim đã hoặc đang khởi chiếu hôm nay -> Đang chiếu
+        if (premiere <= today) {
+          cats.push('DangChieu');
+        } 
+        // Phim có ngày chiếu ở tương lai -> Sắp chiếu
+        else {
+          cats.push('SapChieu');
+        }
+      } else {
+        // Nếu không có ngày chiếu -> Mặc định là Sắp chiếu
+        cats.push('SapChieu');
+      }
+
+      // Phân loại độ tuổi không giới hạn
+      if (parseInt(m.DoTuoi, 10) === 0 || m.DoTuoi === 'P') {
+        cats.push('KhongGioiHan');
+      }
+
+      // 🟢 2. PUSH OBJECT ĐẦY ĐỦ THUỘC TÍNH (Bao gồm Trailer)
+      products.push({
+        id: m.MovieID || m.id,
+        name: m.TieuDe || m.name,
+        price: (+m.GiaVe || 0).toLocaleString('vi-VN') + 'đ',
+        image: m.PosterUrl || m.image || '/api/placeholder?width=300',
+        
+        // QUAN TRỌNG: Gán Trailer_ID để phục vụ tính năng xem Trailer
+        Trailer_ID: m.Trailer_ID || m.trailerid || m.TrailerID || m.TrailerUrl || m.trailer || '',
+        
+        description: '<b>Độ tuổi:</b> ' + (m.DoTuoi || '—'),
+        features: [
+          `Đạo diễn: ${m.DaoDien || 'Đang cập nhật'}`,
+          `Diễn viên: ${m.DienVien || 'Đang cập nhật'}`,
+          `Thể loại: ${m.TheLoai || 'Chưa phân loại'}`,
+          `Thời lượng: ${m.ThoiLuong || 0} phút`,
+          `Ngôn ngữ: ${m.NgonNgu || 'Phụ đề/Lồng tiếng'}`
+        ],
+        category: cats
       });
-    } catch (e) {
-      console.error('fetchMovies lỗi:', e);
+    });
+
+    if (typeof renderProducts === 'function') {
+      renderProducts(products);
     }
+
+  } catch (e) {
+    console.error('fetchMovies lỗi:', e);
   }
+}
 
   await fetchMovies();
   // Filter products
@@ -967,39 +1015,17 @@ checkAuthStatus();
     attachBookingEvents();
 
     /* 6. Trailer video */
-    const hasYoutube = !!currentMovie.trailerUrl;
-    const fallbackSrc = currentMovie.nutrition?.[0]?.videoSrc;
-    productNutrition.innerHTML = hasYoutube
-      ? `…iframe…`
-      : fallbackSrc
-        ? `
-      <h2>Trailer</h2>
-      <div class="video-container">
-        <video controls playsinline>
-          <source src="${fallbackSrc}" type="video/mp4">
-          Trình duyệt của bạn không hỗ trợ thẻ video.
-        </video>
-      </div>`
-        : `<p>Chưa có trailer.</p>`;
-    // ? `
-    // <h2>Trailer</h2>
-    // <div class="video-container">
-    //   <iframe
-    //     src="${currentMovie.trailerUrl}"
-    //     title="Trailer ${currentMovie.name}"
-    //     frameborder="0"
-    //     allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    //     allowfullscreen>
-    //   </iframe>
-    // </div>`
-    // : `
-    // <h2>Trailer</h2>
-    // <div class="video-container">
-    //   <video controls playsinline>
-    //     <source src="${currentMovie.nutrition[0].videoSrc}" type="video/mp4">
-    //     Trình duyệt của bạn không hỗ trợ thẻ video.
-    //   </video>
-    // </div>`;
+    // Lấy linh hoạt các tên thuộc tính trailer có thể có từ Database/API
+    const trailerUrl = currentMovie.Trailer_ID || currentMovie.trailerUrl || currentMovie.TrailerUrl || '';
+
+    productNutrition.innerHTML = trailerUrl
+      ? `
+        <h2>Trailer Phim</h2>
+        <div class="video-container" style="margin-top: 15px;">
+          ${renderTrailerHTML(trailerUrl)}
+        </div>`
+      : `<p style="padding: 10px 0; color: #888;">Chưa có trailer cho phim này.</p>`;
+
 
     /* 7. Sản phẩm liên quan */
     const related = products
@@ -1102,17 +1128,17 @@ if (adminBtn && adminModal) {
   });
 
   // Xử lý Đăng nhập
-  loginBtn.addEventListener('click', () => {
-    const code = codeInput.value.trim();
-    if (!code) {
-      return alert('Thông tin mã quản lý không được để trống!');
-    }
-    if (code !== 'EVL123') {  // thay 'ADMIN123' bằng mã thật của bạn
-      return alert('Mã của bạn không hợp lệ');
-    }
-    // thành công → điều hướng
-    window.location.href = '/Admin/QuanLyPhim.html';
-  });
+  // loginBtn.addEventListener('click', () => {
+  //   const code = codeInput.value.trim();
+  //   if (!code) {
+  //     return alert('Thông tin mã quản lý không được để trống!');
+  //   }
+  //   if (code !== 'EVL123') {  // thay 'ADMIN123' bằng mã thật của bạn
+  //     return alert('Mã của bạn không hợp lệ');
+  //   }
+  //   // thành công → điều hướng
+  //   window.location.href = '/Admin/QuanLyPhim.html';
+  // });
 }
 
 //Kết nối dữ liệu
@@ -1346,19 +1372,39 @@ function updateSelectedSeats() {
 }
 
 async function loadMovieDetails(movieId) {
-  const res = await fetch(`/api/movies?movieId=${movieId}`);
-  if (!res.ok) throw new Error('Movies API lỗi ' + res.status);
-  const movie = await res.json();
-  window.currentMovie = movie;
+  try {
+    const res = await fetch(`/api/movies?movieId=${movieId}`);
+    if (!res.ok) throw new Error('Movies API lỗi ' + res.status);
+    
+    const movie = await res.json();
+    window.currentMovie = movie;
 
-  // Gán mô tả
-  document.getElementById('productDescription').innerText = movie.MieuTa;
+    // 1. Gán mô tả phim
+    const descEl = document.getElementById('productDescription');
+    if (descEl) {
+      descEl.innerText = movie.MieuTa || 'Chưa có thông tin mô tả.';
+    }
 
-  // Gán trailer & poster
-  const vid = document.getElementById('trailer');
-  if (vid) {
-    vid.src = movie.Trailer_ID || '/api/placeholder?width=1200&height=800';
-    vid.poster = movie.PosterUrl || '/api/placeholder?width=1200&height=800';
+    // 2. Gán Poster (Nếu bạn có thẻ img hiển thị poster)
+    const posterEl = document.getElementById('productImage') || document.getElementById('moviePoster');
+    if (posterEl) {
+      posterEl.src = movie.PosterUrl || '/api/placeholder?width=1200&height=800';
+      posterEl.alt = movie.TieuDe || 'Poster phim';
+    }
+
+    // 3. Render Trailer (Hỗ trợ cả YouTube lẫn MP4)
+    const trailerBox = document.getElementById('productNutrition') || document.getElementById('trailerContainer');
+    if (trailerBox) {
+      const trailerUrl = movie.Trailer_ID || movie.TrailerUrl || movie.trailerUrl || '';
+      trailerBox.innerHTML = `
+        <h2>Trailer Phim</h2>
+        <div class="video-container" style="margin-top: 15px;">
+          ${renderTrailerHTML(trailerUrl)}
+        </div>
+      `;
+    }
+  } catch (err) {
+    console.error('Lỗi khi tải chi tiết phim:', err);
   }
 }
 
@@ -1426,3 +1472,146 @@ document.addEventListener('DOMContentLoaded', () => {
   const movieId = new URLSearchParams(location.search).get('movieId');
   if (movieId) loadMovieDetails(movieId);
 });
+
+/**
+ * Trích xuất YouTube Video ID từ link YouTube bất kỳ.
+ * Trả về string ID nếu là link YouTube, hoặc null nếu không phải.
+ */
+function getYouTubeId(url) {
+    if (!url) return null;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
+}
+
+/**
+ * Hàm nhúng Trailer an toàn (YouTube / MP4 / Link khác)
+ * @param {string} trailerUrl - Đường dẫn trailer từ Database
+ * @returns {string} Chuỗi HTML để chèn vào DOM
+ */
+function renderTrailerHTML(trailerUrl) {
+    // 1. Kiểm tra nếu không có URL hoặc không phải chuỗi -> Trả về thông báo nhẹ
+    if (!trailerUrl || typeof trailerUrl !== 'string' || trailerUrl.trim() === '') {
+        return `
+            <div class="no-trailer" style="padding: 30px; text-align: center; background: #1a1a1a; color: #888; border-radius: 8px;">
+                <p>🎬 Hiện chưa có Trailer cho phim này.</p>
+            </div>`;
+    }
+
+    try {
+        let cleanUrl = trailerUrl.trim();
+
+        // 2. Trường hợp Link YOUTUBE (Tự động tách Video ID)
+        if (cleanUrl.includes('youtube.com') || cleanUrl.includes('youtu.be')) {
+            let videoId = '';
+
+            if (cleanUrl.includes('youtu.be/')) {
+                // Dạng: https://youtu.be/abcd123
+                videoId = cleanUrl.split('youtu.be/')[1]?.split('?')[0]?.split('&')[0];
+            } else if (cleanUrl.includes('watch?v=')) {
+                // Dạng: https://www.youtube.com/watch?v=abcd123
+                videoId = cleanUrl.split('watch?v=')[1]?.split('&')[0];
+            } else if (cleanUrl.includes('/embed/')) {
+                // Dạng: https://www.youtube.com/embed/abcd123
+                videoId = cleanUrl.split('/embed/')[1]?.split('?')[0];
+            } else if (cleanUrl.includes('/shorts/')) {
+                // Dạng: https://www.youtube.com/shorts/abcd123
+                videoId = cleanUrl.split('/shorts/')[1]?.split('?')[0];
+            }
+
+            if (videoId) {
+                return `
+                    <iframe width="100%" height="360" 
+                        src="https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0" 
+                        title="YouTube video player" frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen style="border-radius: 8px; width: 100%;">
+                    </iframe>`;
+            }
+        }
+
+        // 3. Trường hợp Video MP4 trực tiếp
+        if (cleanUrl.toLowerCase().endsWith('.mp4') || cleanUrl.toLowerCase().endsWith('.webm')) {
+            return `
+                <video width="100%" height="360" controls style="border-radius: 8px; background: #000; width: 100%;">
+                    <source src="${cleanUrl}" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ phát video.
+                </video>`;
+        }
+
+        // 4. Trường hợp link Iframe có sẵn
+        return `
+            <iframe width="100%" height="360" src="${cleanUrl}" 
+                frameborder="0" allowfullscreen style="border-radius: 8px; width: 100%;">
+            </iframe>`;
+
+    } catch (error) {
+        console.error("Lỗi khi render Trailer:", error, "URL gốc:", trailerUrl);
+        return `
+            <div class="trailer-error" style="padding: 20px; text-align: center; color: #ff6b6b;">
+                Không thể tải video trailer này.
+            </div>`;
+    }
+}
+
+// Ví dụ: Hàm mở Modal Trailer phim
+function openTrailerModal(movie) {
+    const trailerContainer = document.getElementById('trailerContainer'); // Thẻ div chứa trailer
+    
+    if (trailerContainer) {
+        // Nhúng HTML trailer an toàn
+        trailerContainer.innerHTML = renderTrailerHTML(movie.Trailer_ID);
+    }
+
+    // Mở modal (Tùy theo thư viện hoặc JS modal bạn dùng)
+    const modal = document.getElementById('trailerModal');
+    if (modal) modal.style.display = 'block';
+}
+
+// Ví dụ: Đóng Modal thì dừng phát video (xóa iframe)
+function closeTrailerModal() {
+    const trailerContainer = document.getElementById('trailerContainer');
+    if (trailerContainer) {
+        trailerContainer.innerHTML = ''; // Clear để ngắt tiếng video đang chạy ngầm
+    }
+    const modal = document.getElementById('trailerModal');
+    if (modal) modal.style.display = 'none';
+}
+
+window.editMovie = async id => {
+  // 1) gọi API lấy chi tiết phim
+  const res = await fetch(`/api/movies?movieId=${id}`);
+  if (!res.ok) { alert('Không lấy được dữ liệu phim'); return; }
+  const m = await res.json();
+
+  // 2) gán đầy đủ vào form
+  movieForm.title.value = m.TieuDe || '';
+  movieForm.duration.value = m.ThoiLuong || '';
+  movieForm.ageRate.value = m.DoTuoi || '';
+  premiereInp.value = m.NgayKhoiChieu ? m.NgayKhoiChieu.split('T')[0] : '';
+  movieForm.TheLoai.value = m.TheLoai || '';
+  movieForm.price.value = m.GiaVe || 200000;
+  movieForm.language.value = m.NgonNgu || '';
+  movieForm.director.value = m.DaoDien || '';
+  movieForm.cast.value = m.DienVien || '';
+  movieForm.description.value = m.MieuTa || '';
+  
+  // 👉 THÊM DÒNG NÀY: Nạp link trailer vào form sửa
+  if (movieForm.Trailer_ID) {
+    movieForm.Trailer_ID.value = m.Trailer_ID || m.TrailerUrl || '';
+  }
+
+  // 3) preview poster nếu có
+  if (m.PosterUrl) {
+    preview.src = m.PosterUrl;
+    preview.style.display = 'block';
+  } else {
+    preview.style.display = 'none';
+  }
+  posterInp.value = '';
+  movieForm.dataset.oldPoster = m.PosterUrl || '';
+
+  // 4) đánh dấu sửa và mở modal
+  movieForm.dataset.editing = m.MovieID;
+  movieModal.style.display = 'flex';
+};
