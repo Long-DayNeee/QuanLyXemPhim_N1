@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý tài khoản</title>
+
+    <!-- <link rel="stylesheet" href="/Admin/admin.css"> -->
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            background:#121212;
+            color:#ffffff;
+            font-family:Arial,Helvetica,sans-serif;
+        }
+
+        .wrapper{
+            width:95%;
+            margin:30px auto;
+        }
+
+        .card{
+            background:#1e1e1e;
+            border-radius:15px;
+            padding:25px;
+            box-shadow:0 3px 12px rgba(0,0,0,.45);
+            margin-bottom:25px;
+        }
+
+        .header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .header h1{
+            color:#fff;
+            font-size:40px;
+            margin:0;
+        }
+
+        .header p{
+            color:#b5b5b5;
+            margin-top:10px;
+        }
+
+        .btn{
+            background:#4f7cff;
+            color:white;
+            border:none;
+            padding:12px 28px;
+            border-radius:10px;
+            cursor:pointer;
+            transition:.3s;
+        }
+
+        .btn:hover{
+            background:#3567ff;
+        }
+
+        .cards{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:20px;
+        }
+
+        .info{
+            background:#1e1e1e;
+            border-radius:15px;
+            padding:25px;
+            box-shadow:0 3px 12px rgba(0,0,0,.45);
+        }
+
+        .info h3{
+            color:#b5b5b5;
+            margin-bottom:10px;
+        }
+
+        .info h1{
+            color:#fff;
+            font-size:45px;
+        }
+
+        input[type=text],
+        input[type=email]{
+            width:100%;
+            padding:14px;
+            background:#2b2b2b;
+            color:white;
+            border:1px solid #444;
+            border-radius:10px;
+            font-size:16px;
+            outline:none;
+        }
+
+        input:focus{
+            border-color:#4f7cff;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            color:white;
+        }
+
+        th{
+            background:#2b2b2b;
+            color:#fff;
+            padding:15px;
+            text-align:left;
+        }
+
+        td{
+            padding:15px;
+            border-top:1px solid #3f3f3f;
+        }
+
+        tr:hover{
+            background:#262626;
+        }
+
+        .btnEdit{
+            background:#0d6efd;
+            color:white;
+            border:none;
+            padding:8px 15px;
+            border-radius:8px;
+            cursor:pointer;
+            margin-right:6px;
+            transition:.3s;
+        }
+
+        .btnEdit:hover{
+            background:#0957d8;
+        }
+
+        .btnDelete{
+            background:#dc3545;
+            color:white;
+            border:none;
+            padding:8px 15px;
+            border-radius:8px;
+            cursor:pointer;
+            transition:.3s;
+        }
+
+        .btnDelete:hover{
+            background:#bb2d3b;
+        }
+
+        .title{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:20px;
+        }
+
+        .badge{
+            background:#2f3c66;
+            color:#8fb5ff;
+            padding:8px 16px;
+            border-radius:20px;
+            font-weight:bold;
+        }
+
+        .role-badge{
+            display:inline-block;
+            padding:5px 12px;
+            border-radius:20px;
+            font-size:13px;
+            font-weight:bold;
+        }
+
+        .role-badge.USER{
+            background:#198754;
+            color:white;
+        }
+
+        .role-badge.STAFF{
+            background:#ffc107;
+            color:black;
+        }
+
+        .role-badge.ADMIN{
+            background:#dc3545;
+            color:white;
+        }
+
+        .empty-row td{
+            text-align:center;
+            color:#9b9b9b;
+            padding:30px;
+        }
+
+        .modal-overlay{
+            display:none;
+            position:fixed;
+            left:0;
+            top:0;
+            width:100%;
+            height:100%;
+            background:rgba(0,0,0,.65);
+            justify-content:center;
+            align-items:center;
+            z-index:999;
+        }
+
+        .modal-overlay.active{
+            display:flex;
+        }
+
+        .modal-box{
+            width:500px;
+            max-width:95%;
+            background:#1f1f1f;
+            color:white;
+            border-radius:15px;
+            padding:30px;
+        }
+
+        .modal-box h2{
+            margin-bottom:20px;
+        }
+
+        .modal-box label{
+            display:block;
+            margin-top:15px;
+            margin-bottom:8px;
+            color:#ddd;
+        }
+
+        .modal-box input{
+            width:100%;
+            padding:12px;
+            background:#2b2b2b;
+            color:white;
+            border:1px solid #444;
+            border-radius:8px;
+        }
+
+        .modal-actions{
+            display:flex;
+            gap:10px;
+            margin-top:25px;
+        }
+
+        .modal-actions button{
+            flex:1;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <div class="card">
+
+        <div class="header">
+
+            <div>
+
+                <h1>Quản lý tài khoản</h1>
+
+                <p>Quản lý khách hàng và nhân viên</p>
+
+            </div>
+
+            <button class="btn" onclick="location.reload()">
+                Làm mới
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="info">
+            <h3>Tổng tài khoản</h3>
+            <h1 id="totalAccount">0</h1>
+        </div>
+
+        <div class="info">
+            <h3>Khách hàng</h3>
+            <h1 id="totalUser">0</h1>
+        </div>
+
+        <div class="info">
+            <h3>Nhân viên</h3>
+            <h1 id="totalAdmin">0</h1>
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="card">
+
+        <input
+                id="searchInput"
+                type="text"
+                placeholder="Tìm kiếm..."
+                onkeyup="searchUser()">
+
+    </div>
+
+    <!-- ================= KHÁCH HÀNG ================= -->
+
+    <div class="card">
+
+        <div class="title">
+
+            <h2>Danh sách khách hàng</h2>
+
+            <div class="badge" id="userCount">0</div>
+
+        </div>
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Tài khoản</th>
+
+                <th>Họ tên</th>
+
+                <th>Email</th>
+
+                <th>Vai trò</th>
+
+                <th>Thao tác</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody id="userTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- ================= NHÂN VIÊN ================= -->
+
+    <div class="card">
+
+        <div class="title">
+
+            <h2>Danh sách nhân viên</h2>
+
+            <div class="badge" id="adminCount">0</div>
+
+        </div>
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Tài khoản</th>
+
+                <th>Họ tên</th>
+
+                <th>Email</th>
+
+                <th>Vai trò</th>
+
+                <th>Thao tác</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody id="adminTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- ================= MODAL ================= -->
+
+    <div id="editModal" class="modal-overlay">
+
+        <div class="modal-box">
+
+            <h2>Sửa tài khoản</h2>
+
+            <input type="hidden" id="editId">
+            <input type="hidden" id="editType">
+
+            <label>Tài khoản</label>
+            <input id="editUsername" type="text" disabled>
+
+            <label>Họ tên</label>
+            <input id="editFullName" type="text">
+
+            <label>Email</label>
+            <input id="editEmail" type="email">
+
+            <label>Vai trò</label>
+            <input id="editRole" type="text">
+
+            <div class="modal-actions">
+
+                <button class="btn" onclick="saveEdit()">
+                    Lưu
+                </button>
+
+                <button class="btnDelete" onclick="closeModal()">
+                    Hủy
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        let users = [];
+        let admins = [];
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            loadUsers();
+            loadAdmins();
+            loadStats();
+
+            document.getElementById("editModal").addEventListener("click", function(e){
+                if(e.target===this){
+                    closeModal();
+                }
+            });
+
+        });
+
+        // =======================
+        // THỐNG KÊ
+        // =======================
+
+        async function loadStats(){
+
+            try{
+
+                const res = await fetch("/api/admin/account/stats");
+
+                if(!res.ok) return;
+
+                const data = await res.json();
+
+                document.getElementById("totalAccount").innerHTML=data.totalAccount ?? 0;
+                document.getElementById("totalUser").innerHTML=data.totalCustomer ?? 0;
+                document.getElementById("totalAdmin").innerHTML=data.totalStaff ?? 0;
+
+            }catch(e){
+
+                console.log(e);
+
+            }
+
+        }
+
+        // =======================
+        // LOAD KHÁCH HÀNG
+        // =======================
+
+        async function loadUsers(){
+
+            try{
+
+                const res = await fetch("/api/admin/account/customers");
+
+                if(!res.ok){
+
+                    throw new Error(res.status);
+
+                }
+
+                users = await res.json();
+
+                document.getElementById("userCount").innerHTML=users.length;
+
+                renderUsers();
+
+            }catch(e){
+
+                console.log(e);
+
+                document.getElementById("userTable").innerHTML=
+                    `<tr class="empty-row">
+            <td colspan="6">
+                Không tải được khách hàng
+            </td>
+        </tr>`;
+
+            }
+
+        }
+
+        // =======================
+        // LOAD NHÂN VIÊN
+        // =======================
+
+        async function loadAdmins(){
+
+            try{
+
+                const res = await fetch("/api/admin/account/staff");
+
+                if(!res.ok){
+
+                    throw new Error(res.status);
+
+                }
+
+                admins = await res.json();
+
+                document.getElementById("adminCount").innerHTML=admins.length;
+
+                renderAdmins();
+
+            }catch(e){
+
+                console.log(e);
+
+                document.getElementById("adminTable").innerHTML=
+                    `<tr class="empty-row">
+            <td colspan="6">
+                Không tải được nhân viên
+            </td>
+        </tr>`;
+
+            }
+
+        }
+        // =======================
+        // HIỂN THỊ KHÁCH HÀNG
+        // =======================
+
+        function renderUsers() {
+
+            let html = "";
+
+            if (users.length === 0) {
+
+                html = `
+        <tr class="empty-row">
+            <td colspan="6">
+                Chưa có khách hàng
+            </td>
+        </tr>
+        `;
+
+            } else {
+
+                users.forEach(u => {
+
+                    html += `
+            <tr>
+
+                <td>${u.id}</td>
+                <td>${u.username ?? ""}</td>
+
+                <td>${u.fullName ?? ""}</td>
+
+                <td>${u.email ?? ""}</td>
+
+                <td>
+                    <span class="role-badge USER">
+                        ${u.role ?? "USER"}
+                    </span>
+                </td>
+
+                <td>
+
+                    <button
+                        class="btnEdit"
+                        onclick="editUser(${u.id})">
+
+                        ✏️ Sửa
+
+                    </button>
+
+                    <button
+                        class="btnDelete"
+                        onclick="deleteUser(${u.id})">
+                        🗑️ Xóa
+
+                    </button>
+
+                </td>
+
+            </tr>
+            `;
+
+                });
+
+            }
+
+            document.getElementById("userTable").innerHTML = html;
+
+        }
+
+
+        // =======================
+        // HIỂN THỊ NHÂN VIÊN
+        // =======================
+        function renderAdmins(){
+
+            let html="";
+
+            if(admins.length===0){
+
+                html=`
+        <tr class="empty-row">
+            <td colspan="6">
+                Chưa có nhân viên
+            </td>
+        </tr>
+        `;
+
+            }else{
+
+                admins.forEach(a=>{
+
+                    html+=`
+            <tr>
+
+                <td>${a.accountID}</td>
+
+                <td>${a.username}</td>
+
+                <td>${a.fullName}</td>
+
+                <td>${a.email}</td>
+
+                <td>
+                    <span class="role-badge STAFF">
+                        ${a.role}
+                    </span>
+                </td>
+
+              <td>
+
+                <button class="btnEdit"
+                        onclick="editAdmin(${a.accountID})">
+                    ✏️ Sửa
+                </button>
+
+                <button
+                    class="btnDelete"
+                    onclick="deleteAdmin(${a.accountID})">
+                    🗑️ Xóa
+                </button>
+
+</td>
+
+            </tr>`;
+                });
+
+            }
+
+            document.getElementById("adminTable").innerHTML=html;
+        }
+
+        // =======================
+        // MỞ FORM SỬA USER
+        // =======================
+        function editUser(id){
+
+            const user = users.find(x => x.id == id);
+
+            if(!user){
+
+                alert("Không tìm thấy tài khoản");
+                return;
+
+            }
+
+            document.getElementById("editType").value = "USER";
+
+            document.getElementById("editId").value = user.id;
+
+            document.getElementById("editUsername").value = user.username;
+
+            document.getElementById("editFullName").value = user.fullName;
+
+            document.getElementById("editEmail").value = user.email;
+
+            document.getElementById("editRole").value = user.role;
+
+            document.getElementById("editModal").classList.add("active");
+
+        }
+
+
+
+        // =======================
+        // MỞ FORM SỬA NHÂN VIÊN
+        // =======================
+
+        function editAdmin(id){
+
+            const admin = admins.find(a => a.accountID == id);
+
+            if(!admin){
+                alert("Không tìm thấy nhân viên");
+                return;
+            }
+
+            document.getElementById("editType").value = "STAFF";
+            document.getElementById("editId").value = admin.accountID;
+            document.getElementById("editUsername").value = admin.username;
+            document.getElementById("editFullName").value = admin.fullName;
+            document.getElementById("editEmail").value = admin.email;
+            document.getElementById("editRole").value = admin.role;
+
+            document.getElementById("editModal").classList.add("active");
+        }
+        // =======================
+        // ĐÓNG MODAL
+        // =======================
+
+        function closeModal() {
+
+            document.getElementById("editModal").classList.remove("active");
+
+        }
+
+
+        // =======================
+        // LƯU CHỈNH SỬA
+        // =======================
+
+        async function saveEdit() {
+
+            const id = document.getElementById("editId").value;
+            const type = document.getElementById("editType").value;
+
+            console.log("ID =", id);
+            console.log("TYPE =", type);
+
+            let data;
+
+            // USER
+            if(type === "USER"){
+
+                data = {
+                    id: Number(id),
+                    username: document.getElementById("editUsername").value,
+                    fullName: document.getElementById("editFullName").value,
+                    email: document.getElementById("editEmail").value,
+                    role: document.getElementById("editRole").value.toUpperCase()
+                };
+
+            }
+            // STAFF
+            else{
+
+                data = {
+                    accountID: Number(id),
+                    username: document.getElementById("editUsername").value,
+                    fullName: document.getElementById("editFullName").value,
+                    email: document.getElementById("editEmail").value,
+                    role: document.getElementById("editRole").value.toUpperCase()
+                };
+
+            }
+
+            const url =
+                type === "STAFF"
+                    ? `/api/admin/account/staff/${id}`
+                    : `/api/admin/account/user/${id}`;
+
+            try {
+                console.log("URL =", url);
+                console.log("DATA =", data);
+                const res = await fetch(url, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const json = await res.json();
+
+                if(res.ok){
+
+                    alert(json.message);
+
+                    closeModal();
+
+                    loadUsers();
+                    loadAdmins();
+                    loadStats();
+
+                }else{
+
+                    alert(json.message);
+
+                }
+
+            }catch(e){
+
+                console.log(e);
+                alert("Không kết nối được server");
+
+            }
+
+        }
+
+
+        // =======================
+        // XÓA KHÁCH HÀNG
+        // =======================
+
+        async function deleteUser(id){
+
+            if(!confirm("Bạn chắc chắn muốn xóa tài khoản này?")){
+                return;
+            }
+
+            try{
+
+                const res = await fetch(`/api/admin/account/user/${id}`,{
+                    method:"DELETE"
+                });
+
+                const json = await res.json();
+
+                alert(json.message);
+
+                loadUsers();
+                loadStats();
+
+            }catch(e){
+
+                console.log(e);
+
+            }
+
+        }
+
+
+
+        // =======================
+        // XÓA NHÂN VIÊN
+        // =======================
+        async function deleteAdmin(id){
+
+            if(!confirm("Bạn chắc chắn muốn xóa tài khoản này?")){
+                return;
+            }
+
+            try{
+
+                const res = await fetch(`/api/admin/account/staff/${id}`,{
+                    method:"DELETE"
+                });
+
+                const json = await res.json();
+
+                alert(json.message);
+
+                loadAdmins();
+                loadStats();
+
+            }catch(e){
+
+                console.log(e);
+
+            }
+
+        }
+        // =======================
+        // TÌM KIẾM
+        // =======================
+
+        function searchUser() {
+
+            const keyword = document
+                .getElementById("searchInput")
+                .value
+                .toLowerCase();
+
+            // Tìm trong bảng khách hàng
+            document.querySelectorAll("#userTable tr").forEach(tr => {
+
+                const text = tr.innerText.toLowerCase();
+
+                tr.style.display = text.includes(keyword) ? "" : "none";
+
+            });
+
+            // Tìm trong bảng nhân viên
+            document.querySelectorAll("#adminTable tr").forEach(tr => {
+
+                const text = tr.innerText.toLowerCase();
+                tr.style.display = text.includes(keyword) ? "" : "none";
+
+            });
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

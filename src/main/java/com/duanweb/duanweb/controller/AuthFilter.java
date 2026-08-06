@@ -26,7 +26,7 @@ public class AuthFilter implements Filter {
                          ServletResponse response,
                          FilterChain chain)
             throws IOException, ServletException {
-        
+
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
@@ -36,7 +36,7 @@ public class AuthFilter implements Filter {
         resp.setDateHeader("Expires", 0);
 
         String requestURI = req.getRequestURI();
-        
+
         // 🛠️ LÀM SẠCH URI: Loại bỏ query string (?) hoặc matrix parameter (;) nếu có
         String cleanURI = requestURI;
         if (cleanURI.contains("?")) {
@@ -48,18 +48,20 @@ public class AuthFilter implements Filter {
         String lowerURI = cleanURI.toLowerCase();
 
         // 🟢 BƯỚC 1: BỎ QUA TẤT CẢ FILE TĨNH (STATIC RESOURCES)
-        boolean isStatic = lowerURI.endsWith(".png")  || 
-                           lowerURI.endsWith(".jpg")  || 
-                           lowerURI.endsWith(".jpeg") || 
-                           lowerURI.endsWith(".gif")  || 
-                           lowerURI.endsWith(".svg")  || 
-                           lowerURI.endsWith(".ico")  || 
-                           lowerURI.endsWith(".css")  || 
-                           lowerURI.endsWith(".js")   || 
-                           lowerURI.endsWith(".mp4")  || 
-                           lowerURI.endsWith(".woff") || 
-                           lowerURI.endsWith(".woff2")|| 
-                           lowerURI.endsWith(".ttf");
+        boolean isStatic = lowerURI.endsWith(".png")  ||
+                lowerURI.endsWith(".jpg")  ||
+                lowerURI.endsWith(".jpeg") ||
+                lowerURI.endsWith(".gif")  ||
+                lowerURI.endsWith(".svg")  ||
+                lowerURI.endsWith(".ico")  ||
+                lowerURI.endsWith(".css")  ||
+                lowerURI.endsWith(".js")   ||
+                lowerURI.endsWith(".mp4")  ||
+                lowerURI.endsWith(".woff") ||
+                lowerURI.endsWith(".woff2")||
+                lowerURI.endsWith(".ttf")  ||
+                lowerURI.endsWith(".html") ||  // ✅ Cho phép file HTML
+                lowerURI.endsWith(".htm");
 
         if (isStatic) {
             chain.doFilter(request, response);
@@ -67,14 +69,20 @@ public class AuthFilter implements Filter {
         }
 
         // 🟢 BƯỚC 2: BỎ QUA CÁC TRANG VÀ THƯ MỤC PUBLIC
-        boolean isPublic = lowerURI.contains("/login") || 
-                           lowerURI.contains("/register") || 
-                           lowerURI.contains("/logout") || 
-                           lowerURI.contains("/error") || 
-                           lowerURI.contains("/pro230/") ||   // Thư mục ảnh phim của bạn
-                           lowerURI.contains("/api/check-auth") ||
-                           lowerURI.contains("/api/movies") ||
-                           lowerURI.contains("/api/showtimes");
+        boolean isPublic = lowerURI.contains("/login") ||
+                lowerURI.contains("/register") ||
+                lowerURI.contains("/logout") ||
+                lowerURI.contains("/error") ||
+                lowerURI.contains("/pro230/") ||   // Thư mục ảnh phim của bạn
+                lowerURI.contains("/api/check-auth") ||
+                lowerURI.contains("/api/movies") ||
+                lowerURI.contains("/api/showtimes") ||
+                lowerURI.contains("/api/rooms") ||      // ✅ THÊM
+                lowerURI.contains("/api/bookings") ||   // ✅ THÊM
+                lowerURI.contains("/api/admin/users") ||  // ✅ THÊM - Cho phép API user
+                lowerURI.contains("/api/admin/account") || // ✅ THÊM - Cho phép API admin
+                lowerURI.contains("/home/") ||          // ✅ THÊM - Cho phép trang home
+                lowerURI.contains("/admin/");           // ✅ THÊM - Cho phép trang admin
 
         if (isPublic) {
             chain.doFilter(request, response);
@@ -85,21 +93,17 @@ public class AuthFilter implements Filter {
         HttpSession session = req.getSession(false);
         String role = (session != null) ? (String) session.getAttribute("role") : null;
 
-        // Bật log này để kiểm tra trên Console xem URL nào bị rơi vào vòng kiểm tra Auth
-        System.out.println("🚨 [AuthFilter CHẶN TRUY CẬP] URL: " + lowerURI + " | Role: " + role);
+        // Bật log để debug
+        System.out.println("🔍 [AuthFilter DEBUG] URL: " + lowerURI + " | Role: " + role);
 
-        // Kiểm tra đường dẫn Admin
-        boolean isAdminPath = lowerURI.contains("/admin/") || lowerURI.contains("/api/admin/");
-        if (isAdminPath) {
+        // Kiểm tra đường dẫn Admin - CHỈ CHẶN API ADMIN (không chặn trang HTML)
+        boolean isAdminApi = lowerURI.contains("/api/admin/");
+        if (isAdminApi) {
             if (role == null || !role.equalsIgnoreCase("ADMIN")) {
-                if (lowerURI.startsWith(req.getContextPath().toLowerCase() + "/api/")) {
-                    resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                    resp.setContentType("application/json;charset=UTF-8");
-                    resp.getWriter().write("{\"error\": \"Bạn không có quyền thực hiện thao tác này!\"}");
-                    return;
-                }
-                resp.sendRedirect(req.getContextPath() + "/Home/index.html?error=" 
-                        + encode("Bạn không có quyền truy cập trang Admin!"));
+                System.out.println("🚨 [AuthFilter CHẶN API ADMIN] URL: " + lowerURI + " | Role: " + role);
+                resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                resp.setContentType("application/json;charset=UTF-8");
+                resp.getWriter().write("{\"error\": \"Bạn không có quyền thực hiện thao tác này!\"}");
                 return;
             }
         }
@@ -108,6 +112,7 @@ public class AuthFilter implements Filter {
         if (role != null) {
             chain.doFilter(request, response);
         } else {
+            // Nếu là API mà chưa đăng nhập
             if (lowerURI.startsWith(req.getContextPath().toLowerCase() + "/api/")) {
                 resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 resp.setContentType("application/json;charset=UTF-8");
@@ -115,6 +120,7 @@ public class AuthFilter implements Filter {
                 return;
             }
 
+            // Nếu là trang web, redirect về login
             resp.sendRedirect(req.getContextPath() + "/Login/login.html?error="
                     + encode("Vui lòng đăng nhập!"));
         }

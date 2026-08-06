@@ -4,14 +4,10 @@ import com.duanweb.duanweb.Service.AuthService;
 import com.duanweb.duanweb.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/users")
@@ -23,6 +19,24 @@ public class UserApiController {
         this.authService = authService;
     }
 
+    // ===== GET ALL =====
+    @GetMapping
+    public List<User> getAllUsers() {
+        return authService.getAllUsers();
+    }
+
+    // ===== GET BY ID =====
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable int id) {
+        User user = authService.getUserById(id);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("status", "error", "message", "Không tìm thấy user!"));
+        }
+        return ResponseEntity.ok(user);
+    }
+
+    // ===== CREATE =====
     @PostMapping
     public ResponseEntity<?> create(@RequestBody(required = false) Map<String, String> body,
                                     @RequestParam(value = "username", required = false) String usernameParam,
@@ -54,21 +68,33 @@ public class UserApiController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("status", "error", "message", "Thêm tài khoản thất bại!"));
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> delete(@RequestParam(value = "id", required = false) String idParam) {
-        if (idParam == null || idParam.isBlank()) {
-            return ResponseEntity.badRequest().body(Map.of("status", "error", "message", "Thiếu tham số ID tài khoản!"));
+    // ===== UPDATE =====
+    @PutMapping("/{id}")  // ← SỬA: Thêm ID vào URL
+    public ResponseEntity<?> update(@PathVariable int id, @RequestBody User user) {
+        user.setId(id);  // ← THÊM DÒNG NÀY
+
+        User result = authService.updateUser(user);
+
+        if (result == null) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "message", "Không tìm thấy User"
+            ));
         }
 
-        try {
-            int userId = Integer.parseInt(idParam.trim());
-            if (authService.deleteUser(userId)) {
-                return ResponseEntity.ok(Map.of("status", "success", "message", "Xóa tài khoản thành công!"));
-            }
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("status", "error", "message", "Không tìm thấy tài khoản để xóa!"));
-        } catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().body(Map.of("status", "error", "message", "ID không hợp lệ!"));
+        return ResponseEntity.ok(Map.of(
+                "status", "success",
+                "message", "Cập nhật thành công"
+        ));
+    }
+
+    // ===== DELETE =====
+    @DeleteMapping("/{id}")  // ← SỬA: Thêm ID vào URL
+    public ResponseEntity<?> delete(@PathVariable int id) {
+        if (authService.deleteUser(id)) {
+            return ResponseEntity.ok(Map.of("status", "success", "message", "Xóa tài khoản thành công!"));
         }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("status", "error", "message", "Không tìm thấy tài khoản để xóa!"));
     }
 
     private static String value(Map<String, String> body, String name, String fallback) {
