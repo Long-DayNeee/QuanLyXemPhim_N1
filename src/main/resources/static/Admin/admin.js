@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const newLi = document.createElement('li');
       const newLink = document.createElement('a');
       newLink.href = '/Admin/QuanLyTaiKhoan.html';
-      newLink.innerHTML = 'Quản lý tài khoản';
+      newLink.innerHTML = '👤 Quản lý tài khoản';
       newLi.appendChild(newLink);
 
       // Chèn vào trước "Trang Phim" (li cuối cùng)
