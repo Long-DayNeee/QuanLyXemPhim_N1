@@ -1,238 +1,96 @@
-/*!* history.css *!*/
-/*body {*/
-/*  font-family: 'Segoe UI', Tahoma, sans-serif;*/
-/*  background: #f2f2f2;*/
-/*  margin: 0;*/
-/*  padding: 0;*/
-/*}*/
-
-/*h2 {*/
-/*  text-align: center;*/
-/*  margin: 30px 0;*/
-/*  font-size: 2em;*/
-/*  color: #333;*/
-/*}*/
-
-/*#history {*/
-/*  max-width: 800px;*/
-/*  margin: 0 auto 50px;*/
-/*  padding: 0 20px;*/
-/*}*/
-
-/*.booking {*/
-/*  background: #fff;*/
-/*  border: 1px solid #ddd;*/
-/*  border-radius: 6px;*/
-/*  padding: 15px 20px;*/
-/*  margin-bottom: 20px;*/
-/*  box-shadow: 0 2px 4px rgba(0,0,0,0.1);*/
-/*}*/
-
-/*.booking h4 {*/
-/*  margin: 0 0 10px;*/
-/*  font-size: 1.4em;*/
-/*  color: #2a2a2a;*/
-/*}*/
-
-/*.booking p {*/
-/*  margin: 5px 0;*/
-/*  color: #555;*/
-/*  line-height: 1.4;*/
-/*}*/
-
-/*.booking p span {*/
-/*  font-weight: bold;*/
-/*  color: #333;*/
-/*}*/
-
-/*.btn-back {*/
-/*  display: inline-block;*/
-/*  margin: 20px;*/
-/*  padding: 8px 12px;*/
-/*  background: #2db400;*/
-/*  color: #fff;*/
-/*  border: none;*/
-/*  border-radius: 4px;*/
-/*  cursor: pointer;*/
-/*}*/
-/*.btn-back:hover {*/
-/*  background: #27a200;*/
-/*}*/
-
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
 
+:root {
+  --bg:#07070e; --panel:#10101c; --border:rgba(255,255,255,0.07);
+  --text:#ede9e4; --muted:#7a7a90; --gold:#d4a44c; --red:#c0162e;
+}
 * { box-sizing: border-box; }
-html, body {
-  margin: 0;
-  min-height: 100%;
-  background: #07070e;
-  color: #ede9e4;
-  font-family: "DM Sans", system-ui, sans-serif;
-}
+body { margin: 0; background: var(--bg); color: var(--text); font-family: 'DM Sans', system-ui, sans-serif; }
+h1 { font-family: 'Playfair Display', Georgia, serif; margin: 0; }
 
-.hist-page {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 32px 24px 80px;
+.header {
+  position: sticky; top: 0; z-index: 10; padding: 40px 16px 20px; border-bottom: 1px solid var(--border);
+  background: rgba(7,7,14,0.97); backdrop-filter: blur(12px);
 }
+.header-inner { max-width: 560px; margin: 0 auto; display: flex; align-items: center; gap: 16px; }
+.icon-btn {
+  width: 36px; height: 36px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.15); background: transparent;
+  color: var(--text); display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer;
+}
+.icon-btn:hover { background: rgba(255,255,255,0.05); }
+.header-title { font-size: 18px; font-weight: 700; }
 
-/* ===== Thanh trên ===== */
-.hist-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 40px;
+.search-row { max-width: 560px; margin: 20px auto 0; display: flex; gap: 10px; }
+.search-row input {
+  flex: 1; padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
+  background: var(--panel); color: var(--text); font-family: inherit; font-size: 14px; outline: none;
 }
-.hist-back {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.1);
-  color: #a8a8ba;
-  padding: 9px 16px;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-family: inherit;
-  cursor: pointer;
-  transition: all 0.15s ease;
+.search-row input:focus { border-color: rgba(212,164,76,0.5); }
+.search-row button {
+  padding: 12px 20px; border-radius: 10px; border: none; background: var(--red); color: #fff;
+  font-weight: 700; font-size: 14px; cursor: pointer;
 }
-.hist-back:hover { background: rgba(255,255,255,0.06); color: #ede9e4; }
+.search-row button:hover { opacity: 0.9; }
 
-.hist-brand { display: flex; align-items: center; gap: 8px; }
-.hist-brand img { width: 30px; height: 30px; border-radius: 6px; background: #c0162e; padding: 4px; object-fit: contain; }
-.hist-brand span { font-family: "Playfair Display", Georgia, serif; font-weight: 900; font-size: 1.2rem; }
+.filter-row { max-width: 560px; margin: 20px auto 0; display: flex; gap: 12px; }
+.filter-btn {
+  padding: 8px 20px; border-radius: 999px; font-size: 14px; font-weight: 600; cursor: pointer;
+  background: transparent; color: var(--muted); border: 1px solid rgba(255,255,255,0.12);
+}
+.filter-btn.active { background: var(--text); color: var(--bg); border: none; }
+.filter-btn .count { margin-left: 6px; font-size: 12px; color: rgba(255,255,255,0.3); }
+.filter-btn.active .count { color: rgba(7,7,14,0.5); }
 
-/* ===== Hero tìm kiếm ===== */
-.hist-hero { text-align: center; margin-bottom: 40px; }
-.hist-hero h2 {
-  font-family: "Playfair Display", Georgia, serif;
-  font-weight: 900;
-  font-size: 2.2rem;
-  margin: 0 0 10px;
-  color: #ede9e4;
+.list { max-width: 560px; margin: 0 auto; padding: 24px 16px; display: flex; flex-direction: column; gap: 16px; }
+.empty { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 96px 0; gap: 16px; }
+.empty-icon {
+  width: 64px; height: 64px; border-radius: 999px; display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
 }
-.hist-hero p { color: #7a7a90; font-size: 0.95rem; margin: 0 0 28px; }
+.empty p { font-size: 14px; color: var(--muted); margin: 0; }
 
-.hist-search {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #10101c;
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 14px;
-  padding: 8px 8px 8px 18px;
-  max-width: 480px;
-  margin: 0 auto;
+.ticket-card { border-radius: 16px; border: 1px solid var(--border); background: var(--panel); overflow: hidden; transition: border-color .15s ease; }
+.ticket-card:hover { border-color: rgba(255,255,255,0.15); }
+.ticket-body { display: flex; }
+.ticket-poster { position: relative; flex-shrink: 0; width: 112px; min-height: 152px; background: #1a1a2e; }
+.ticket-poster img { width: 100%; height: 100%; object-fit: cover; display: block; min-height: 152px; }
+.rating-badge {
+  position: absolute; top: 8px; left: 8px; width: 28px; height: 28px; border-radius: 6px; display: flex;
+  align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #fff;
 }
-.hist-search svg { flex-shrink: 0; }
-.hist-search input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: #ede9e4;
-  font-family: inherit;
-  font-size: 0.9rem;
-  padding: 10px 0;
+.ticket-info { flex: 1; min-width: 0; padding: 12px 16px; display: flex; flex-direction: column; gap: 6px; }
+.tag-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.code-tag {
+  font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04); color: var(--text); letter-spacing: .05em;
 }
-.hist-search input::placeholder { color: #7a7a90; }
-.hist-search button {
-  background: #c0162e;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 12px 20px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  font-family: inherit;
-  cursor: pointer;
-  transition: opacity 0.15s ease;
-  white-space: nowrap;
+.status-tag { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 6px; }
+.movie-title {
+  font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 14px; line-height: 1.25;
+  color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.hist-search button:hover { opacity: 0.9; }
+.meta-line { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+.meta-line svg { flex-shrink: 0; }
+.hall-line { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.price-line { margin-top: 2px; font-size: 14px; font-weight: 700; color: var(--red); }
 
-/* ===== Danh sách vé ===== */
-.hist-list { display: flex; flex-direction: column; gap: 14px; }
+.ticket-footer {
+  padding: 8px 16px; border-top: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02);
+  display: flex; align-items: center; justify-content: flex-end;
+}
+.footer-actions { display: flex; gap: 8px; }
+.footer-btn {
+  font-size: 11px; font-weight: 600; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+  background: transparent; border: 1px solid rgba(255,255,255,0.12); color: var(--text);
+}
+.footer-btn:hover { background: rgba(255,255,255,0.06); }
+.footer-btn.danger { border-color: rgba(192,22,46,0.3); color: #f06070; }
+.footer-btn.danger:hover { background: rgba(192,22,46,0.1); }
 
-.hist-empty {
-  text-align: center;
-  padding: 50px 20px;
-  color: #7a7a90;
-  font-size: 0.9rem;
-  background: #10101c;
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 14px;
+.toast {
+  position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 12px 20px; border-radius: 8px; font-size: 13px;
+  background: #18182a; border: 1px solid rgba(255,255,255,.12); color: var(--text); z-index: 50; display: none; max-width: 90vw;
 }
-
-.hist-card {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  background: #10101c;
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 14px;
-  padding: 20px 22px;
-  transition: border-color 0.15s ease;
-}
-.hist-card:hover { border-color: rgba(212,164,76,0.3); }
-
-.hist-card-main { flex: 1; min-width: 200px; }
-.hist-card-main h4 {
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin: 0 0 6px;
-  color: #ede9e4;
-}
-.hist-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  font-size: 0.8rem;
-  color: #7a7a90;
-  margin: 0;
-}
-
-.hist-badge {
-  font-size: 0.72rem;
-  font-weight: 700;
-  padding: 5px 12px;
-  border-radius: 999px;
-  white-space: nowrap;
-}
-.hist-badge-gold { background: rgba(212,164,76,0.15); color: #d4a44c; border: 1px solid rgba(212,164,76,0.3); }
-.hist-badge-muted { background: rgba(255,255,255,0.05); color: #7a7a90; border: 1px solid rgba(255,255,255,0.08); }
-
-.hist-card-actions { display: flex; gap: 10px; }
-.hist-btn-outline, .hist-btn-red {
-  border: none;
-  border-radius: 999px;
-  padding: 9px 18px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-}
-.hist-btn-outline {
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.15);
-  color: #ede9e4;
-}
-.hist-btn-outline:hover { background: rgba(255,255,255,0.06); }
-.hist-btn-red {
-  background: #c0162e;
-  color: #fff;
-}
-.hist-btn-red:hover { background: #a71227; }
-
-@media (max-width: 600px) {
-  .hist-search { flex-wrap: wrap; padding: 14px; }
-  .hist-search button { width: 100%; }
-  .hist-card { flex-direction: column; align-items: flex-start; }
-  .hist-card-actions { width: 100%; }
-  .hist-btn-outline, .hist-btn-red { flex: 1; }
-}
+.toast.show { display: block; }
+.toast.err { border-color: rgba(192,22,46,.4); color: #f0a0ac; }
+.toast.ok { border-color: rgba(76,175,138,.4); color: #8fe0a8; }
